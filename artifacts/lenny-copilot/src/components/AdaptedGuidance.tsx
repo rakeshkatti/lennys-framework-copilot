@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { FrameworkSpec, Step } from "@lib/spec";
+import type { SourceEntry, SourcesIndex } from "@lib/sources";
 
 interface AdaptedSentence {
   text: string;
@@ -20,14 +21,56 @@ type State =
   | { kind: "loaded"; data: AdaptResponse }
   | { kind: "error"; staticText: string };
 
+/**
+ * Source chip for a guidance response. When `post_url` is set, renders a link
+ * to the original article; otherwise (or when the file isn't in the index)
+ * renders plain text so we never produce a broken or empty link.
+ */
+function ResponseSourceChip({
+  file,
+  source,
+}: {
+  file: string;
+  source: SourceEntry | null;
+}) {
+  const label = source?.title ?? file;
+  const base =
+    "inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-600";
+
+  if (source?.post_url) {
+    return (
+      <a
+        href={source.post_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`${base} transition hover:border-slate-400 hover:text-slate-900`}
+      >
+        <span aria-hidden>↗</span>
+        {label}
+      </a>
+    );
+  }
+
+  return (
+    <span className={base}>
+      <span aria-hidden>◆</span>
+      {label}
+    </span>
+  );
+}
+
 export function AdaptedGuidance({
   spec,
   step,
   inputsSoFar,
+  sourcesIndex,
 }: {
   spec: FrameworkSpec;
   step: Step;
   inputsSoFar: Record<string, unknown>;
+  /** When provided, the response's source file is resolved through this index
+   *  and rendered as a link chip. When absent, behavior is unchanged. */
+  sourcesIndex?: SourcesIndex;
 }) {
   const [state, setState] = useState<State>({
     kind: "loading",
@@ -102,6 +145,14 @@ export function AdaptedGuidance({
                 </span>
               </p>
             ))}
+            {sourcesIndex && (
+              <div className="pt-1">
+                <ResponseSourceChip
+                  file={state.data.source.file}
+                  source={sourcesIndex[state.data.source.file] ?? null}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>

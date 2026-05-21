@@ -1,10 +1,45 @@
 import type { FrameworkSpec, Step } from "../spec";
 import { rankScoreGrid, type SML } from "../engine";
+import type { SourceEntry, SourcesIndex } from "../sources";
 
 export interface RenderOptions {
   /** Steps that were completed (inputs key set). Used to skip branched-around
    *  steps so their templates render as empty. */
   completedStepIds: Set<string>;
+}
+
+/** Optional sources resolver. When passed to `renderSources` /
+ *  `renderArtifactMarkdown`, source filenames in the "## Sources" block are
+ *  emitted as markdown links to the original article. Either a plain
+ *  `SourcesIndex` map or a resolver function may be supplied. When omitted,
+ *  output is byte-identical to the filename-only form. */
+export type SourceResolver =
+  | SourcesIndex
+  | ((file: string) => SourceEntry | null | undefined);
+
+/** Resolve a single source file via either a map or a resolver function. */
+function resolveSourceEntry(
+  file: string,
+  resolver: SourceResolver | undefined,
+): SourceEntry | null {
+  if (!resolver) return null;
+  const entry =
+    typeof resolver === "function" ? resolver(file) : resolver[file];
+  return entry ?? null;
+}
+
+/** Render a source file as a markdown bullet label. With a resolver, emits a
+ *  `[title](post_url)` link when `post_url` exists, `[title]` when the file
+ *  resolves without a url, and the bare filename when it doesn't resolve (or
+ *  no resolver was given). */
+function formatSourceLabel(
+  file: string,
+  resolver: SourceResolver | undefined,
+): string {
+  const entry = resolveSourceEntry(file, resolver);
+  if (!entry) return file;
+  if (entry.post_url) return `[${entry.title}](${entry.post_url})`;
+  return `[${entry.title}]`;
 }
 
 type StepValue = Record<string, unknown>;
@@ -157,6 +192,7 @@ export function resolveArtifactBody(
 export function renderSources(
   spec: FrameworkSpec,
   opts: RenderOptions,
+  sources?: SourceResolver,
 ): string {
   const seen = new Set<string>();
   const ordered: string[] = [];
@@ -191,7 +227,7 @@ export function renderSources(
   if (ordered.length === 0) return "";
   const lines: string[] = ["## Sources", ""];
   for (const file of ordered) {
-    lines.push(`- ${file}`);
+    lines.push(`- ${formatSourceLabel(file, sources)}`);
     const spans = spansByFile.get(file) ?? [];
     for (const s of spans) {
       lines.push(`  - ${s.stepTitle} — chars ${s.start}–${s.end}`);
@@ -200,15 +236,18 @@ export function renderSources(
   return lines.join("\n");
 }
 
-/** Full markdown export: title + resolved body + sources. */
+/** Full markdown export: title + resolved body + sources. When `sources` is
+ *  provided, the "## Sources" block links each file to its original article;
+ *  when omitted, output is byte-identical to the filename-only form. */
 export function renderArtifactMarkdown(
   spec: FrameworkSpec,
   inputs: Record<string, unknown>,
   opts: RenderOptions,
+  sources?: SourceResolver,
 ): string {
   const body = resolveArtifactBody(spec, inputs, opts);
-  const sources = renderSources(spec, opts);
+  const sourcesBlock = renderSources(spec, opts, sources);
   const parts = [body];
-  if (sources) parts.push(sources);
+  if (sourcesBlock) parts.push(sourcesBlock);
   return parts.join("\n\n") + "\n";
 }

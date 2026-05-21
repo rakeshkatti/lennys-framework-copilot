@@ -3,22 +3,32 @@
 import { useMemo, useState } from "react";
 import type { FrameworkSpec } from "@lib/spec";
 import { renderArtifactMarkdown } from "@lib/artifact/render";
+import type { SourcesIndex } from "@lib/sources";
 
 export function ArtifactExport({
   spec,
   inputs,
+  sourcesIndex,
 }: {
   spec: FrameworkSpec;
   inputs: Record<string, unknown>;
+  /** When provided, the exported "## Sources" block links each source file to
+   *  its original article. When absent, sources render as filenames. */
+  sourcesIndex?: SourcesIndex;
 }) {
   const markdown = useMemo(
     () =>
-      renderArtifactMarkdown(spec, inputs, {
-        completedStepIds: new Set(
-          Object.keys(inputs).filter((k) => inputs[k] !== undefined),
-        ),
-      }),
-    [spec, inputs],
+      renderArtifactMarkdown(
+        spec,
+        inputs,
+        {
+          completedStepIds: new Set(
+            Object.keys(inputs).filter((k) => inputs[k] !== undefined),
+          ),
+        },
+        sourcesIndex,
+      ),
+    [spec, inputs, sourcesIndex],
   );
 
   const [copied, setCopied] = useState(false);
