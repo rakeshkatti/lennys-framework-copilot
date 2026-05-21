@@ -1,0 +1,24 @@
+{
+  "drice": {
+    "collect-ideas": {
+      "file": "newsletters/introducing-drice-a-modern-prioritization-framework.md",
+      "excerpt": "Throughout this guide, we’ll assume you’ve already collected tons of potential ideas—through brainstorming, sifting through data, looking at sales/CX calls, your past backlogs, etc. As a rule of thumb, you’ll want to have at least 5x as many ideas as you could reasonably build in the next time period (typically a quarter) before starting to prioritize."
+    },
+    "rice-score": {
+      "file": "newsletters/introducing-drice-a-modern-prioritization-framework.md",
+      "excerpt": "**Impact**\n\nAn idea should be higher-impact if:\n\n- It addresses a sensitive-to-change portion of the customer journey: above the fold on the landing page, pricing, etc.\n- The change is particularly significant—a “big swing”\n\n**Confidence**\n\nAn idea should be higher-confidence if:\n\n- You’ve already had the same concept work elsewhere: “Emphasizing the money-back guarantee was a winner on the homepage; let’s try it during checkout.”\n- One or more of your competitors already employ this tactic (they’ve likely tested into it): “Our competitors offer a monthly pricing plan; we should try the same.”\n- Your customers are explicitly and repeatedly complaining about it: “Why do I have to create a new account? I wish I could log in with Google.”"
+    },
+    "confirm-shortlist": {
+      "file": "newsletters/introducing-drice-a-modern-prioritization-framework.md",
+      "excerpt": "*Score = (Reach % \\* Impact % \\* Confidence likelihood %) / Weeks of effort*\n\nSort all of the available ideas using their scores. Take about twice as many ideas as you’d have time for during the period you’re planning for (typically a quarter). This is your preliminary shortlist."
+    },
+    "winrate-gate": {
+      "file": "newsletters/introducing-drice-a-modern-prioritization-framework.md",
+      "excerpt": "### When should we start DRICE-ing?\n\nIf you find a $100 bill on the ground while walking to work, you don’t need to run a prioritization process to pick it up. If you are seeing an over 70% win rate, you are still enjoying the early days and can postpone investing in your prioritization muscle for a little while longer."
+    },
+    "drice-deepdive": {
+      "file": "newsletters/introducing-drice-a-modern-prioritization-framework.md",
+      "excerpt": "### Components of a DRICE estimate\n\nNow that we’ve walked through an example, let’s talk about what a DRICE involves and how to perform one. You’ll want:\n\n**Hypothesis**\n\nA clear, brief explanation of the idea that anybody without context will be able to understand, and a short justification for why you believe the idea will be effective.\n\n**Impact estimate**\n\nTypically from the product manager, a clear, bottom-up financial model estimating the impact of the idea. This is the time to do a bit more research, speak with peers, and see if any existing analytics data is available that would allow for a precise estimate."
+    }
+  }
+}

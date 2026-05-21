@@ -1,0 +1,21 @@
+kind = "web"
+previewPath = "/"
+title = "Lenny's Framework Copilot"
+version = "1.0.0"
+id = "artifacts/lenny-copilot"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21705
+
+[services.development]
+run = "pnpm --filter @workspace/lenny-copilot run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/lenny-copilot", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/lenny-copilot", "run", "start" ]
+
+[services.env]
+PORT = "21705"

@@ -1,0 +1,160 @@
+{
+  "id": "drice",
+  "name": "DRICE Prioritization",
+  "category": "Prioritization & Planning",
+  "shape": "scored-model",
+  "source": ["newsletters/introducing-drice-a-modern-prioritization-framework.md"],
+  "summary": "Two-pass scoring to decide which experiments to build this quarter: a fast RICE T-shirt-size pass, then a detailed DRICE dollar estimate on the shortlist.",
+  "decision_served": "Which projects should my team build next?",
+  "spec_version": "1",
+  "steps": [
+    {
+      "id": "collect-ideas",
+      "title": "List your candidate ideas",
+      "prompt": "Add the ideas competing for your team's time this quarter. Pull them from brainstorming, data, sales/CX calls, and past backlogs.",
+      "input": {
+        "type": "list",
+        "config": { "min_items": 5, "item_label": "idea" }
+      },
+      "guidance": {
+        "text": "Before you prioritize, assume you've already collected tons of potential ideas—through brainstorming, sifting through data, looking at sales/CX calls, and past backlogs. As a rule of thumb, you'll want to have at least 5x as many ideas as you could reasonably build in the next time period (typically a quarter) before starting to prioritize.",
+        "source_span": {
+          "file": "newsletters/introducing-drice-a-modern-prioritization-framework.md",
+          "start": 3002,
+          "end": 3356
+        }
+      },
+      "examples": [],
+      "benchmark_hook": null,
+      "branching": null
+    },
+    {
+      "id": "rice-score",
+      "title": "RICE-score each idea",
+      "prompt": "T-shirt-size (S/M/L) each idea on Reach, Impact, Confidence, and Effort. These are low-fidelity, directional estimates—compare items against each other rather than nailing the categories.",
+      "input": {
+        "type": "score-grid",
+        "config": {
+          "rows_from": "collect-ideas",
+          "dimensions": ["Reach", "Impact", "Confidence", "Effort"],
+          "scale": ["S", "M", "L"]
+        }
+      },
+      "guidance": {
+        "text": "An idea should be higher-Impact if it addresses a sensitive-to-change portion of the customer journey (above the fold on the landing page, pricing, etc.) or if the change is a particularly significant “big swing.” An idea should be higher-Confidence if you've already had the same concept work elsewhere, if one or more competitors already employ the tactic (they've likely tested into it), or if customers are explicitly and repeatedly complaining about it.",
+        "source_span": {
+          "file": "newsletters/introducing-drice-a-modern-prioritization-framework.md",
+          "start": 6786,
+          "end": 7531
+        }
+      },
+      "examples": [
+        {
+          "company": "PayPal checkout",
+          "text": "Checkout with PayPal scored Reach: all (customers must go through checkout and see the option), Impact: small (most customers are comfortable with credit cards), Confidence: likely (competitors offer PayPal and customers have asked for it), Effort: medium.",
+          "source_span": {
+            "file": "newsletters/introducing-drice-a-modern-prioritization-framework.md",
+            "start": 4308,
+            "end": 4762
+          }
+        }
+      ],
+      "benchmark_hook": null,
+      "branching": null
+    },
+    {
+      "id": "confirm-shortlist",
+      "title": "Confirm your shortlist",
+      "prompt": "Sort ideas by their computed RICE score and confirm a preliminary shortlist. The selection is pre-filled with about twice as many ideas as your team has capacity for—adjust any suspicious scores before continuing.",
+      "input": {
+        "type": "multi-choice",
+        "config": {
+          "options_from": "collect-ideas",
+          "preselect": "rice_top",
+          "preselect_multiplier": 2,
+          "score_formula": "(Reach% * Impact% * Confidence%) / Effort"
+        }
+      },
+      "guidance": {
+        "text": "Sort all of the available ideas using their implied score — Score = (Reach % × Impact % × Confidence likelihood %) / Weeks of effort. Take about twice as many ideas as you'd have time for during the period you're planning for (typically a quarter). This is your preliminary shortlist.",
+        "source_span": {
+          "file": "newsletters/introducing-drice-a-modern-prioritization-framework.md",
+          "start": 7915,
+          "end": 8195
+        }
+      },
+      "examples": [],
+      "benchmark_hook": null,
+      "branching": null
+    },
+    {
+      "id": "winrate-gate",
+      "title": "Check your recent experiment win rate",
+      "prompt": "What win rate are your recent experiments running at? If it's very high, a deep DRICE pass may not yet be worth the time.",
+      "input": {
+        "type": "number",
+        "config": { "min": 0, "max": 100, "unit": "%" }
+      },
+      "guidance": {
+        "text": "If you find a $100 bill on the ground while walking to work, you don't need to run a prioritization process to pick it up. If you are seeing an over 70% win rate, you are still enjoying the early days and can postpone investing in your prioritization muscle for a little while longer.",
+        "source_span": {
+          "file": "newsletters/introducing-drice-a-modern-prioritization-framework.md",
+          "start": 14522,
+          "end": 14806
+        }
+      },
+      "examples": [],
+      "benchmark_hook": null,
+      "branching": [
+        { "if": "inputs.winrate-gate.value > 70", "next": "artifact" }
+      ]
+    },
+    {
+      "id": "drice-deepdive",
+      "title": "Run a detailed DRICE estimate on each shortlisted idea",
+      "prompt": "For each shortlisted idea, spend ~30 minutes turning the T-shirt score into a real dollar estimate. DRICE goes from a 30-second estimate to a 30-minute estimate — from a relative S/M/L score to a $X of expected annualized revenue. Write a clear hypothesis, a bottom-up financial impact estimate, and an engineering-day estimate.",
+      "input": {
+        "type": "text",
+        "config": {
+          "per_item_from": "confirm-shortlist",
+          "placeholder": "Hypothesis paragraph + bottom-up $ impact + engineering-day estimate",
+          "max_len": 2000
+        }
+      },
+      "guidance": {
+        "text": "A DRICE estimate needs a Hypothesis — a clear, brief explanation of the idea that anybody without context will be able to understand, and a short justification for why you believe the idea will be effective. It also needs an Impact estimate, typically from the product manager: a clear, bottom-up financial model estimating the impact of the idea. This is the time to do a bit more research, speak with peers, and see if any existing analytics data is available that would allow for a precise estimate.",
+        "source_span": {
+          "file": "newsletters/introducing-drice-a-modern-prioritization-framework.md",
+          "start": 12925,
+          "end": 13393
+        }
+      },
+      "examples": [
+        {
+          "company": "Dropbox",
+          "text": "At Dropbox, a proposed idea was a migration tool for Basic users to streamline getting started with a Business account. Initially the team didn't think it would be a huge win since target users were a subset of all sign-ups. The DRICE investigation showed many Business team creators were previously Basic users and a “choose folders to share with your team” modal could boost sharing significantly, which significantly bumped the idea's expected ROI. They built it, and the Dropbox Business Migration Tool became the biggest activation win of the quarter.",
+          "source_span": {
+            "file": "newsletters/introducing-drice-a-modern-prioritization-framework.md",
+            "start": 9589,
+            "end": 10417
+          }
+        },
+        {
+          "company": "PayPal",
+          "text": "For the PayPal checkout idea, the DRICE hypothesis was: a potential customer segment prefers to pay with PayPal instead of credit cards and has been emailing to let us know; by adding PayPal as a checkout option, we will improve conversion by 2.7%, or an incremental $540k/year. The engineering estimate came to 7 days (~1.5 weeks): integrating PayPal directly from Stripe eliminated the bulk of the back-end work. At $540k in annual revenue against 7 eng-days, the return is $360k/eng week.",
+          "source_span": {
+            "file": "newsletters/introducing-drice-a-modern-prioritization-framework.md",
+            "start": 11215,
+            "end": 12235
+          }
+        }
+      ],
+      "benchmark_hook": null,
+      "branching": null
+    }
+  ],
+  "artifact": {
+    "type": "scored-table",
+    "template": "## DRICE Result\n\n### Scored & ranked ideas\n{{table:steps.rice-score.output}}\n\n### Shortlist with ROI estimates\n{{steps.drice-deepdive.output}}"
+  }
+}

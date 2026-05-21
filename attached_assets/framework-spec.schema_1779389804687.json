@@ -1,0 +1,265 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lennys-framework-copilot/schemas/framework-spec.schema.json",
+  "title": "Framework Spec",
+  "description": "The core contract for a golden interactive workflow, per design doc §7. Every golden framework is one JSON spec, validated against this schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "category",
+    "shape",
+    "source",
+    "summary",
+    "decision_served",
+    "spec_version",
+    "steps",
+    "artifact"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Stable framework identifier (kebab-case).",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable framework name.",
+      "minLength": 1
+    },
+    "category": {
+      "type": "string",
+      "description": "Framework category, e.g. 'Prioritization & Planning'.",
+      "minLength": 1
+    },
+    "shape": {
+      "type": "string",
+      "description": "The workflow shape this spec follows.",
+      "enum": [
+        "scored-model",
+        "diagnostic-tree",
+        "sequential-process",
+        "checklist"
+      ]
+    },
+    "source": {
+      "type": "array",
+      "description": "Source corpus files this framework is authored from.",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "summary": {
+      "type": "string",
+      "description": "One-line summary of what the framework does.",
+      "minLength": 1
+    },
+    "decision_served": {
+      "type": "string",
+      "description": "The decision question this framework helps answer.",
+      "minLength": 1
+    },
+    "spec_version": {
+      "type": "string",
+      "description": "Bumped on any breaking step change; used for localStorage migration.",
+      "minLength": 1
+    },
+    "steps": {
+      "type": "array",
+      "description": "Ordered list of workflow steps.",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/step" }
+    },
+    "artifact": { "$ref": "#/$defs/artifact" }
+  },
+  "$defs": {
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "prompt",
+        "input",
+        "guidance",
+        "examples",
+        "benchmark_hook",
+        "branching"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Step identifier, unique within the spec (kebab-case).",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Short step title shown in the UI.",
+          "minLength": 1
+        },
+        "prompt": {
+          "type": "string",
+          "description": "Instruction shown to the user for this step.",
+          "minLength": 1
+        },
+        "input": { "$ref": "#/$defs/input" },
+        "guidance": { "$ref": "#/$defs/guidance" },
+        "examples": {
+          "type": "array",
+          "description": "Worked examples drawn from the source post.",
+          "items": { "$ref": "#/$defs/example" }
+        },
+        "benchmark_hook": {
+          "description": "Optional benchmark lookup hook, or null.",
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/benchmarkHook" }
+          ]
+        },
+        "branching": {
+          "description": "Optional list of branching rules, or null.",
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": { "$ref": "#/$defs/branch" }
+            }
+          ]
+        }
+      }
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "config"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The input control type. One of the 6 supported types.",
+          "enum": [
+            "list",
+            "number",
+            "choice",
+            "multi-choice",
+            "text",
+            "score-grid"
+          ]
+        },
+        "config": {
+          "type": "object",
+          "description": "Type-specific configuration. Shape varies by input.type.",
+          "additionalProperties": true
+        }
+      }
+    },
+    "guidance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "source_span"],
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Lenny's actual guidance for this step, faithful to the source.",
+          "minLength": 1
+        },
+        "source_span": { "$ref": "#/$defs/sourceSpan" }
+      }
+    },
+    "example": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["company", "text", "source_span"],
+      "properties": {
+        "company": {
+          "type": "string",
+          "description": "Company the worked example is drawn from.",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "description": "The example text, faithful to the source.",
+          "minLength": 1
+        },
+        "source_span": { "$ref": "#/$defs/sourceSpan" }
+      }
+    },
+    "sourceSpan": {
+      "type": "object",
+      "description": "Character offsets {file,start,end} of a passage in a cited corpus file.",
+      "additionalProperties": false,
+      "required": ["file", "start", "end"],
+      "properties": {
+        "file": {
+          "type": "string",
+          "description": "Path of the source corpus file.",
+          "minLength": 1
+        },
+        "start": {
+          "type": "integer",
+          "description": "Inclusive start character offset.",
+          "minimum": 0
+        },
+        "end": {
+          "type": "integer",
+          "description": "Exclusive end character offset.",
+          "minimum": 0
+        }
+      }
+    },
+    "benchmarkHook": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric", "segment_from"],
+      "properties": {
+        "metric": {
+          "type": "string",
+          "description": "The benchmark metric to look up.",
+          "minLength": 1
+        },
+        "segment_from": {
+          "type": "string",
+          "description": "A stepId.field path resolved against prior step inputs to pick the benchmark segment.",
+          "minLength": 1
+        }
+      }
+    },
+    "branch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["if", "next"],
+      "properties": {
+        "if": {
+          "type": "string",
+          "description": "Safe branching expression: comparisons (> < >= <= == !=) and and/or over inputs.<stepId>.<field> and benchmarks.<metric>.",
+          "minLength": 1
+        },
+        "next": {
+          "type": "string",
+          "description": "Target step id, or 'artifact' to finish the workflow.",
+          "minLength": 1
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "template"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The artifact type.",
+          "minLength": 1
+        },
+        "template": {
+          "type": "string",
+          "description": "Markdown template with {{...}} placeholders resolving to step outputs or rendered tables.",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
