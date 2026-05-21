@@ -11,6 +11,7 @@ import {
 import { StepInput, initialDraftFor } from "./StepInput";
 import { ArtifactPane } from "./ArtifactPane";
 import { AdaptedGuidance } from "./AdaptedGuidance";
+import { ArtifactExport } from "./ArtifactExport";
 
 type Snapshot = {
   cursor: string;
@@ -163,7 +164,12 @@ export function WorkflowRunner({ spec }: { spec: FrameworkSpec }) {
           } border-r border-slate-200 bg-white px-6 py-8 lg:px-10 lg:py-12`}
         >
           {isDone ? (
-            <DoneView spec={spec} onBack={handleBack} canGoBack={snap.canGoBack} />
+            <DoneView
+              spec={spec}
+              inputs={snap.inputs}
+              onBack={handleBack}
+              canGoBack={snap.canGoBack}
+            />
           ) : currentStep ? (
             <StepView
               step={currentStep}
@@ -307,10 +313,12 @@ function StepView({
 
 function DoneView({
   spec,
+  inputs,
   onBack,
   canGoBack,
 }: {
   spec: FrameworkSpec;
+  inputs: Record<string, unknown>;
   onBack: () => void;
   canGoBack: boolean;
 }) {
@@ -323,9 +331,12 @@ function DoneView({
         {spec.name} — artifact ready
       </h2>
       <p className="mt-3 text-base leading-relaxed text-slate-700">
-        You&apos;ve answered every step. The artifact on the right is your
-        complete result.
+        You&apos;ve answered every step. Copy or download the finished artifact
+        below, or jump back to revise a step.
       </p>
+
+      <ArtifactExport spec={spec} inputs={inputs} />
+
       <div className="mt-8">
         <button
           onClick={onBack}
