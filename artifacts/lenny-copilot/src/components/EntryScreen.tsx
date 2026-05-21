@@ -1,50 +1,44 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import type { FrameworkSpec } from "@lib/spec";
-import { storageKeyFor } from "@lib/engine/persist";
+import { useMemo, useState } from "react";
+
+const EXAMPLE_COUNT = 5;
+
+/** Pick `count` distinct items from `pool` at random (Fisher-Yates partial shuffle). */
+function pickRandom<T>(pool: readonly T[], count: number): T[] {
+  const copy = [...pool];
+  const n = Math.min(count, copy.length);
+  for (let i = 0; i < n; i++) {
+    const j = i + Math.floor(Math.random() * (copy.length - i));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy.slice(0, n);
+}
 
 export function EntryScreen({
-  spec,
-  onStart,
+  exampleQuestions,
+  onSubmit,
+  busy = false,
 }: {
-  spec: FrameworkSpec;
-  onStart: () => void;
+  exampleQuestions: string[];
+  onSubmit: (text: string) => void;
+  busy?: boolean;
 }) {
-  const [hasProgress, setHasProgress] = useState(false);
+  const [text, setText] = useState("");
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const key = storageKeyFor(spec.id);
-    try {
-      const raw = window.localStorage.getItem(key);
-      if (!raw) {
-        setHasProgress(false);
-        return;
-      }
-      const parsed = JSON.parse(raw) as { inputs?: Record<string, unknown> };
-      const count = parsed.inputs ? Object.keys(parsed.inputs).length : 0;
-      setHasProgress(count > 0);
-    } catch {
-      // Corrupt persisted value — drop it so we don't keep re-parsing it.
-      try {
-        window.localStorage.removeItem(key);
-      } catch {
-        // ignore
-      }
-      setHasProgress(false);
-    }
-  }, [spec.id]);
+  // Seed the random sample once per mount so the chips stay stable while typing.
+  const examples = useMemo(
+    () => pickRandom(exampleQuestions, EXAMPLE_COUNT),
+    [exampleQuestions],
+  );
 
-  function handleReset() {
-    if (typeof window === "undefined") return;
-    const ok = window.confirm(
-      "Clear your saved progress for this framework? This can't be undone.",
-    );
-    if (!ok) return;
-    window.localStorage.removeItem(storageKeyFor(spec.id));
-    setHasProgress(false);
+  function submit(value: string) {
+    const trimmed = value.trim();
+    if (!trimmed || busy) return;
+    onSubmit(trimmed);
   }
+
+  const canSubmit = text.trim().length > 0 && !busy;
 
   return (
     <main className="flex min-h-screen flex-col bg-slate-50">
@@ -53,59 +47,71 @@ export function EntryScreen({
           Lenny&apos;s Framework Copilot
         </p>
         <h1 className="mt-2 text-4xl font-semibold leading-tight text-slate-900 lg:text-5xl">
-          Run a real PM framework, end to end.
+          What are you trying to figure out?
         </h1>
-        <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-600">
-          Pick a framework, answer a handful of grounded questions, and walk
-          away with a cited artifact you can paste into a doc or share with
-          your team.
+        <p className="mt-3 text-sm text-slate-500">
+          Routes across 121 frameworks from Lenny&apos;s newsletter &amp;
+          podcast.
         </p>
 
-        <button
-          onClick={onStart}
-          className="group mt-10 block w-full rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition hover:border-slate-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2"
+        <form
+          className="mt-8"
+          onSubmit={(e) => {
+            e.preventDefault();
+            submit(text);
+          }}
         >
-          <div className="flex items-start justify-between gap-6">
-            <div className="min-w-0 flex-1">
-              <p className="text-xs font-medium uppercase tracking-wide text-emerald-700">
-                Prioritization
-              </p>
-              <p className="mt-1 text-xl font-semibold text-slate-900">
-                Prioritize my roadmap → DRICE
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                {spec.summary}
-              </p>
-              <p className="mt-4 text-xs text-slate-500">
-                {spec.steps.length} steps · cited at every turn · exports as
-                Markdown
-              </p>
-            </div>
-            <span
-              aria-hidden
-              className="mt-1 shrink-0 rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white transition group-hover:bg-slate-800"
-            >
-              {hasProgress ? "Resume →" : "Start →"}
-            </span>
-          </div>
-        </button>
+          <textarea
+            rows={4}
+            value={text}
+            disabled={busy}
+            placeholder="e.g. Our activation has been flat at 18% for three months — how do I fix it?"
+            onChange={(e) => setText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                submit(text);
+              }
+            }}
+            className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-slate-500 focus:outline-none disabled:cursor-not-allowed disabled:bg-slate-100"
+          />
 
-        {hasProgress && (
-          <p className="mt-3 text-xs text-slate-500">
-            We saved your progress on this device.{" "}
+          <div className="mt-4 flex items-center justify-between gap-4">
+            <p className="text-xs text-slate-400">
+              {busy
+                ? "Finding the right framework…"
+                : "Press ⌘/Ctrl + Enter to route."}
+            </p>
             <button
-              onClick={handleReset}
-              className="font-medium text-slate-700 underline hover:no-underline"
+              type="submit"
+              disabled={!canSubmit}
+              className="rounded-md bg-slate-900 px-5 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
             >
-              Start over
+              {busy ? "Finding the right framework…" : "Find my framework →"}
             </button>
-            .
-          </p>
-        )}
+          </div>
+        </form>
 
-        <p className="mt-12 text-xs text-slate-400">
-          More frameworks coming soon.
-        </p>
+        {examples.length > 0 && (
+          <div className="mt-10">
+            <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+              Or start from an example
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {examples.map((q) => (
+                <button
+                  key={q}
+                  type="button"
+                  disabled={busy}
+                  onClick={() => submit(q)}
+                  className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-left text-xs text-slate-700 shadow-sm transition hover:border-slate-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );
