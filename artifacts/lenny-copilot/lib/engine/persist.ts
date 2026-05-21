@@ -9,6 +9,7 @@ export interface PersistedSnapshot {
   specVersion: string;
   cursor: string;
   inputs: Record<string, unknown>;
+  history: string[];
 }
 
 export interface LoadResult {

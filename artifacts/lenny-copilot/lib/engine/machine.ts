@@ -16,11 +16,13 @@ export interface EngineContext {
   cursor: string;
   inputs: Record<string, unknown>;
   benchmarks: Record<string, unknown>;
+  history: string[];
 }
 
 type AdvanceEvent = { type: "ADVANCE"; stepId: string; input: unknown };
+type BackEvent = { type: "BACK" };
 type SetBenchmarksEvent = { type: "SET_BENCHMARKS"; benchmarks: Record<string, unknown> };
-type EngineEvent = AdvanceEvent | SetBenchmarksEvent;
+type EngineEvent = AdvanceEvent | BackEvent | SetBenchmarksEvent;
 
 function computeNextCursor(
   spec: FrameworkSpec,
@@ -58,7 +60,12 @@ export function buildMachine(spec: FrameworkSpec) {
     id: spec.id,
     initial: "running",
     context: ({ input }) =>
-      input ?? { cursor: spec.steps[0].id, inputs: {}, benchmarks: {} },
+      input ?? {
+        cursor: spec.steps[0].id,
+        inputs: {},
+        benchmarks: {},
+        history: [],
+      },
     states: {
       running: {
         on: {
@@ -79,9 +86,23 @@ export function buildMachine(spec: FrameworkSpec) {
                 context.benchmarks,
               );
               return {
+                ...context,
                 inputs: newInputs,
                 cursor: nextCursor,
-                benchmarks: context.benchmarks,
+                history: [...context.history, step.id],
+              };
+            }),
+          },
+          BACK: {
+            actions: assign(({ context }) => {
+              if (context.history.length === 0) return context;
+              const prev = context.history[context.history.length - 1];
+              const { [prev]: _removed, ...remainingInputs } = context.inputs;
+              return {
+                ...context,
+                cursor: prev,
+                inputs: remainingInputs,
+                history: context.history.slice(0, -1),
               };
             }),
           },
@@ -145,6 +166,9 @@ export class Engine {
             cursor: result.snapshot.cursor,
             inputs: result.snapshot.inputs,
             benchmarks: {},
+            history: Array.isArray(result.snapshot.history)
+              ? result.snapshot.history
+              : [],
           };
         }
       }
@@ -191,12 +215,29 @@ export class Engine {
     }
   }
 
+  canGoBack(): boolean {
+    return this.actor.getSnapshot().context.history.length > 0;
+  }
+
+  back(): void {
+    if (!this.canGoBack()) return;
+    this.actor.send({ type: "BACK" });
+    if (this.storage) {
+      saveSnapshot(this.storage, this.snapshot());
+    }
+  }
+
+  history(): string[] {
+    return this.actor.getSnapshot().context.history;
+  }
+
   snapshot(): PersistedSnapshot {
     return {
       specId: this.spec.id,
       specVersion: this.spec.spec_version,
       cursor: this.cursor(),
       inputs: this.inputs(),
+      history: this.history(),
     };
   }
 

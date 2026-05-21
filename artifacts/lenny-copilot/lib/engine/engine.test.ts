@@ -44,6 +44,24 @@ describe("Engine — input validation", () => {
     expect(engine.currentStep()?.id).toBe("collect-ideas");
   });
 
+  it("rejects a list whose items are empty/whitespace-only strings", () => {
+    const spec = loadSpec("drice");
+    const engine = new Engine(spec);
+    expect(() =>
+      engine.advance({ items: ["", "   ", "", "", ""] }),
+    ).toThrow(InputValidationError);
+    expect(engine.currentStep()?.id).toBe("collect-ideas");
+  });
+
+  it("trims and drops empty strings when storing a valid list", () => {
+    const spec = loadSpec("drice");
+    const engine = new Engine(spec);
+    engine.advance({ items: ["  A ", "B", "", "C", "D", "  ", "E"] });
+    expect(engine.inputs()["collect-ideas"]).toEqual({
+      items: ["A", "B", "C", "D", "E"],
+    });
+  });
+
   it("rejects a non-number value for the winrate-gate", () => {
     const spec = loadSpec("drice");
     const engine = new Engine(spec);
@@ -75,6 +93,34 @@ describe("Engine — input validation", () => {
     expect(() => engine.advance({ value: Infinity })).toThrow(InputValidationError);
     expect(() => engine.advance({ value: -Infinity })).toThrow(InputValidationError);
     expect(() => engine.advance({ value: NaN })).toThrow(InputValidationError);
+  });
+});
+
+describe("Engine — back navigation", () => {
+  it("rolls back the cursor and removes the previous step's input on back()", () => {
+    const spec = loadSpec("drice");
+    const engine = new Engine(spec);
+    expect(engine.canGoBack()).toBe(false);
+    engine.advance({ items: ideas });
+    expect(engine.canGoBack()).toBe(true);
+    expect(engine.currentStep()?.id).toBe("rice-score");
+    engine.back();
+    expect(engine.currentStep()?.id).toBe("collect-ideas");
+    expect(engine.inputs()["collect-ideas"]).toBeUndefined();
+    expect(engine.canGoBack()).toBe(false);
+  });
+
+  it("undoes a branching jump (artifact → back to winrate-gate)", () => {
+    const spec = loadSpec("drice");
+    const engine = new Engine(spec);
+    engine.advance({ items: ideas });
+    engine.advance(fullGrid);
+    engine.advance({ selected: ["A", "D"] });
+    engine.advance({ value: 85 });
+    expect(engine.isDone()).toBe(true);
+    engine.back();
+    expect(engine.currentStep()?.id).toBe("winrate-gate");
+    expect(engine.isDone()).toBe(false);
   });
 });
 
@@ -135,10 +181,28 @@ describe("Engine — persistence", () => {
         "rice-score": fullGrid,
         "confirm-shortlist": { selected: ["A", "D"] },
       },
+      history: ["collect-ideas", "rice-score", "confirm-shortlist"],
     });
     const { engine, notice } = Engine.load(spec, { storage });
     expect(notice).toBeNull();
     expect(engine.currentStep()?.id).toBe("winrate-gate");
+    expect(engine.canGoBack()).toBe(true);
+    engine.back();
+    expect(engine.currentStep()?.id).toBe("confirm-shortlist");
+  });
+
+  it("persists history in the snapshot and restores back-navigation after reload", () => {
+    const spec = loadSpec("drice");
+    const storage = createMemoryStorage();
+    const { engine } = Engine.load(spec, { storage });
+    engine.advance({ items: ideas });
+    engine.advance(fullGrid);
+    expect(engine.history()).toEqual(["collect-ideas", "rice-score"]);
+    const { engine: reloaded } = Engine.load(spec, { storage });
+    expect(reloaded.currentStep()?.id).toBe("confirm-shortlist");
+    expect(reloaded.canGoBack()).toBe(true);
+    reloaded.back();
+    expect(reloaded.currentStep()?.id).toBe("rice-score");
   });
 
   it("discards saved state with notice when cursor references an unknown step", () => {
@@ -149,6 +213,7 @@ describe("Engine — persistence", () => {
       specVersion: spec.spec_version,
       cursor: "not-a-real-step",
       inputs: {},
+      history: [],
     });
     const { engine, notice } = Engine.load(spec, { storage });
     expect(notice).toMatch(/unknown step/i);
@@ -163,6 +228,7 @@ describe("Engine — persistence", () => {
       specVersion: "0",
       cursor: "winrate-gate",
       inputs: {},
+      history: [],
     });
     const { engine, notice } = Engine.load(spec, { storage });
     expect(notice).toMatch(/discarded/i);

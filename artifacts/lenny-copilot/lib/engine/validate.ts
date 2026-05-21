@@ -42,15 +42,18 @@ export function validateStepInput(
       if (!Array.isArray(items) || !items.every((v) => typeof v === "string")) {
         throw new InputValidationError(step.id, "`items` must be an array of strings");
       }
+      const trimmed = (items as string[])
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0);
       const minItems = typeof config.min_items === "number" ? config.min_items : 0;
-      if (items.length < minItems) {
+      if (trimmed.length < minItems) {
         const label = typeof config.item_label === "string" ? config.item_label : "item";
         throw new InputValidationError(
           step.id,
-          `at least ${minItems} ${label}(s) required, got ${items.length}`,
+          `at least ${minItems} non-empty ${label}(s) required, got ${trimmed.length}`,
         );
       }
-      return { items };
+      return { items: trimmed };
     }
     case "number": {
       if (!input || typeof input !== "object") {
