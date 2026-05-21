@@ -10,6 +10,7 @@ import {
 } from "@lib/engine";
 import { StepInput, initialDraftFor } from "./StepInput";
 import { ArtifactPane } from "./ArtifactPane";
+import { AdaptedGuidance } from "./AdaptedGuidance";
 
 type Snapshot = {
   cursor: string;
@@ -253,16 +254,12 @@ function StepView({
         />
       </div>
 
-      {step.guidance && (
-        <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-            Guidance
-          </p>
-          <p className="mt-2 text-sm leading-relaxed text-slate-700">
-            {step.guidance.text}
-          </p>
-        </div>
-      )}
+      <AdaptedGuidance
+        spec={spec}
+        step={step}
+        inputsSoFar={allInputs}
+      />
+
 
       {step.examples && step.examples.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-2">
