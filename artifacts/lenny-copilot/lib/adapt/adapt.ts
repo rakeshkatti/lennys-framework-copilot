@@ -1,5 +1,6 @@
-import Anthropic from "@anthropic-ai/sdk";
+import type Anthropic from "@anthropic-ai/sdk";
 import type { Step } from "@lib/spec";
+import { callClaude } from "@lib/llm";
 import {
   citationMatches,
   contentCoverage,
@@ -19,11 +20,14 @@ export interface AdaptResult {
   reason?: string;
 }
 
-const MODEL = "claude-sonnet-4-6";
-
-function buildSystemPrompt(): string {
+function buildSystemPrompt(excerpt: string): string {
   return [
     "You are adapting fixed product-management guidance to a user's specific situation.",
+    "",
+    "EXCERPT (the only allowed source of advice):",
+    "---",
+    excerpt,
+    "---",
     "",
     "RULES:",
     "1. You MUST NOT introduce any advice, frameworks, opinions, recommendations, statistics, or examples that are not already present in the EXCERPT.",
@@ -38,16 +42,10 @@ function buildSystemPrompt(): string {
 
 function buildUserPrompt(
   step: Step,
-  excerpt: string,
   inputsSoFar: Record<string, unknown>,
 ): string {
   const inputsJson = JSON.stringify(inputsSoFar, null, 2);
   return [
-    "EXCERPT (the only allowed source of advice):",
-    "---",
-    excerpt,
-    "---",
-    "",
     `STEP: ${step.title}`,
     `STEP PROMPT TO USER: ${step.prompt}`,
     "",
@@ -88,23 +86,19 @@ const TOOL: Anthropic.Tool = {
   },
 };
 
-function getClient(): Anthropic {
-  return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-}
-
 async function callClaudeOnce(
   step: Step,
   excerpt: string,
   inputsSoFar: Record<string, unknown>,
 ): Promise<AdaptedSentence[] | null> {
-  const client = getClient();
-  const message = await client.messages.create({
-    model: MODEL,
-    max_tokens: 8192,
-    system: buildSystemPrompt(),
+  const message = await callClaude({
+    kind: "step",
+    // The citation rules + excerpt are static per step — cache them.
+    system: buildSystemPrompt(excerpt),
+    cacheableSystem: true,
     tools: [TOOL],
-    tool_choice: { type: "tool", name: TOOL.name },
-    messages: [{ role: "user", content: buildUserPrompt(step, excerpt, inputsSoFar) }],
+    toolChoice: { type: "tool", name: TOOL.name },
+    messages: [{ role: "user", content: buildUserPrompt(step, inputsSoFar) }],
   });
 
   const toolBlock = message.content.find(
