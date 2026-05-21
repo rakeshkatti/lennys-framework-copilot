@@ -6,7 +6,9 @@
     "dev": "next dev -p ${PORT:-21705}",
     "build": "next build",
     "start": "next start -p ${PORT:-21705}",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
