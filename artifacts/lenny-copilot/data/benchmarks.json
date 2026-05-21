@@ -1,0 +1,89 @@
+{
+  "monthly_churn": {
+    "metric_label": "Monthly churn",
+    "source": "newsletters/what-is-good-monthly-churn.md",
+    "segments": [
+      { "segment": "B2C SaaS", "good": "3-5%", "great": "<2%" },
+      { "segment": "B2B SMB + Mid-Market", "good": "2.5-5%", "great": "<1.5%" },
+      { "segment": "B2B Enterprise", "good": "1-2%", "great": "<0.5%" }
+    ]
+  },
+  "user_retention": {
+    "metric_label": "User retention (6-month)",
+    "source": "newsletters/what-is-good-retention.md",
+    "segments": [
+      { "segment": "Consumer social", "good": "~25%", "great": "~45%" },
+      { "segment": "Consumer transactional", "good": "~30%", "great": "~50%" },
+      { "segment": "Consumer SaaS", "good": "~40%", "great": "~70%" },
+      { "segment": "SMB/mid-market SaaS", "good": "~60%", "great": "~80%" },
+      { "segment": "Enterprise SaaS", "good": "~70%", "great": "~90%" }
+    ]
+  },
+  "net_revenue_retention": {
+    "metric_label": "Net revenue retention (12-month)",
+    "source": "newsletters/what-is-good-retention.md",
+    "segments": [
+      { "segment": "Consumer SaaS", "good": "~55%", "great": "~80%" },
+      { "segment": "Bottom-up SaaS", "good": "~100%", "great": "~120%" },
+      { "segment": "Land and expand VSB SaaS", "good": "~80%", "great": "~100%" },
+      { "segment": "Land and expand SMB/mid-market SaaS", "good": "~90%", "great": "~110%" },
+      { "segment": "Enterprise SaaS", "good": "~110%", "great": "~130%" }
+    ]
+  },
+  "payback_period": {
+    "metric_label": "CAC payback period",
+    "source": "newsletters/what-is-a-good-payback-period.md",
+    "segments": [
+      { "segment": "B2C", "ok": "12 months", "good": "6 months", "great": "<1 month" },
+      { "segment": "B2B SMB", "ok": "18 months", "good": "12 months", "great": "<6 months" },
+      { "segment": "B2B Enterprise", "ok": "24 months", "good": "18 months", "great": "<12 months" }
+    ]
+  },
+  "growth_rate": {
+    "metric_label": "Growth rate",
+    "source": "newsletters/what-is-a-good-growth-rate.md",
+    "segments": [
+      { "segment": "Early-stage B2B (time to $1M ARR after launch)", "good": "$1M ARR within 12 months of launch", "great": "$1M ARR within 9 months of launch" },
+      { "segment": "Month-over-month growth below $1M ARR", "good": "15-25% MoM" },
+      { "segment": "Annual ARR growth after $1M ARR", "good": "3x", "great": "4-5x" }
+    ]
+  },
+  "free_to_paid_conversion": {
+    "metric_label": "Free-to-paid conversion (6-month window)",
+    "source": "newsletters/what-is-good-free-to-paid-conversion.md",
+    "segments": [
+      { "segment": "Freemium self-serve", "good": "3-5%", "great": "6-8%" },
+      { "segment": "Freemium with sales-assist", "good": "5-7%", "great": "10-15%" },
+      { "segment": "Free trial", "good": "8-12%", "great": "15-25%" }
+    ]
+  },
+  "waitlist_conversion": {
+    "metric_label": "Waitlist conversion",
+    "source": "newsletters/what-is-good-waitlist-conversion.md",
+    "segments": [
+      { "segment": "To free sign-up", "good": "25-85% range, ~50% average if invited within a month" },
+      { "segment": "To paid account", "good": "5-25% range, ~20% average if invited within a month" },
+      { "segment": "To physical product purchase", "good": "below 5% once rolled out widely" }
+    ]
+  },
+  "activation_rate": {
+    "metric_label": "Activation rate",
+    "source": "newsletters/what-is-a-good-activation-rate.md",
+    "segments": [
+      { "segment": "All products (survey of 500+)", "good": "34% average, 25% median" },
+      { "segment": "SaaS only (excl. marketplaces, e-commerce, DTC)", "good": "36% average, 30% median" }
+    ]
+  },
+  "consumer_subscription_health": {
+    "metric_label": "Consumer subscription health metrics",
+    "source": "newsletters/the-most-important-consumer-subscription-metrics-to-track.md",
+    "segments": [
+      { "segment": "Free/trial user MoM growth", "great": ">20%" },
+      { "segment": "Subscriber MoM growth", "great": ">20%" },
+      { "segment": "Payback period", "great": "<6 months" },
+      { "segment": "Virality (new users per existing user)", "great": ">1.0" },
+      { "segment": "ROAS", "great": ">4:1" },
+      { "segment": "Cohort retention at 6 months", "great": ">70%" }
+    ]
+  }
+}
