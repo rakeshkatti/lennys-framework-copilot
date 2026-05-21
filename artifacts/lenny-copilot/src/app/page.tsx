@@ -1,9 +1,9 @@
 import { loadSpec } from "@lib/loadSpec";
-import { WorkflowRunner } from "@/components/WorkflowRunner";
+import { AppShell } from "@/components/AppShell";
 
 export const dynamic = "force-dynamic";
 
 export default function Home() {
   const spec = loadSpec("drice");
-  return <WorkflowRunner spec={spec} />;
+  return <AppShell spec={spec} />;
 }

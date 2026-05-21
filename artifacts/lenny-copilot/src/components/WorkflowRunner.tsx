@@ -27,7 +27,13 @@ function snapshotOf(engine: Engine): Snapshot {
   };
 }
 
-export function WorkflowRunner({ spec }: { spec: FrameworkSpec }) {
+export function WorkflowRunner({
+  spec,
+  onExit,
+}: {
+  spec: FrameworkSpec;
+  onExit?: () => void;
+}) {
   const engineRef = useRef<Engine | null>(null);
   const [snap, setSnap] = useState<Snapshot | null>(null);
   const [draft, setDraft] = useState<unknown>(undefined);
@@ -118,6 +124,14 @@ export function WorkflowRunner({ spec }: { spec: FrameworkSpec }) {
       <header className="border-b border-slate-200 bg-white px-6 py-4 lg:px-10">
         <div className="mx-auto flex max-w-7xl items-start justify-between gap-4">
           <div>
+            {onExit && (
+              <button
+                onClick={onExit}
+                className="mb-1 text-xs font-medium text-slate-500 hover:text-slate-900"
+              >
+                ← Frameworks
+              </button>
+            )}
             <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
               {spec.category}
             </p>
@@ -169,6 +183,7 @@ export function WorkflowRunner({ spec }: { spec: FrameworkSpec }) {
               inputs={snap.inputs}
               onBack={handleBack}
               canGoBack={snap.canGoBack}
+              onExit={onExit}
             />
           ) : currentStep ? (
             <StepView
@@ -316,17 +331,22 @@ function DoneView({
   inputs,
   onBack,
   canGoBack,
+  onExit,
 }: {
   spec: FrameworkSpec;
   inputs: Record<string, unknown>;
   onBack: () => void;
   canGoBack: boolean;
+  onExit?: () => void;
 }) {
   return (
     <div className="mx-auto max-w-2xl">
-      <p className="text-xs font-medium uppercase tracking-wide text-emerald-600">
-        Workflow complete
-      </p>
+      <div className="flex items-center gap-2">
+        <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
+        <p className="text-xs font-medium uppercase tracking-wide text-emerald-700">
+          Workflow complete
+        </p>
+      </div>
       <h2 className="mt-1 text-2xl font-semibold text-slate-900">
         {spec.name} — artifact ready
       </h2>
@@ -337,7 +357,7 @@ function DoneView({
 
       <ArtifactExport spec={spec} inputs={inputs} />
 
-      <div className="mt-8">
+      <div className="mt-8 flex items-center justify-between gap-3">
         <button
           onClick={onBack}
           disabled={!canGoBack}
@@ -345,6 +365,14 @@ function DoneView({
         >
           ← Back to last step
         </button>
+        {onExit && (
+          <button
+            onClick={onExit}
+            className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+          >
+            Back to frameworks
+          </button>
+        )}
       </div>
     </div>
   );
