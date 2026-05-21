@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import type { FrameworkSpec, Step } from "@lib/spec";
+import type { SourcesIndex } from "@lib/sources";
 import {
   Engine,
   validateStepInput,
@@ -30,9 +31,12 @@ function snapshotOf(engine: Engine): Snapshot {
 export function WorkflowRunner({
   spec,
   onExit,
+  sourcesIndex,
 }: {
   spec: FrameworkSpec;
   onExit?: () => void;
+  /** When provided, guidance + artifact source files resolve to article links. */
+  sourcesIndex?: SourcesIndex;
 }) {
   const engineRef = useRef<Engine | null>(null);
   const [snap, setSnap] = useState<Snapshot | null>(null);
@@ -184,6 +188,7 @@ export function WorkflowRunner({
               onBack={handleBack}
               canGoBack={snap.canGoBack}
               onExit={onExit}
+              sourcesIndex={sourcesIndex}
             />
           ) : currentStep ? (
             <StepView
@@ -192,6 +197,7 @@ export function WorkflowRunner({
               onChange={setDraft}
               allInputs={snap.inputs}
               spec={spec}
+              sourcesIndex={sourcesIndex}
               error={error}
               validationError={
                 submitAttempted && !validation.ok ? validation.error : null
@@ -230,6 +236,7 @@ function StepView({
   onChange,
   allInputs,
   spec,
+  sourcesIndex,
   error,
   validationError,
   canGoBack,
@@ -244,6 +251,7 @@ function StepView({
   onChange: (v: unknown) => void;
   allInputs: Record<string, unknown>;
   spec: FrameworkSpec;
+  sourcesIndex?: SourcesIndex;
   error: string | null;
   validationError: string | null;
   canGoBack: boolean;
@@ -279,6 +287,7 @@ function StepView({
         spec={spec}
         step={step}
         inputsSoFar={allInputs}
+        sourcesIndex={sourcesIndex}
       />
 
 
@@ -332,12 +341,14 @@ function DoneView({
   onBack,
   canGoBack,
   onExit,
+  sourcesIndex,
 }: {
   spec: FrameworkSpec;
   inputs: Record<string, unknown>;
   onBack: () => void;
   canGoBack: boolean;
   onExit?: () => void;
+  sourcesIndex?: SourcesIndex;
 }) {
   return (
     <div className="mx-auto max-w-2xl">
@@ -355,7 +366,7 @@ function DoneView({
         below, or jump back to revise a step.
       </p>
 
-      <ArtifactExport spec={spec} inputs={inputs} />
+      <ArtifactExport spec={spec} inputs={inputs} sourcesIndex={sourcesIndex} />
 
       <div className="mt-8 flex items-center justify-between gap-3">
         <button

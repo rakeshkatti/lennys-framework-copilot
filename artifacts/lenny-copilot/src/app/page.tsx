@@ -1,9 +1,19 @@
-import { loadSpec } from "@lib/loadSpec";
+import { loadCatalog, loadQuestionBank } from "@lib/catalog";
+import { loadSourcesIndex } from "@lib/sources";
 import { AppShell } from "@/components/AppShell";
 
 export const dynamic = "force-dynamic";
 
 export default function Home() {
-  const spec = loadSpec("drice");
-  return <AppShell spec={spec} />;
+  const catalog = loadCatalog();
+  const questionBank = loadQuestionBank();
+  const sourcesIndex = loadSourcesIndex();
+
+  return (
+    <AppShell
+      catalog={catalog}
+      questionBank={questionBank}
+      sourcesIndex={sourcesIndex}
+    />
+  );
 }
