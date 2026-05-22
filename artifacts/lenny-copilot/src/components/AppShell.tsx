@@ -85,6 +85,14 @@ export function AppShell({
       setError(null);
       try {
         const res = await fetch(`/api/spec/${entry.id}`);
+        if (res.status === 404) {
+          // A workflow-tier framework whose interactive spec hasn't been
+          // authored yet (ships in a later plan). Degrade gracefully to the
+          // read-only guidance view instead of erroring.
+          setSelectedEntry(entry);
+          setMode("guidance");
+          return;
+        }
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const loadedSpec = (await res.json()) as FrameworkSpec;
         setSpec(loadedSpec);
