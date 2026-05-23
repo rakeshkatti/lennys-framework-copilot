@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import type { CatalogEntry, QuestionBankEntry } from "@lib/catalog";
 import type { RouteResult } from "@lib/route/router";
 import type { SourcesIndex } from "@lib/sources";
+import type { Benchmarks } from "@lib/benchmark";
 import type { FrameworkSpec } from "@lib/spec";
 import { EntryScreen } from "./EntryScreen";
 import { RoutingCard } from "./RoutingCard";
@@ -21,10 +22,12 @@ export function AppShell({
   catalog,
   questionBank,
   sourcesIndex,
+  benchmarks,
 }: {
   catalog: CatalogEntry[];
   questionBank: QuestionBankEntry[];
   sourcesIndex: SourcesIndex;
+  benchmarks: Benchmarks;
 }) {
   const [mode, setMode] = useState<Mode>("entry");
   const [routeResult, setRouteResult] = useState<RouteResult | null>(null);
@@ -114,6 +117,7 @@ export function AppShell({
       <WorkflowRunner
         spec={spec}
         sourcesIndex={sourcesIndex}
+        benchmarks={benchmarks}
         onExit={backToEntry}
       />
     );

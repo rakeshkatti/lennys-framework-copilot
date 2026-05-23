@@ -1,5 +1,5 @@
 import type { Step } from "../spec";
-import type { SML } from "./scoring";
+import type { CellValue } from "./scoring";
 
 export class InputValidationError extends Error {
   constructor(
@@ -206,7 +206,7 @@ export function validateStepInput(
         }
         requiredRows = items;
       }
-      const cleaned: Record<string, Record<string, SML>> = {};
+      const cleaned: Record<string, Record<string, CellValue>> = {};
       const rowsToCheck = requiredRows ?? Object.keys(grid);
       for (const row of rowsToCheck) {
         const rowScores = (grid as Record<string, unknown>)[row];
@@ -216,7 +216,7 @@ export function validateStepInput(
             `missing scores for row "${row}"`,
           );
         }
-        const rowOut: Record<string, SML> = {};
+        const rowOut: Record<string, CellValue> = {};
         for (const dim of dimensions) {
           const v = (rowScores as Record<string, unknown>)[dim];
           if (typeof v !== "string" || !scale.includes(v)) {
@@ -225,7 +225,7 @@ export function validateStepInput(
               `row "${row}" dimension "${dim}" must be one of ${scale.join("/")}`,
             );
           }
-          rowOut[dim] = v as SML;
+          rowOut[dim] = v;
         }
         cleaned[row] = rowOut;
       }

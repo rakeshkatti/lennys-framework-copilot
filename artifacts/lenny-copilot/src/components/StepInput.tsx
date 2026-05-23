@@ -2,7 +2,14 @@
 
 import { useEffect, useMemo } from "react";
 import type { FrameworkSpec, Step } from "@lib/spec";
-import { rankScoreGrid, ricePreselect, type SML, type RankedRow } from "@lib/engine";
+import {
+  rankScoreGrid,
+  ricePreselect,
+  sumPreselect,
+  type CellValue,
+  type RankedRow,
+  type ScoringMode,
+} from "@lib/engine";
 
 export function initialDraftFor(
   step: Step,
@@ -171,8 +178,12 @@ function MultiChoiceInput({ step, draft, allInputs, spec, onChange }: InputProps
     return explicitOptions ?? [];
   }, [optionsFrom, explicitOptions, allInputs]);
 
-  const ranking: Map<string, RankedRow> | null = useMemo(() => {
-    if (config.preselect !== "rice_top") return null;
+  const rankingInfo: {
+    map: Map<string, RankedRow>;
+    mode: ScoringMode;
+  } | null = useMemo(() => {
+    const preselect = config.preselect as string | undefined;
+    if (preselect !== "rice_top" && preselect !== "sum_top") return null;
     const currentIdx = spec.steps.findIndex((s) => s.id === step.id);
     const gridStep = spec.steps
       .slice(0, currentIdx)
@@ -180,18 +191,31 @@ function MultiChoiceInput({ step, draft, allInputs, spec, onChange }: InputProps
       .find((s) => s.input.type === "score-grid");
     if (!gridStep) return null;
     const gridInput = allInputs[gridStep.id] as
-      | { grid?: Record<string, Record<string, SML>> }
+      | { grid?: Record<string, Record<string, CellValue>> }
       | undefined;
     if (!gridInput?.grid) return null;
+    const gridConfig = gridStep.input.config as {
+      scoring?: ScoringMode;
+      dimensions?: string[];
+      scale?: string[];
+    };
+    const mode: ScoringMode = gridConfig.scoring ?? "rice";
     try {
-      const ranked = rankScoreGrid(gridInput.grid);
+      const ranked = rankScoreGrid(gridInput.grid, {
+        scoring: mode,
+        dimensions: gridConfig.dimensions,
+        scale: gridConfig.scale,
+      });
       const map = new Map<string, RankedRow>();
       ranked.forEach((r) => map.set(r.item, r));
-      return map;
+      return { map, mode };
     } catch {
       return null;
     }
   }, [config.preselect, spec.steps, step.id, allInputs]);
+
+  const ranking = rankingInfo?.map ?? null;
+  const rankingMode = rankingInfo?.mode ?? null;
 
   const selected = (draft as { selected?: string[] })?.selected ?? [];
 
@@ -199,12 +223,18 @@ function MultiChoiceInput({ step, draft, allInputs, spec, onChange }: InputProps
   useEffect(() => {
     if (selected.length > 0) return;
     if (!ranking || options.length === 0) return;
-    const multiplier = (config.preselect_multiplier as number | undefined) ?? 2;
-    const capacity = Math.max(1, Math.ceil(options.length / 5));
     const ranked = options
       .map((opt) => ranking.get(opt))
       .filter((r): r is RankedRow => Boolean(r));
-    const top = ricePreselect(ranked, multiplier, capacity);
+    let top: string[] = [];
+    if (config.preselect === "sum_top") {
+      const count = (config.preselect_count as number | undefined) ?? 3;
+      top = sumPreselect(ranked, count);
+    } else {
+      const multiplier = (config.preselect_multiplier as number | undefined) ?? 2;
+      const capacity = Math.max(1, Math.ceil(options.length / 5));
+      top = ricePreselect(ranked, multiplier, capacity);
+    }
     if (top.length > 0) {
       onChange({ selected: top });
     }
@@ -267,7 +297,9 @@ function MultiChoiceInput({ step, draft, allInputs, spec, onChange }: InputProps
             </div>
             {r && (
               <span className="text-xs tabular-nums text-slate-500">
-                RICE {r.score.toFixed(2)}
+                {rankingMode === "sum"
+                  ? `Sum ${r.score}`
+                  : `RICE ${r.score.toFixed(2)}`}
               </span>
             )}
           </label>
@@ -357,11 +389,11 @@ function ScoreGridInput({ step, draft, allInputs, onChange }: InputProps) {
   const config = step.input.config;
   const rowsFrom = config.rows_from as string;
   const dimensions = (config.dimensions as string[]) ?? [];
-  const scale = ((config.scale as string[]) ?? ["S", "M", "L"]) as SML[];
+  const scale = ((config.scale as string[]) ?? ["S", "M", "L"]) as CellValue[];
   const src = allInputs[rowsFrom] as { items?: string[] } | undefined;
   const rows = (src?.items ?? []).filter((s) => s.trim().length > 0);
-  const grid: Record<string, Record<string, SML>> =
-    ((draft as { grid?: Record<string, Record<string, SML>> })?.grid) ?? {};
+  const grid: Record<string, Record<string, CellValue>> =
+    ((draft as { grid?: Record<string, Record<string, CellValue>> })?.grid) ?? {};
 
   if (rows.length === 0) {
     return (
@@ -371,7 +403,7 @@ function ScoreGridInput({ step, draft, allInputs, onChange }: InputProps) {
     );
   }
 
-  function setCell(row: string, dim: string, value: SML) {
+  function setCell(row: string, dim: string, value: CellValue) {
     const next = {
       ...grid,
       [row]: { ...(grid[row] ?? {}), [dim]: value },

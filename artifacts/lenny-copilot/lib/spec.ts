@@ -83,8 +83,9 @@ const multiChoiceInputSchema = z
       .object({
         options: z.array(z.string()).optional(),
         options_from: z.string().optional(),
-        preselect: z.string().optional(),
+        preselect: z.enum(["rice_top", "sum_top"]).optional(),
         preselect_multiplier: z.number().optional(),
+        preselect_count: z.number().int().positive().optional(),
         score_formula: z.string().optional(),
       })
       .passthrough(),
@@ -112,6 +113,7 @@ const scoreGridInputSchema = z
         rows_from: z.string(),
         dimensions: z.array(z.string()).min(1),
         scale: z.array(z.string()).min(1),
+        scoring: z.enum(["rice", "sum"]).optional(),
       })
       .passthrough(),
   })

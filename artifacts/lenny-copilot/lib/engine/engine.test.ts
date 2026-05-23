@@ -133,6 +133,85 @@ describe("Engine — benchmark branching", () => {
   });
 });
 
+describe("Engine — Strategy Blocks (sum scoring + sum_top preselect)", () => {
+  it("walks problem-dump → cluster → score-clusters and validates the 1/2/3 grid", () => {
+    const spec = loadSpec("strategy-blocks");
+    const engine = new Engine(spec);
+    expect(engine.currentStep()?.id).toBe("problem-dump");
+
+    const problems = ["p1", "p2", "p3", "p4", "p5"];
+    engine.advance({ items: problems });
+    expect(engine.currentStep()?.id).toBe("cluster");
+
+    const clusters = ["Discovery", "Relevance", "Trust", "Onboarding"];
+    engine.advance({ items: clusters });
+    expect(engine.currentStep()?.id).toBe("score-clusters");
+
+    const grid = {
+      Discovery: {
+        "Expected impact": "3",
+        "Certainty of impact": "3",
+        "Clarity of levers": "2",
+        "Uniqueness of levers": "3",
+      },
+      Relevance: {
+        "Expected impact": "2",
+        "Certainty of impact": "2",
+        "Clarity of levers": "2",
+        "Uniqueness of levers": "2",
+      },
+      Trust: {
+        "Expected impact": "1",
+        "Certainty of impact": "1",
+        "Clarity of levers": "1",
+        "Uniqueness of levers": "1",
+      },
+      Onboarding: {
+        "Expected impact": "3",
+        "Certainty of impact": "2",
+        "Clarity of levers": "3",
+        "Uniqueness of levers": "2",
+      },
+    };
+    engine.advance({ grid });
+    expect(engine.currentStep()?.id).toBe("pillars");
+
+    const stored = engine.inputs()["score-clusters"] as { grid: typeof grid };
+    expect(stored.grid.Discovery["Expected impact"]).toBe("3");
+  });
+
+  it("rejects a grid cell value that's not in the 1/2/3 scale", () => {
+    const spec = loadSpec("strategy-blocks");
+    const engine = new Engine(spec);
+    engine.advance({ items: ["a", "b", "c", "d", "e"] });
+    engine.advance({ items: ["X", "Y", "Z"] });
+    expect(() =>
+      engine.advance({
+        grid: {
+          X: {
+            "Expected impact": "L",
+            "Certainty of impact": "2",
+            "Clarity of levers": "2",
+            "Uniqueness of levers": "2",
+          },
+          Y: {
+            "Expected impact": "1",
+            "Certainty of impact": "1",
+            "Clarity of levers": "1",
+            "Uniqueness of levers": "1",
+          },
+          Z: {
+            "Expected impact": "1",
+            "Certainty of impact": "1",
+            "Clarity of levers": "1",
+            "Uniqueness of levers": "1",
+          },
+        },
+      }),
+    ).toThrow(InputValidationError);
+  });
+});
+
 describe("Engine — branching", () => {
   it("skips drice-deepdive when winrate > 70", () => {
     const spec = loadSpec("drice");

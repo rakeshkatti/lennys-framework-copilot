@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import type { FrameworkSpec, Step } from "@lib/spec";
 import type { SourcesIndex } from "@lib/sources";
+import type { Benchmarks, Verdict } from "@lib/benchmark";
+import { computeVerdictFrom } from "@lib/benchmark";
 import {
   Engine,
   validateStepInput,
@@ -32,11 +34,15 @@ export function WorkflowRunner({
   spec,
   onExit,
   sourcesIndex,
+  benchmarks,
 }: {
   spec: FrameworkSpec;
   onExit?: () => void;
   /** When provided, guidance + artifact source files resolve to article links. */
   sourcesIndex?: SourcesIndex;
+  /** When provided, steps with a `benchmark_hook` render an inline verdict
+   *  comparing the user's draft value to the catalog band for the chosen segment. */
+  benchmarks?: Benchmarks;
 }) {
   const engineRef = useRef<Engine | null>(null);
   const [snap, setSnap] = useState<Snapshot | null>(null);
@@ -198,6 +204,7 @@ export function WorkflowRunner({
               allInputs={snap.inputs}
               spec={spec}
               sourcesIndex={sourcesIndex}
+              benchmarks={benchmarks}
               error={error}
               validationError={
                 submitAttempted && !validation.ok ? validation.error : null
@@ -237,6 +244,7 @@ function StepView({
   allInputs,
   spec,
   sourcesIndex,
+  benchmarks,
   error,
   validationError,
   canGoBack,
@@ -252,6 +260,7 @@ function StepView({
   allInputs: Record<string, unknown>;
   spec: FrameworkSpec;
   sourcesIndex?: SourcesIndex;
+  benchmarks?: Benchmarks;
   error: string | null;
   validationError: string | null;
   canGoBack: boolean;
@@ -282,6 +291,13 @@ function StepView({
           onChange={onChange}
         />
       </div>
+
+      <BenchmarkVerdict
+        step={step}
+        draft={draft}
+        allInputs={allInputs}
+        benchmarks={benchmarks}
+      />
 
       <AdaptedGuidance
         spec={spec}
@@ -331,6 +347,83 @@ function StepView({
           Next →
         </button>
       </div>
+    </div>
+  );
+}
+
+/**
+ * Resolve a dotted path like "segment.value" against the engine's collected
+ * inputs. Returns `undefined` if any segment is missing — callers MUST handle
+ * that gracefully (no verdict render).
+ */
+function resolveSegmentPath(
+  path: string,
+  allInputs: Record<string, unknown>,
+): unknown {
+  const parts = path.split(".");
+  let cur: unknown = allInputs;
+  for (const p of parts) {
+    if (cur === null || cur === undefined || typeof cur !== "object") {
+      return undefined;
+    }
+    cur = (cur as Record<string, unknown>)[p];
+  }
+  return cur;
+}
+
+function BenchmarkVerdict({
+  step,
+  draft,
+  allInputs,
+  benchmarks,
+}: {
+  step: Step;
+  draft: unknown;
+  allInputs: Record<string, unknown>;
+  benchmarks?: Benchmarks;
+}) {
+  const hook = step.benchmark_hook;
+  // Bail conditions — render nothing.
+  if (!hook || !benchmarks) return null;
+
+  const segmentRaw = resolveSegmentPath(hook.segment_from, allInputs);
+  if (typeof segmentRaw !== "string" || segmentRaw.length === 0) return null;
+
+  const valueRaw = (draft as { value?: unknown } | undefined)?.value;
+  if (typeof valueRaw !== "number" || !Number.isFinite(valueRaw)) return null;
+
+  let verdict: Verdict | null = null;
+  try {
+    verdict = computeVerdictFrom(benchmarks, hook.metric, segmentRaw, valueRaw);
+  } catch {
+    return null;
+  }
+  if (!verdict) return null;
+
+  const bandStyles: Record<Verdict["band"], string> = {
+    below: "border-rose-200 bg-rose-50 text-rose-800",
+    good: "border-slate-200 bg-slate-50 text-slate-800",
+    great: "border-emerald-200 bg-emerald-50 text-emerald-800",
+  };
+  const bandPill: Record<Verdict["band"], { label: string; cls: string }> = {
+    below: { label: "Below", cls: "bg-rose-100 text-rose-800" },
+    good: { label: "Good", cls: "bg-slate-200 text-slate-800" },
+    great: { label: "Great", cls: "bg-emerald-100 text-emerald-800" },
+  };
+  const pill = bandPill[verdict.band];
+
+  return (
+    <div
+      className={`mt-3 flex items-center gap-3 rounded-md border px-3 py-2 text-sm ${bandStyles[verdict.band]}`}
+      role="status"
+      aria-live="polite"
+    >
+      <span
+        className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${pill.cls}`}
+      >
+        {pill.label}
+      </span>
+      <span className="leading-snug">{verdict.label}</span>
     </div>
   );
 }
