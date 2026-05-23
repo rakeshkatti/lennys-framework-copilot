@@ -32,6 +32,7 @@ interface Candidate {
   name: string;
   category: string;
   decision_served: string;
+  tier: "workflow" | "guidance";
 }
 
 const TOOL: Anthropic.Tool = {
@@ -78,6 +79,7 @@ const SYSTEM_PROMPT = [
   "3. Set `confidence` honestly: high (>=0.8) only when the decision clearly maps to the framework's purpose; low (<0.6) when the candidates are only loosely related.",
   "4. `reasoning` is one or two short sentences a product manager would find useful — reference what the decision is and why the framework fits.",
   "5. Call the `select_framework` tool exactly once. Do not write any prose outside the tool call.",
+  "6. TIER PREFERENCE: each candidate has a `tier` field — `\"workflow\"` ships a full interactive step-by-step workflow with a finished cited artifact; `\"guidance\"` shows a read-only summary of the framework. When both a workflow-tier and a guidance-tier candidate are relevant to the decision, ALWAYS prefer the workflow-tier one as `framework_id` and put the guidance-tier in `alternatives`.",
 ].join("\n");
 
 /** Pick a stable, evenly-spread sample of few-shot examples from the bank. */
@@ -126,6 +128,7 @@ function toCandidates(ids: string[], catalog: CatalogEntry[]): Candidate[] {
         name: entry.name,
         category: entry.category,
         decision_served: entry.decision_served,
+        tier: entry.tier,
       });
     }
   }
@@ -231,12 +234,48 @@ export async function routeDecision(text: string): Promise<RouteResult> {
       return lexicalFallback(candidates);
     }
 
+    // Deterministic tier promotion: if the model picked a guidance-tier
+    // framework AND a workflow-tier candidate exists in the same category,
+    // swap them — the workflow ships an interactive flow with a finished
+    // artifact; guidance is the read-only counterpart. This is a backstop
+    // for the system-prompt rule 6: even if the model misses, we don't ship
+    // the lighter framework when the deeper one is available.
+    const byId = new Map(catalog.map((e) => [e.id, e]));
+    const pickedEntry = byId.get(selection.framework_id);
+    let primaryId = selection.framework_id;
+    let reasoning = selection.reasoning;
+    let demotedId: string | null = null;
+
+    if (pickedEntry?.tier === "guidance") {
+      const workflowSiblingId = candidates.find((id) => {
+        const e = byId.get(id);
+        return (
+          e &&
+          e.tier === "workflow" &&
+          e.category === pickedEntry.category &&
+          e.id !== primaryId
+        );
+      });
+      if (workflowSiblingId) {
+        demotedId = primaryId;
+        primaryId = workflowSiblingId;
+        const newPrimary = byId.get(primaryId);
+        if (newPrimary && pickedEntry) {
+          reasoning = `${newPrimary.name} is the workflow-tier framework for this decision; ${pickedEntry.name} is its read-only guidance counterpart in the same category, surfaced as an alternative.`;
+        }
+      }
+    }
+
     // Constrain alternatives to the candidate set, excluding the pick itself.
+    // If we demoted a guidance-tier pick, surface it as the top alternative.
+    const altInputs = demotedId
+      ? [demotedId, ...selection.alternatives]
+      : selection.alternatives;
     const alternatives: string[] = [];
-    for (const id of selection.alternatives) {
+    for (const id of altInputs) {
       if (
         candidateSet.has(id) &&
-        id !== selection.framework_id &&
+        id !== primaryId &&
         !alternatives.includes(id)
       ) {
         alternatives.push(id);
@@ -245,9 +284,9 @@ export async function routeDecision(text: string): Promise<RouteResult> {
     }
 
     return {
-      framework_id: selection.framework_id,
+      framework_id: primaryId,
       confidence: selection.confidence,
-      reasoning: selection.reasoning,
+      reasoning,
       alternatives,
       nearest: [],
     };
