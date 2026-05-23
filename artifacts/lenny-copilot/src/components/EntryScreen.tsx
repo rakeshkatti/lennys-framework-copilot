@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const EXAMPLE_COUNT = 5;
 
@@ -26,13 +26,18 @@ function pickRandom<T>(pool: readonly T[], count: number): T[] {
  *   user confirms with "Find my framework". Same single source of truth, no
  *   disappearing chips.
  *
- * Why `useState(() => pickRandom(...))` instead of `useMemo`:
- *   The parent `AppShell` does `questionBank.map(...)` on every render, which
- *   yields a fresh `exampleQuestions` array reference each time. A `useMemo`
- *   keyed on `[exampleQuestions]` would invalidate on every parent re-render
- *   (e.g. when `busy` flips), re-rolling the 5 examples mid-flow. A `useState`
- *   initializer runs once per mount, so the picks stay stable until the user
- *   hits Shuffle.
+ * Why examples are seeded in `useEffect` (not `useState` initializer):
+ *   `pickRandom` calls `Math.random()`, which returns different values on the
+ *   server (SSR) and the client (hydration) — React then throws a hydration
+ *   mismatch error. Seeding in `useEffect` runs only on the client after
+ *   mount, so the server renders no chips and the client populates them on
+ *   first paint. Same end-state as a `useState` initializer, no mismatch.
+ *
+ *   This also fixes the prior re-roll bug: the parent `AppShell` does
+ *   `questionBank.map(...)` on every render, yielding a fresh array
+ *   reference. The effect's empty dep array means the parent's re-renders
+ *   don't trigger another roll — examples only change when the user clicks
+ *   Shuffle.
  */
 export function EntryScreen({
   exampleQuestions,
@@ -44,9 +49,15 @@ export function EntryScreen({
   busy?: boolean;
 }) {
   const [text, setText] = useState("");
-  const [examples, setExamples] = useState<string[]>(() =>
-    pickRandom(exampleQuestions, EXAMPLE_COUNT),
-  );
+  const [examples, setExamples] = useState<string[]>([]);
+
+  // Seed once on mount — see the JSDoc above for why this isn't a `useState`
+  // initializer. Intentionally an empty dep array; the parent re-creates
+  // `exampleQuestions` every render, but we don't want that to re-roll.
+  useEffect(() => {
+    setExamples(pickRandom(exampleQuestions, EXAMPLE_COUNT));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function submit(value: string) {
     const trimmed = value.trim();
