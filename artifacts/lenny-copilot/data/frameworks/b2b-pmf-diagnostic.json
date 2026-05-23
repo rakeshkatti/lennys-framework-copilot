@@ -1,0 +1,142 @@
+{
+  "id": "b2b-pmf-diagnostic",
+  "name": "B2B Product-Market Fit Diagnostic",
+  "category": "Product-Market Fit",
+  "shape": "diagnostic-tree",
+  "source": ["newsletters/a-guide-for-finding-product-market-fit-in-b2b.md"],
+  "summary": "A self-locating diagnostic on Lenny Rachitsky's 5-step B2B PMF ladder — from one company loving your product to consistent organic growth — plus a stuck-branch that surfaces the five questions to revisit when you aren't progressing.",
+  "decision_served": "Where am I on the path to B2B product-market fit, and what should I focus on next?",
+  "spec_version": "1",
+  "steps": [
+    {
+      "id": "self-locate",
+      "title": "Where are you on the PMF ladder?",
+      "prompt": "Lenny's interviews with 20+ B2B founders surfaced a 5-step ladder to PMF. Pick the rung that best describes your current state — or pick 'stuck' if you've been pushing without progress.",
+      "input": {
+        "type": "choice",
+        "config": {
+          "options": [
+            "1: one company loves it",
+            "2: one company pays meaningfully",
+            "3: 3-10 paying customers",
+            "4: push-to-pull shift",
+            "5: consistent growth",
+            "stuck: not progressing"
+          ]
+        }
+      },
+      "guidance": {
+        "text": "I asked every founder when they first felt product-market fit, and their answers fell along a spectrum: Step 1: Get one company to love your product. Step 2: Get one company to pay (a meaningful amount of money) for your product. Step 3: Get more than one company to love and pay for your product. Step 4: Start noticing a shift from push to pull, and organic growth. Step 5: Keep growing consistently.",
+        "source_span": {
+          "file": "newsletters/a-guide-for-finding-product-market-fit-in-b2b.md",
+          "start": 11083,
+          "end": 11571
+        }
+      },
+      "examples": [
+        {
+          "company": "Figma",
+          "text": "In the case of Figma, co-founder Dylan Field became obsessed with the success of their first real user, Coda (originally called Krypton) — calling a 'red alert' over a bug in an unreleased alpha because 'There are customers depending on us.'",
+          "source_span": {
+            "file": "newsletters/a-guide-for-finding-product-market-fit-in-b2b.md",
+            "start": 11875,
+            "end": 12013
+          }
+        }
+      ],
+      "benchmark_hook": null,
+      "branching": [
+        { "if": "inputs.self-locate.value == \"stuck: not progressing\"", "next": "stuck-diagnose" },
+        { "if": "inputs.self-locate.value == \"5: consistent growth\"", "next": "artifact" }
+      ]
+    },
+    {
+      "id": "capture-counts",
+      "title": "How many paying customers, and how long?",
+      "prompt": "Sanity-check your stage against Lenny's benchmarks. Median time from idea to feeling PMF was roughly 2 years; most founders only felt real PMF once they had 3-10 paying customers.",
+      "input": {
+        "type": "number",
+        "config": {
+          "min": 0,
+          "unit": "paying customers"
+        }
+      },
+      "guidance": {
+        "text": "In B2B, it normally takes two years to start feeling product-market fit. The median time from idea to feeling product-market fit was roughly 2 years. Start to worry if you've been working on your idea for over 2 years and not feeling PMF (see below what that feels like), and start to seriously worry if it's been over 3 years.",
+        "source_span": {
+          "file": "newsletters/a-guide-for-finding-product-market-fit-in-b2b.md",
+          "start": 4458,
+          "end": 4955
+        }
+      },
+      "examples": [
+        {
+          "company": "Vanta",
+          "text": "For Vanta, getting the first five-figure verbal agreement, and then a $500k deal, convinced Christina Cacioppo that she had found PMF: 'folks overwhelmingly said they'd pay five figures for the Wizard of Oz prototype' and then she was able to 'sell the first $500k of Vanta by myself.'",
+          "source_span": {
+            "file": "newsletters/a-guide-for-finding-product-market-fit-in-b2b.md",
+            "start": 23284,
+            "end": 23800
+          }
+        },
+        {
+          "company": "Gong",
+          "text": "Gong felt like they had product-market fit when 11 out of 12 of their design partners chose to buy the product: 'We had 12 design partners. We gave them the software in January. In May, we made a decision to tell them the betas were over and that we'd start charging for it. Out of 12, 11 ended up buying.'",
+          "source_span": {
+            "file": "newsletters/a-guide-for-finding-product-market-fit-in-b2b.md",
+            "start": 27897,
+            "end": 28095
+          }
+        },
+        {
+          "company": "Notion",
+          "text": "For Notion, PMF showed up as consistent organic growth: 'the product was just growing week over week, both from a user standpoint, and also converting into revenue. Week over week, more people are signing up, more people are sticking with it.'",
+          "source_span": {
+            "file": "newsletters/a-guide-for-finding-product-market-fit-in-b2b.md",
+            "start": 39320,
+            "end": 40050
+          }
+        }
+      ],
+      "benchmark_hook": null,
+      "branching": [
+        { "if": "true", "next": "artifact" }
+      ]
+    },
+    {
+      "id": "stuck-diagnose",
+      "title": "Diagnose what's blocking you",
+      "prompt": "Lenny's 'what to do if you get stuck' branch is five questions. Check the ones you have NOT yet honestly satisfied — those become the binding constraints to attack next.",
+      "input": {
+        "type": "multi-choice",
+        "config": {
+          "options": [
+            "Problem is truly important AND underserved",
+            "Solution is Delta-4 better than the status quo",
+            "ICP is the right one (and the pain is truly painful for them)",
+            "The idea itself is the right one (no need to revisit Step 1)",
+            "The idea is truly venture-scale"
+          ],
+          "semantics": "uncheck-what-is-not-yet-true"
+        }
+      },
+      "guidance": {
+        "text": "If you're feeling stuck on your path to PMF, take 10 minutes and deeply think about these questions: 1. Is the problem you're solving truly important and underserved? 2. Is your solution Delta-4 better than the status quo? 3. Have you tried rethinking your ICP? How truly painful is the pain you're attempting to solve for them? 4. Have you tried rethinking your idea? Revisit Step 1. 5. Is your idea truly venture-scale?",
+        "source_span": {
+          "file": "newsletters/a-guide-for-finding-product-market-fit-in-b2b.md",
+          "start": 45049,
+          "end": 46151
+        }
+      },
+      "examples": [],
+      "benchmark_hook": null,
+      "branching": [
+        { "if": "true", "next": "artifact" }
+      ]
+    }
+  ],
+  "artifact": {
+    "type": "diagnosis",
+    "template": "## B2B PMF Diagnosis\n\n**Your self-located stage:** {{steps.self-locate.output}}\n\n**Reported scale:** {{steps.capture-counts.output}}\n\n### Where you are\n\nLenny's ladder: (1) one company loves it → (2) one pays meaningfully → (3) 3-10 paying customers → (4) push-to-pull shift → (5) consistent growth. Median time from idea to feeling PMF is ~2 years; most founders only felt real PMF at 3-10 paying customers.\n\n### Prescribed next action\n\n- **At Step 1 (one company loves it):** Become obsessed with that one company. Do whatever it takes to make them successful — like Figma's Dylan Field calling a red alert over a bug in an unreleased alpha. Now go convert that love into a meaningful paid contract.\n- **At Step 2 (one company pays meaningfully):** Aim for five-to-six figures per year, like Vanta's first $500k self-sold deal. Then go land 3-10 more paying customers at increasing prices.\n- **At Step 3 (3-10 paying customers):** Watch for the push-to-pull shift — inbound emails from strangers, customers asking for more features, NPS spiking. Stop selling harder and start listening for pull signals.\n- **At Step 4 (push-to-pull shift):** Lock in the growth engine. The next bar is consistent week-over-week growth without paid marketing (Notion, Datadog, Front's 20% WoW MRR goal).\n- **At Step 5 (consistent growth):** You're not done — PMF is never binary. As Shishir Mehrotra put it, 'you always have product-market fit with one group and not with the next.' Pick the next market segment and start the ladder again.\n- **If stuck:** The constraints you flagged in the diagnostic above ARE the work. {{steps.stuck-diagnose.output}}\n\n_Source: [A guide for finding product-market fit in B2B](https://www.lennysnewsletter.com/p/a-guide-for-finding-product-market-fit-in-b2b) — Lenny Rachitsky, 2023-09-12._\n"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "stalled-growth-diagnostic": {
+    "segment": {
+      "file": "podcasts/jason-cohen.md",
+      "excerpt": "So I look at it like a question. So the first question is are people leaving too much? Because if your monthly cancellation is 2% for S&B, that's good. So you could try to work on it, but since it's already good, it's still probably a good idea to work... It's probably a good ROI for you to work on it, but it's possible that you've got diminishing returns and that this isn't really the reason or it's not really reasonable for it to go. How low can it go for S&B? There's some floor and you might be near it. So the first question is is logo churn too high? And trying to set a threshold lower than what people normally want to do."
+    },
+    "logo-churn": {
+      "file": "podcasts/jason-cohen.md",
+      "excerpt": "It's actually quite simple because let's say you have this 5% per month, just let's take a number. So it's simply the amount of new customers you add divided by that cancellation rate. That is the amount. That is the limit. So let's suppose you add 100 customers a month and you have 5% cancellation. So 100 divided by 5% is 2,000. So a company like that will never have more than 2,000 customers.\n\n**Jason Cohen** (00:16:54):\nAnd by the way, as you approach that number, growth is very slow because you bring in a bunch of customers and almost the same number leave, so growth is slowing. Ah, look, we've diagnosed by growth slows automatically at all SaaS companies. So that's why this is the first thing, because it's such a hard cap limit and it means that people don't want your product. These are two reasons why it's the most important thing."
+    },
+    "pricing-positioning": {
+      "file": "podcasts/jason-cohen.md",
+      "excerpt": "So the next question I have is is the pricing correct? Which of course, pricing is a perennially interesting topic, I know. There's this funny thing, especially with newer companies, that the pricing is always too low. It's not always, but that's the common thing. Patrick Campbell, who has 4,200 data points about startups, let that sink in a little, has this great quote which goes like this: \"Your prices are way too low because you just guessed and you haven't changed them.\""
+    },
+    "net-revenue-retention": {
+      "file": "podcasts/jason-cohen.md",
+      "excerpt": "There's over a hundred SaaS public companies, and something like two of them have NRR less than 100%. That's how it goes. And those companies have horrible financials and their valuations are bad. It's not good. It's not a good thing.\n\n**Jason Cohen** (00:56:17):\nAnd in fact, the median for an IPO SaaS company, like at IPO, the median NRR is 119%. So yes, that's what it takes. You can't do this. You're limited in less. Now, your goal may or may not be to get that big, but the point being it's mandatory for growth."
+    },
+    "marketing-channels": {
+      "file": "podcasts/jason-cohen.md",
+      "excerpt": "Maybe your acquisition channels, your marketing channels are saturated. We're done. I mean, what we tend to do is flog the people doing AdWords, flog the SEO people, get more searches. It's possible that this is it. Maybe this is it in some sort of physical law. There literally isn't anything else, or maybe just this is how good we can be. This is it.\n\n**Jason Cohen** (01:07:23):\nBut there really are limits. There's different words for it. Inventory is sort of the old word, like with magazine ads. Inventory was the word, but there's just this amount. There is only so many searches in your area, and you can only appear once in the search results for a given keyword. So there is this limit of what you can get. Even if you're in the number one position for everything or other things that are not even practical, there's still a limit. And there's some kind of practical limit that's below that we don't really know, but maybe we're there or maybe we're close.\n\n**Jason Cohen** (01:07:53):\nAnd"
+    },
+    "target-market": {
+      "file": "podcasts/jason-cohen.md",
+      "excerpt": "The last question is, do you need to grow? So okay, growth is stalled. And if we assume every question before has been answered in a satisfactory way, you could ask, \"Hey, is that a problem? What do we mean by grow? What do we need to do exactly?\" Now, of course, you should know these kind of things, the goals all the time. And again, obviously the answer could be once again, all new products. These other things where this company, when we say, \"Do you need to grow?\" if we define you as this product in this market and this company, the answer might be, \"No, what we need to do is have a different product in a different market or a different thing,\" or you could change the word revenue. If you say, \"Do you need to grow revenue?\" You could change the word revenue and say, \"You know what? What we could do is maximize profit instead of revenue now. We've been maximizing revenue, but maybe we maximize profit instead.\"\n\n**Jason Cohen** (01:20:02):\nAnd so this is a company like 37Signals or really lots of bootstrap companies who have hit some sort of limit and realize, \"That's okay. The founders are getting paid millions of dollars a year in dividends and it"
+    }
+  }
+}

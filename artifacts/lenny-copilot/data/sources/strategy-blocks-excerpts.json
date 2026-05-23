@@ -1,0 +1,24 @@
+{
+  "strategy-blocks": {
+    "problem-dump": {
+      "file": "newsletters/strategy-blocks-an-operators-guide-to-product-strategy.md",
+      "excerpt": "**The first step is for the team to generate a list of problems based on the notes from day 1.** Each member of the strategy working group adds their problem statements to a shared repository (e.g. Google Sheets). Typically anywhere between 50 and 150 problem statements should be collected this way. The importance and quality of each problem is not important in this first step. Focus on generating a high volume of problem statements."
+    },
+    "cluster": {
+      "file": "newsletters/strategy-blocks-an-operators-guide-to-product-strategy.md",
+      "excerpt": "**Next, cluster related problems into broader themes, and give each theme a relatively short and pithy name.** Typically, 10 to 15 problem clusters emerge from 50 to 150 problem statements.\n\nFlip each problem cluster into an opportunity framing (e.g. difficulty finding features → discovery, unwanted content → relevance, etc.)."
+    },
+    "score-clusters": {
+      "file": "newsletters/strategy-blocks-an-operators-guide-to-product-strategy.md",
+      "excerpt": "**Next, score each opportunity area along four key dimensions:**\n\n1. **Expected impact:** Think about the number of people impacted by the problem, the frequency of impact, and the relative pain that people experience in that area.\n2. **Certainty of impact:** Establish if the need is well-proven or more speculative at this stage.\n3. **Clarity of levers:** Understand if the team has a rough sense of the levers that could be deployed to improve the situation.\n4. **Uniqueness of levers:** Assess if the levers can have a unique and differentiated experience as a result of being built by the team/company. This usually relates to unique competencies or pre-existing advantages the team/company might have (e.g. brand advantage, network advantage, skill advantage, technical advantage, process advantage—some secret sauce that has helped the company differentiate in the past that can also be applicable to these levers).\n\nIn situations where hard data isn't available, qualitative scores based on team debate are a reasonable fallback. Evidence will eventually come with execution."
+    },
+    "pillars": {
+      "file": "newsletters/strategy-blocks-an-operators-guide-to-product-strategy.md",
+      "excerpt": "Once these scores are generated across the 10 to 15 opportunity areas, a simple sum of scores and a sort based on totals helps automatically bubble up the top three opportunity areas. These become the **strategic pillars**."
+    },
+    "aspiration": {
+      "file": "newsletters/strategy-blocks-an-operators-guide-to-product-strategy.md",
+      "excerpt": "**Winning aspiration:** Once the strategic pillars and the \"how might we's\" are established, kick off day 3 with a creative exercise. Imagine a day two years into the future when the team has made significant progress on all three opportunity areas, and a journalist covers the company/team's work. Ask the team to imagine the **headline**, and express it in the form of how the team's work has made the consumers' lives better and grown the company. The working group generates multiple versions of these headlines and then blends and mashes them up into one statement that incorporates common elements from across the different versions. This ultimately becomes the **2-year winning aspiration** for the effort."
+    }
+  }
+}
