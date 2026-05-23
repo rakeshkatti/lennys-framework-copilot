@@ -118,6 +118,11 @@ export function AppShell({
         spec={spec}
         sourcesIndex={sourcesIndex}
         benchmarks={benchmarks}
+        catalog={catalog}
+        // `alternatives` is router-ranked, best first; we forward it so the
+        // runner can pick a deliberately-different challenger for triangulation.
+        // When a workflow is opened without a prior route (edge case), pass [].
+        routeAlternatives={routeResult?.alternatives ?? []}
         onExit={backToEntry}
       />
     );

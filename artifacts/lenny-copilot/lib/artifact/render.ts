@@ -236,18 +236,61 @@ export function renderSources(
   return lines.join("\n");
 }
 
-/** Full markdown export: title + resolved body + sources. When `sources` is
- *  provided, the "## Sources" block links each file to its original article;
- *  when omitted, output is byte-identical to the filename-only form. */
+/** Optional triangulation block appended to the markdown export. When absent,
+ *  the rendered output is byte-identical to the pre-triangulation form. */
+export interface TriangulationRenderBlock {
+  challengerName: string;
+  /** Optional source filename for the challenger's article — when provided
+   *  alongside a `SourceResolver`, the challenger name links to its article. */
+  challengerSourceFile?: string;
+  counterargument: string;
+  what_would_change_my_mind: string;
+}
+
+/** Render the appended Best-counterargument + What-would-change-my-mind blocks.
+ *  When `challengerSourceFile` is supplied and resolves to a `post_url` via the
+ *  `SourceResolver`, the challenger name is emitted as a markdown link to its
+ *  article; otherwise it's a plain name. */
+function renderTriangulationBlock(
+  t: TriangulationRenderBlock,
+  sources?: SourceResolver,
+): string {
+  let displayName = t.challengerName;
+  if (t.challengerSourceFile) {
+    const entry = resolveSourceEntry(t.challengerSourceFile, sources);
+    if (entry?.post_url) {
+      displayName = `[${t.challengerName}](${entry.post_url})`;
+    }
+  }
+  return [
+    "---",
+    "",
+    `## Best counterargument (via ${displayName})`,
+    "",
+    t.counterargument.trim(),
+    "",
+    "## What would change my mind",
+    "",
+    t.what_would_change_my_mind.trim(),
+  ].join("\n");
+}
+
+/** Full markdown export: title + resolved body + sources + optional
+ *  triangulation. When `sources` is provided, the "## Sources" block links
+ *  each file to its original article; when omitted, output is byte-identical
+ *  to the filename-only form. When `triangulation` is omitted, output is
+ *  byte-identical to the pre-triangulation form. */
 export function renderArtifactMarkdown(
   spec: FrameworkSpec,
   inputs: Record<string, unknown>,
   opts: RenderOptions,
   sources?: SourceResolver,
+  triangulation?: TriangulationRenderBlock,
 ): string {
   const body = resolveArtifactBody(spec, inputs, opts);
   const sourcesBlock = renderSources(spec, opts, sources);
   const parts = [body];
   if (sourcesBlock) parts.push(sourcesBlock);
+  if (triangulation) parts.push(renderTriangulationBlock(triangulation, sources));
   return parts.join("\n\n") + "\n";
 }

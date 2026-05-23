@@ -2,19 +2,26 @@
 
 import { useMemo, useState } from "react";
 import type { FrameworkSpec } from "@lib/spec";
-import { renderArtifactMarkdown } from "@lib/artifact/render";
+import {
+  renderArtifactMarkdown,
+  type TriangulationRenderBlock,
+} from "@lib/artifact/render";
 import type { SourcesIndex } from "@lib/sources";
 
 export function ArtifactExport({
   spec,
   inputs,
   sourcesIndex,
+  triangulation,
 }: {
   spec: FrameworkSpec;
   inputs: Record<string, unknown>;
   /** When provided, the exported "## Sources" block links each source file to
    *  its original article. When absent, sources render as filenames. */
   sourcesIndex?: SourcesIndex;
+  /** When provided, the markdown export appends the triangulation 3-block.
+   *  When absent, output is byte-identical to the pre-triangulation form. */
+  triangulation?: TriangulationRenderBlock;
 }) {
   const markdown = useMemo(
     () =>
@@ -27,8 +34,9 @@ export function ArtifactExport({
           ),
         },
         sourcesIndex,
+        triangulation,
       ),
-    [spec, inputs, sourcesIndex],
+    [spec, inputs, sourcesIndex, triangulation],
   );
 
   const [copied, setCopied] = useState(false);

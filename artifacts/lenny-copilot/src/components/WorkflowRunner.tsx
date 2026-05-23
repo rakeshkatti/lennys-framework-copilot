@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import type { FrameworkSpec, Step } from "@lib/spec";
+import type { CatalogEntry } from "@lib/catalog";
 import type { SourcesIndex } from "@lib/sources";
 import type { Benchmarks, Verdict } from "@lib/benchmark";
 import { computeVerdictFrom } from "@lib/benchmark";
@@ -11,6 +12,8 @@ import {
   InputValidationError,
   ARTIFACT_CURSOR,
 } from "@lib/engine";
+import { pickChallenger, type TriangulationResult } from "@lib/triangulate";
+import { renderArtifactMarkdown } from "@lib/artifact/render";
 import { StepInput, initialDraftFor } from "./StepInput";
 import { ArtifactPane } from "./ArtifactPane";
 import { AdaptedGuidance } from "./AdaptedGuidance";
@@ -35,6 +38,8 @@ export function WorkflowRunner({
   onExit,
   sourcesIndex,
   benchmarks,
+  catalog,
+  routeAlternatives,
 }: {
   spec: FrameworkSpec;
   onExit?: () => void;
@@ -43,6 +48,13 @@ export function WorkflowRunner({
   /** When provided, steps with a `benchmark_hook` render an inline verdict
    *  comparing the user's draft value to the catalog band for the chosen segment. */
   benchmarks?: Benchmarks;
+  /** Full catalog — threaded so the Done view can pick a challenger client-side
+   *  without an extra fetch. (`loadCatalog` is server-only.) Optional for
+   *  back-compat: when absent, triangulation is silently skipped. */
+  catalog?: CatalogEntry[];
+  /** Router-ranked alternative framework ids from the route that opened this
+   *  workflow. Best first. Empty when the workflow was opened without a route. */
+  routeAlternatives?: string[];
 }) {
   const engineRef = useRef<Engine | null>(null);
   const [snap, setSnap] = useState<Snapshot | null>(null);
@@ -195,6 +207,8 @@ export function WorkflowRunner({
               canGoBack={snap.canGoBack}
               onExit={onExit}
               sourcesIndex={sourcesIndex}
+              catalog={catalog}
+              routeAlternatives={routeAlternatives ?? []}
             />
           ) : currentStep ? (
             <StepView
@@ -435,6 +449,8 @@ function DoneView({
   canGoBack,
   onExit,
   sourcesIndex,
+  catalog,
+  routeAlternatives,
 }: {
   spec: FrameworkSpec;
   inputs: Record<string, unknown>;
@@ -442,7 +458,96 @@ function DoneView({
   canGoBack: boolean;
   onExit?: () => void;
   sourcesIndex?: SourcesIndex;
+  catalog?: CatalogEntry[];
+  routeAlternatives: string[];
 }) {
+  // The user's filled-in primary artifact — rendered identically to today.
+  const completedStepIds = useMemo(
+    () =>
+      new Set(Object.keys(inputs).filter((k) => inputs[k] !== undefined)),
+    [inputs],
+  );
+  const primaryArtifactMarkdown = useMemo(
+    () =>
+      renderArtifactMarkdown(
+        spec,
+        inputs,
+        { completedStepIds },
+        sourcesIndex,
+      ),
+    [spec, inputs, completedStepIds, sourcesIndex],
+  );
+
+  // Pick the challenger client-side. `loadCatalog` is server-only, so we rely
+  // on the `catalog` prop threaded from AppShell.
+  const challengerEntry = useMemo<CatalogEntry | null>(() => {
+    if (!catalog) return null;
+    const id = pickChallenger(spec.id, routeAlternatives, catalog);
+    if (!id) return null;
+    return catalog.find((e) => e.id === id) ?? null;
+  }, [catalog, spec.id, routeAlternatives]);
+
+  // Triangulation lifecycle: loading | result | error. Fires once per
+  // mount of the Done view (when entering the artifact state).
+  const [triState, setTriState] = useState<
+    | { kind: "idle" }
+    | { kind: "loading" }
+    | { kind: "result"; result: TriangulationResult }
+    | { kind: "error"; reason: string }
+  >({ kind: "idle" });
+
+  useEffect(() => {
+    if (!challengerEntry) {
+      setTriState({ kind: "idle" });
+      return;
+    }
+    let cancelled = false;
+    setTriState({ kind: "loading" });
+    (async () => {
+      try {
+        const res = await fetch("/api/triangulate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            primaryFrameworkId: spec.id,
+            challengerFrameworkId: challengerEntry.id,
+            primaryArtifactMarkdown,
+            userInputs: inputs,
+          }),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const result = (await res.json()) as TriangulationResult;
+        if (!cancelled) setTriState({ kind: "result", result });
+      } catch (e) {
+        if (!cancelled) {
+          setTriState({
+            kind: "error",
+            reason: e instanceof Error ? e.message : String(e),
+          });
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // Re-run only when the spec or challenger identity changes. inputs +
+    // markdown are stable for a completed workflow.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spec.id, challengerEntry?.id]);
+
+  // The triangulation payload threaded into ArtifactExport's markdown when
+  // available — only when the LLM call succeeded (not a fallback).
+  const exportTriangulation = useMemo(() => {
+    if (triState.kind !== "result") return undefined;
+    if (triState.result.fallback) return undefined;
+    return {
+      challengerName: triState.result.challenger_name,
+      challengerSourceFile: challengerEntry?.source?.[0],
+      counterargument: triState.result.counterargument,
+      what_would_change_my_mind: triState.result.what_would_change_my_mind,
+    };
+  }, [triState, challengerEntry]);
+
   return (
     <div className="mx-auto max-w-2xl">
       <div className="flex items-center gap-2">
@@ -452,14 +557,39 @@ function DoneView({
         </p>
       </div>
       <h2 className="mt-1 text-2xl font-semibold text-slate-900">
-        {spec.name} — artifact ready
+        {spec.name} — triangulated artifact
       </h2>
       <p className="mt-3 text-base leading-relaxed text-slate-700">
-        You&apos;ve answered every step. Copy or download the finished artifact
-        below, or jump back to revise a step.
+        Below: your recommended path, a deliberate counterargument from a
+        different framework, and what would change your mind.
       </p>
 
-      <ArtifactExport spec={spec} inputs={inputs} sourcesIndex={sourcesIndex} />
+      {/* Block 1 — Recommended path (the user's primary artifact). */}
+      <ArtifactBlock
+        label="Recommended path"
+        accent="emerald"
+        subtitle={`via ${spec.name}`}
+      >
+        <pre className="max-h-[40vh] overflow-auto whitespace-pre-wrap break-words text-xs leading-relaxed text-slate-800">
+          {primaryArtifactMarkdown}
+        </pre>
+      </ArtifactBlock>
+
+      {/* Blocks 2 + 3 — challenger counterargument + mind-changer. */}
+      <ChallengerBlocks
+        triState={triState}
+        challengerEntry={challengerEntry}
+        sourcesIndex={sourcesIndex}
+      />
+
+      {/* Full markdown export — three blocks when triangulation succeeded,
+          the original one block otherwise. */}
+      <ArtifactExport
+        spec={spec}
+        inputs={inputs}
+        sourcesIndex={sourcesIndex}
+        triangulation={exportTriangulation}
+      />
 
       <div className="mt-8 flex items-center justify-between gap-3">
         <button
@@ -479,5 +609,171 @@ function DoneView({
         )}
       </div>
     </div>
+  );
+}
+
+/** Generic labelled artifact block — used for all three Done-view sections. */
+function ArtifactBlock({
+  label,
+  subtitle,
+  accent,
+  children,
+}: {
+  label: string;
+  subtitle?: React.ReactNode;
+  accent: "emerald" | "amber" | "indigo";
+  children: React.ReactNode;
+}) {
+  const accentCls = {
+    emerald: "border-emerald-200",
+    amber: "border-amber-200",
+    indigo: "border-indigo-200",
+  }[accent];
+  const labelCls = {
+    emerald: "text-emerald-700",
+    amber: "text-amber-700",
+    indigo: "text-indigo-700",
+  }[accent];
+  return (
+    <section className={`mt-6 rounded-lg border ${accentCls} bg-white`}>
+      <div className="flex items-baseline justify-between gap-3 border-b border-slate-200 px-4 py-3">
+        <p
+          className={`text-xs font-semibold uppercase tracking-wide ${labelCls}`}
+        >
+          {label}
+        </p>
+        {subtitle && (
+          <p className="text-xs text-slate-500">{subtitle}</p>
+        )}
+      </div>
+      <div className="px-4 py-4">{children}</div>
+    </section>
+  );
+}
+
+/** Resolve a challenger source file to a clickable chip via the sources index. */
+function ChallengerSourceChip({
+  challengerEntry,
+  sourcesIndex,
+}: {
+  challengerEntry: CatalogEntry;
+  sourcesIndex?: SourcesIndex;
+}) {
+  const file = challengerEntry.source?.[0];
+  const entry = file && sourcesIndex ? sourcesIndex[file] : null;
+  if (entry?.post_url) {
+    return (
+      <a
+        href={entry.post_url}
+        target="_blank"
+        rel="noreferrer"
+        className="rounded-full border border-indigo-200 bg-indigo-50 px-2 py-0.5 text-[11px] font-medium text-indigo-700 hover:bg-indigo-100"
+      >
+        Source: {entry.title} ↗
+      </a>
+    );
+  }
+  return (
+    <span className="rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-[11px] font-medium text-slate-600">
+      {file ?? "Source"}
+    </span>
+  );
+}
+
+/** The challenger half of the triangulated artifact — blocks 2 + 3. Handles
+ *  loading, success, and graceful failure (LLM error or transport error). */
+function ChallengerBlocks({
+  triState,
+  challengerEntry,
+  sourcesIndex,
+}: {
+  triState:
+    | { kind: "idle" }
+    | { kind: "loading" }
+    | { kind: "result"; result: TriangulationResult }
+    | { kind: "error"; reason: string };
+  challengerEntry: CatalogEntry | null;
+  sourcesIndex?: SourcesIndex;
+}) {
+  // No catalog / no contrasting framework at all — show a quiet note in
+  // place of the challenger half and move on. Should be essentially never.
+  if (!challengerEntry) {
+    return (
+      <ArtifactBlock label="Best counterargument" accent="amber">
+        <p className="text-sm text-slate-600">
+          No contrasting framework available to challenge this decision.
+        </p>
+      </ArtifactBlock>
+    );
+  }
+
+  const challengerSubtitle = (
+    <span className="flex items-center gap-2">
+      <span>via {challengerEntry.name}</span>
+      <ChallengerSourceChip
+        challengerEntry={challengerEntry}
+        sourcesIndex={sourcesIndex}
+      />
+    </span>
+  );
+
+  if (triState.kind === "loading" || triState.kind === "idle") {
+    return (
+      <>
+        <ArtifactBlock
+          label="Best counterargument"
+          accent="amber"
+          subtitle={challengerSubtitle}
+        >
+          <p className="flex items-center gap-2 text-sm text-slate-600">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-amber-500" />
+            Running the challenger…
+          </p>
+        </ArtifactBlock>
+        <ArtifactBlock label="What would change my mind" accent="indigo">
+          <p className="text-sm text-slate-500">Pending the challenger.</p>
+        </ArtifactBlock>
+      </>
+    );
+  }
+
+  if (triState.kind === "error" || triState.result.fallback) {
+    const reason =
+      triState.kind === "error"
+        ? triState.reason
+        : (triState.result.reason ?? "the challenger model didn't respond");
+    return (
+      <ArtifactBlock
+        label="Best counterargument"
+        accent="amber"
+        subtitle={challengerSubtitle}
+      >
+        <p className="text-sm text-slate-600">
+          Couldn&apos;t load the challenger ({reason}). The recommended path
+          above is unchanged — try refreshing to retry.
+        </p>
+      </ArtifactBlock>
+    );
+  }
+
+  // Happy path: render blocks 2 + 3.
+  const { counterargument, what_would_change_my_mind } = triState.result;
+  return (
+    <>
+      <ArtifactBlock
+        label="Best counterargument"
+        accent="amber"
+        subtitle={challengerSubtitle}
+      >
+        <div className="whitespace-pre-wrap break-words text-sm leading-relaxed text-slate-800">
+          {counterargument}
+        </div>
+      </ArtifactBlock>
+      <ArtifactBlock label="What would change my mind" accent="indigo">
+        <div className="whitespace-pre-wrap break-words text-sm leading-relaxed text-slate-800">
+          {what_would_change_my_mind}
+        </div>
+      </ArtifactBlock>
+    </>
   );
 }
