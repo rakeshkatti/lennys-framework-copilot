@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Link from "next/link";
+import { useState } from "react";
 
 const EXAMPLE_COUNT = 5;
 
@@ -15,6 +16,24 @@ function pickRandom<T>(pool: readonly T[], count: number): T[] {
   return copy.slice(0, n);
 }
 
+/**
+ * Entry screen: free-text decision + 5 example chips + recycle button.
+ *
+ * Why chips set text instead of submitting:
+ *   Clicking an example used to call `onSubmit` directly, which flipped `busy`
+ *   in the parent and re-rendered the chip strip — so the user lost sight of
+ *   what they'd just picked. Now a chip click only populates the textarea; the
+ *   user confirms with "Find my framework". Same single source of truth, no
+ *   disappearing chips.
+ *
+ * Why `useState(() => pickRandom(...))` instead of `useMemo`:
+ *   The parent `AppShell` does `questionBank.map(...)` on every render, which
+ *   yields a fresh `exampleQuestions` array reference each time. A `useMemo`
+ *   keyed on `[exampleQuestions]` would invalidate on every parent re-render
+ *   (e.g. when `busy` flips), re-rolling the 5 examples mid-flow. A `useState`
+ *   initializer runs once per mount, so the picks stay stable until the user
+ *   hits Shuffle.
+ */
 export function EntryScreen({
   exampleQuestions,
   onSubmit,
@@ -25,11 +44,8 @@ export function EntryScreen({
   busy?: boolean;
 }) {
   const [text, setText] = useState("");
-
-  // Seed the random sample once per mount so the chips stay stable while typing.
-  const examples = useMemo(
-    () => pickRandom(exampleQuestions, EXAMPLE_COUNT),
-    [exampleQuestions],
+  const [examples, setExamples] = useState<string[]>(() =>
+    pickRandom(exampleQuestions, EXAMPLE_COUNT),
   );
 
   function submit(value: string) {
@@ -38,14 +54,27 @@ export function EntryScreen({
     onSubmit(trimmed);
   }
 
+  function reroll() {
+    setExamples(pickRandom(exampleQuestions, EXAMPLE_COUNT));
+  }
+
   const canSubmit = text.trim().length > 0 && !busy;
 
   return (
     <main className="flex min-h-screen flex-col bg-slate-50">
       <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-6 py-16 lg:px-10">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-          Lenny&apos;s Framework Copilot
-        </p>
+        <div className="flex items-center justify-between">
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+            Lenny&apos;s Framework Copilot
+          </p>
+          <Link
+            href="/frameworks"
+            className="text-xs font-medium text-slate-500 underline-offset-2 hover:text-slate-700 hover:underline"
+          >
+            Browse all 121 frameworks →
+          </Link>
+        </div>
+
         <h1 className="mt-2 text-4xl font-semibold leading-tight text-slate-900 lg:text-5xl">
           What are you trying to figure out?
         </h1>
@@ -94,22 +123,37 @@ export function EntryScreen({
 
         {examples.length > 0 && (
           <div className="mt-10">
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-              Or start from an example
-            </p>
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                Or start from an example
+              </p>
+              <button
+                type="button"
+                onClick={reroll}
+                disabled={busy}
+                title="Show 5 different example questions"
+                aria-label="Show 5 different example questions"
+                className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-500 shadow-sm hover:border-slate-400 hover:text-slate-700 hover:shadow focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <span aria-hidden="true">↻</span> Shuffle
+              </button>
+            </div>
             <div className="mt-3 flex flex-wrap gap-2">
               {examples.map((q) => (
                 <button
                   key={q}
                   type="button"
                   disabled={busy}
-                  onClick={() => submit(q)}
+                  onClick={() => setText(q)}
                   className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-left text-xs text-slate-700 shadow-sm transition hover:border-slate-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {q}
                 </button>
               ))}
             </div>
+            <p className="mt-2 text-[11px] text-slate-400">
+              Clicking a chip drops the question into the box — edit it, then hit Find.
+            </p>
           </div>
         )}
       </div>

@@ -58,5 +58,18 @@ export function loadSourcesIndex(): SourcesIndex {
 
 export function resolveSource(file: string): SourceEntry | null {
   const index = loadSourcesIndex();
-  return index[file] ?? null;
+  const entry = index[file];
+  if (!entry) return null;
+  // The `post_url` in sources-index.json comes from the corpus's index.json,
+  // which uses full filename-based slugs. Lenny's Substack truncates post
+  // slugs at ~50 chars, so the direct URL frequently 404s. Return a Google
+  // site-search URL using the post title — it lands on the real post
+  // reliably (Substack has no public search endpoint).
+  const query = encodeURIComponent(
+    `site:lennysnewsletter.com "${entry.title}"`,
+  );
+  return {
+    title: entry.title,
+    post_url: `https://www.google.com/search?q=${query}`,
+  };
 }

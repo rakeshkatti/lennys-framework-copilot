@@ -5,6 +5,7 @@ import type { CatalogEntry, QuestionBankEntry } from "@lib/catalog";
 import type { RouteResult } from "@lib/route/router";
 import type { SourcesIndex } from "@lib/sources";
 import type { Benchmarks } from "@lib/benchmark";
+import { clearSnapshot } from "@lib/engine";
 import type { FrameworkSpec } from "@lib/spec";
 import { EntryScreen } from "./EntryScreen";
 import { RoutingCard } from "./RoutingCard";
@@ -84,6 +85,12 @@ export function AppShell({
       }
 
       // workflow tier: load the golden framework's spec.
+      // Wipe any saved snapshot first so Start always begins a fresh run.
+      // Otherwise Engine.load() auto-resumes from localStorage and the user
+      // lands back on a previously-completed artifact instead of step 1.
+      if (typeof window !== "undefined") {
+        clearSnapshot(window.localStorage, entry.id);
+      }
       setBusy(true);
       setError(null);
       try {
