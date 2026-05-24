@@ -170,29 +170,20 @@ export function EntryScreen({
               </button>
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
-              {examples.map((q, i) => {
-                const isPinnedGolden = i === 0;
-                return (
-                  <button
-                    key={q}
-                    type="button"
-                    disabled={busy}
-                    onClick={() => setText(q)}
-                    className={
-                      isPinnedGolden
-                        ? "rounded-chip border border-brand-accent bg-white px-3 py-1.5 text-left text-xs text-ink-strong shadow-sm ring-1 ring-brand-accent transition hover:bg-peach-deep/30 hover:shadow focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                        : "rounded-chip border border-border-warm bg-white px-3 py-1.5 text-left text-xs text-ink-body shadow-sm transition hover:border-ink-subtle hover:text-ink-strong hover:shadow focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                    }
-                  >
-                    {q}
-                  </button>
-                );
-              })}
+              {examples.map((q) => (
+                <button
+                  key={q}
+                  type="button"
+                  disabled={busy}
+                  onClick={() => setText(q)}
+                  className="rounded-chip border border-border-warm bg-white px-3 py-1.5 text-left text-xs text-ink-body shadow-sm transition hover:border-ink-subtle hover:text-ink-strong hover:shadow focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {q}
+                </button>
+              ))}
             </div>
             <p className="mt-2 text-[11px] text-ink-subtle">
-              Click a chip to drop it in the box — edit, then hit Find. The
-              first chip (orange ring) is always a deep, hand-authored
-              workflow.
+              Click a chip to drop it in the box — edit, then hit Find.
             </p>
           </div>
         )}
