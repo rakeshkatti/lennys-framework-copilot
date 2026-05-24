@@ -18,6 +18,7 @@ const step = spec.steps.find((s) => s.id === "collect-ideas")!;
 const excerpt =
   "As a rule of thumb, you'll want to have at least 5x as many ideas as you could reasonably build in the next time period (typically a quarter) before starting to prioritize.";
 const excerptFile = "newsletters/introducing-drice.md";
+const TEST_CONTEXT = { frameworkName: "Test Framework", frameworkSummary: "A test." };
 
 function toolReply(sentences: Array<{ text: string; quote: string }>) {
   return {
@@ -58,7 +59,7 @@ describe("adaptStepGuidance — adversarial citation filtering", () => {
       ]),
     );
 
-    const result = await adaptStepGuidance(step, excerpt, excerptFile, {});
+    const result = await adaptStepGuidance(step, excerpt, excerptFile, {}, TEST_CONTEXT);
     expect(result.fallback).toBe(true);
     expect(result.sentences).toHaveLength(1);
     expect(result.sentences[0].text).toBe(step.guidance.text);
@@ -75,7 +76,7 @@ describe("adaptStepGuidance — adversarial citation filtering", () => {
       ]),
     );
 
-    const result = await adaptStepGuidance(step, excerpt, excerptFile, {});
+    const result = await adaptStepGuidance(step, excerpt, excerptFile, {}, TEST_CONTEXT);
     expect(result.fallback).toBe(true);
   });
 
@@ -91,7 +92,7 @@ describe("adaptStepGuidance — adversarial citation filtering", () => {
       ]),
     );
 
-    const result = await adaptStepGuidance(step, excerpt, excerptFile, {});
+    const result = await adaptStepGuidance(step, excerpt, excerptFile, {}, TEST_CONTEXT);
     expect(result.fallback).toBe(false);
     expect(result.sentences).toHaveLength(1);
     expect(createMock).toHaveBeenCalledTimes(2);
@@ -99,7 +100,7 @@ describe("adaptStepGuidance — adversarial citation filtering", () => {
 
   it("falls back to verbatim guidance if both attempts error", async () => {
     createMock.mockRejectedValue(new Error("API down"));
-    const result = await adaptStepGuidance(step, excerpt, excerptFile, {});
+    const result = await adaptStepGuidance(step, excerpt, excerptFile, {}, TEST_CONTEXT);
     expect(result.fallback).toBe(true);
     expect(result.sentences[0].text).toBe(step.guidance.text);
     expect(createMock).toHaveBeenCalledTimes(2);
@@ -115,7 +116,7 @@ describe("adaptStepGuidance — adversarial citation filtering", () => {
         },
       ]),
     );
-    const result = await adaptStepGuidance(step, excerpt, excerptFile, {});
+    const result = await adaptStepGuidance(step, excerpt, excerptFile, {}, TEST_CONTEXT);
     expect(result.fallback).toBe(false);
     expect(result.sentences).toHaveLength(1);
   });

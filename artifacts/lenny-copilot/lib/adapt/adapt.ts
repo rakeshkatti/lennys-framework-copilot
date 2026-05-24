@@ -20,11 +20,18 @@ export interface AdaptResult {
   reason?: string;
 }
 
-function buildSystemPrompt(excerpt: string): string {
+function buildSystemPrompt(
+  excerpt: string,
+  frameworkName: string,
+  frameworkSummary: string,
+): string {
   return [
     "You are adapting fixed product-management guidance to a user's specific situation.",
     "",
-    "EXCERPT (the only allowed source of advice):",
+    `FRAMEWORK: ${frameworkName}`,
+    `WHAT THIS FRAMEWORK IS: ${frameworkSummary}`,
+    "",
+    "EXCERPT (the only allowed source of advice — quote only from this):",
     "---",
     excerpt,
     "---",
@@ -36,7 +43,8 @@ function buildSystemPrompt(excerpt: string): string {
       MIN_QUOTE_CHARS +
       " characters, copied character-for-character from the excerpt — not paraphrased) that supports the sentence.",
     "4. Output 2 to 4 sentences total. Keep them concise and directly actionable for the user.",
-    "5. Call the submit_adapted_guidance tool exactly once. Do not write any prose outside the tool call.",
+    "5. When the EXCERPT is long, focus on the part most relevant to the STEP described in the user message; ignore unrelated sections.",
+    "6. Call the submit_adapted_guidance tool exactly once. Do not write any prose outside the tool call.",
   ].join("\n");
 }
 
@@ -46,13 +54,13 @@ function buildUserPrompt(
 ): string {
   const inputsJson = JSON.stringify(inputsSoFar, null, 2);
   return [
-    `STEP: ${step.title}`,
+    `STEP TITLE: ${step.title}`,
     `STEP PROMPT TO USER: ${step.prompt}`,
     "",
     "USER INPUTS SO FAR (JSON):",
     inputsJson,
     "",
-    "Adapt the excerpt's guidance to this user's specific situation. Substitute their concrete ideas/numbers where natural. Do not invent.",
+    `Apply the EXCERPT's advice on "${step.title}" to this user's specific situation. Substitute their concrete ideas/numbers where natural. Do not invent.`,
   ].join("\n");
 }
 
@@ -90,11 +98,14 @@ async function callClaudeOnce(
   step: Step,
   excerpt: string,
   inputsSoFar: Record<string, unknown>,
+  context: { frameworkName: string; frameworkSummary: string },
 ): Promise<AdaptedSentence[] | null> {
   const message = await callClaude({
     kind: "step",
-    // The citation rules + excerpt are static per step — cache them.
-    system: buildSystemPrompt(excerpt),
+    // The citation rules + excerpt + framework context are static per
+    // framework (not per step) — caching them amortizes the long-markdown
+    // cost across all steps of a synthesized workflow.
+    system: buildSystemPrompt(excerpt, context.frameworkName, context.frameworkSummary),
     cacheableSystem: true,
     tools: [TOOL],
     toolChoice: { type: "tool", name: TOOL.name },
@@ -145,11 +156,12 @@ export async function adaptStepGuidance(
   excerpt: string,
   excerptFile: string,
   inputsSoFar: Record<string, unknown>,
+  context: { frameworkName: string; frameworkSummary: string },
 ): Promise<AdaptResult> {
   let lastError: unknown = null;
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
-      const raw = await callClaudeOnce(step, excerpt, inputsSoFar);
+      const raw = await callClaudeOnce(step, excerpt, inputsSoFar, context);
       if (!raw || raw.length === 0) {
         lastError = new Error("no sentences returned");
         continue;
