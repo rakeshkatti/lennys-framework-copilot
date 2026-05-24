@@ -9,15 +9,14 @@ import { clearSnapshot } from "@lib/engine";
 import type { FrameworkSpec } from "@lib/spec";
 import { EntryScreen } from "./EntryScreen";
 import { RoutingCard } from "./RoutingCard";
-import { GuidanceView } from "./GuidanceView";
 import { WorkflowRunner } from "./WorkflowRunner";
 
-type Mode = "entry" | "routing" | "workflow" | "guidance";
+type Mode = "entry" | "routing" | "workflow";
 
 /**
  * Top-level client mode machine. Drives the flow:
  *   entry → POST /api/route → routing → pick a framework →
- *   workflow (GET /api/spec/[id] + WorkflowRunner) or guidance (GuidanceView).
+ *   workflow (GET /api/spec/[id] + WorkflowRunner).
  */
 export function AppShell({
   catalog,
@@ -32,7 +31,6 @@ export function AppShell({
 }) {
   const [mode, setMode] = useState<Mode>("entry");
   const [routeResult, setRouteResult] = useState<RouteResult | null>(null);
-  const [selectedEntry, setSelectedEntry] = useState<CatalogEntry | null>(null);
   const [spec, setSpec] = useState<FrameworkSpec | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +40,6 @@ export function AppShell({
   const backToEntry = useCallback(() => {
     setMode("entry");
     setRouteResult(null);
-    setSelectedEntry(null);
     setSpec(null);
     setBusy(false);
     setError(null);
@@ -78,13 +75,9 @@ export function AppShell({
         return;
       }
 
-      if (entry.tier === "guidance") {
-        setSelectedEntry(entry);
-        setMode("guidance");
-        return;
-      }
-
-      // workflow tier: load the golden framework's spec.
+      // Every framework — golden workflow or synthesized from a guidance-tier
+      // catalog entry — loads through /api/spec/[id] and runs in WorkflowRunner.
+      // loadSpec falls back to synthesizeSpec for non-golden ids.
       // Wipe any saved snapshot first so Start always begins a fresh run.
       // Otherwise Engine.load() auto-resumes from localStorage and the user
       // lands back on a previously-completed artifact instead of step 1.
@@ -96,17 +89,17 @@ export function AppShell({
       try {
         const res = await fetch(`/api/spec/${entry.id}`);
         if (res.status === 404) {
-          // A workflow-tier framework whose interactive spec hasn't been
-          // authored yet (ships in a later plan). Degrade gracefully to the
-          // read-only guidance view instead of erroring.
-          setSelectedEntry(entry);
-          setMode("guidance");
+          // After Plan 4 this should never happen — loadSpec synthesizes
+          // from the catalog for any non-golden id. Surface as an error
+          // rather than silently falling back to a dead-end view.
+          setError(
+            `We couldn't load "${entry.name}". The catalog and spec are out of sync.`,
+          );
           return;
         }
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const loadedSpec = (await res.json()) as FrameworkSpec;
         setSpec(loadedSpec);
-        setSelectedEntry(entry);
         setMode("workflow");
       } catch {
         setError(
@@ -131,16 +124,6 @@ export function AppShell({
         // When a workflow is opened without a prior route (edge case), pass [].
         routeAlternatives={routeResult?.alternatives ?? []}
         onExit={backToEntry}
-      />
-    );
-  }
-
-  if (mode === "guidance" && selectedEntry) {
-    return (
-      <GuidanceView
-        entry={selectedEntry}
-        sourcesIndex={sourcesIndex}
-        onReset={backToEntry}
       />
     );
   }
