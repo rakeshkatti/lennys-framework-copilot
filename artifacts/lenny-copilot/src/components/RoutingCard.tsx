@@ -7,7 +7,6 @@ import type { SourceEntry, SourcesIndex } from "@lib/sources";
 
 const CONFIDENCE_FLOOR = 0.6;
 
-/** Resolve a framework id to its catalog entry via a prebuilt lookup map. */
 function entryFor(
   id: string,
   byId: Map<string, CatalogEntry>,
@@ -15,7 +14,6 @@ function entryFor(
   return byId.get(id) ?? null;
 }
 
-/** Resolve the source chip for a framework: its first source file → SourceEntry. */
 function sourceFor(
   entry: CatalogEntry | null,
   sourcesIndex: SourcesIndex,
@@ -26,30 +24,27 @@ function sourceFor(
 }
 
 /**
- * Source chip. When `post_url` is set, renders a link to the original article;
- * when `null` (most podcast sources), renders the title as plain text so we
- * never produce a broken or empty link.
+ * Source-piece chip. Links to a working URL via `loadSourcesIndex` which
+ * rewrites every `post_url` to a Google site-search URL (Lenny's Substack
+ * truncates filename slugs and the direct URLs 404).
  */
 function SourceChip({ source }: { source: SourceEntry | null }) {
   if (!source) return null;
-
   const base =
-    "inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600";
-
+    "inline-flex items-center gap-1 rounded-chip border border-border-warm bg-white px-3 py-1 text-xs text-ink-body";
   if (source.post_url) {
     return (
       <a
         href={source.post_url}
         target="_blank"
         rel="noopener noreferrer"
-        className={`${base} transition hover:border-slate-400 hover:text-slate-900`}
+        className={`${base} transition hover:border-ink-subtle hover:text-ink-strong`}
       >
         <span aria-hidden>↗</span>
         {source.title}
       </a>
     );
   }
-
   return (
     <span className={base}>
       <span aria-hidden>◆</span>
@@ -58,51 +53,196 @@ function SourceChip({ source }: { source: SourceEntry | null }) {
   );
 }
 
-/** A selectable framework option with a Start action. Used in normal + low-confidence states. */
-function FrameworkChoice({
+/**
+ * Primary picked framework — editorial card. Used when confidence >= floor.
+ * Uses the `card-hero` radius + soft-lg shadow per DESIGN.md.
+ */
+function PrimaryPick({
   entry,
   source,
+  reasoning,
   onStart,
-  emphasis,
 }: {
   entry: CatalogEntry;
   source: SourceEntry | null;
+  reasoning: string;
   onStart: () => void;
-  emphasis: boolean;
 }) {
   return (
-    <div
-      className={`rounded-2xl border p-5 ${
-        emphasis
-          ? "border-slate-300 bg-white shadow-sm"
-          : "border-slate-200 bg-slate-50"
-      }`}
-    >
-      <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0 flex-1">
-          <p className="text-xs font-medium uppercase tracking-wide text-emerald-700">
-            {entry.category}
-          </p>
-          <p className="mt-1 text-lg font-semibold text-slate-900">
-            {entry.name}
-          </p>
-          <p className="mt-2 text-sm leading-relaxed text-slate-600">
-            {entry.summary}
-          </p>
+    <article className="rounded-card-hero border border-border-warm bg-white p-8 shadow-soft-lg lg:p-10">
+      <p className="text-xs font-semibold uppercase tracking-wide text-brand">
+        {entry.category}
+      </p>
+      <h2 className="mt-2 text-2xl font-semibold leading-tight text-ink-strong sm:text-3xl">
+        {entry.name}
+      </h2>
+      <p className="mt-3 text-sm leading-relaxed text-ink-body">
+        This fits because {reasoning.charAt(0).toLowerCase() + reasoning.slice(1)}
+      </p>
+      {source && (
+        <div className="mt-4">
+          <SourceChip source={source} />
         </div>
+      )}
+      <div className="mt-6 flex justify-end">
         <button
           onClick={onStart}
-          className="mt-1 shrink-0 rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800"
+          className="rounded-chip bg-brand px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-hover focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
         >
           Start →
         </button>
       </div>
-      {source && (
-        <div className="mt-3">
-          <SourceChip source={source} />
+    </article>
+  );
+}
+
+/**
+ * Alternatives chip strip. Each chip is clickable; selecting an alternative
+ * fires `onStart(id)` directly (no extra confirmation — user has already
+ * committed to a framework by clicking).
+ */
+function AlternativesStrip({
+  ids,
+  byId,
+  onStart,
+}: {
+  ids: string[];
+  byId: Map<string, CatalogEntry>;
+  onStart: (id: string) => void;
+}) {
+  if (ids.length === 0) return null;
+  const entries = ids.map((id) => byId.get(id)).filter(Boolean) as CatalogEntry[];
+  if (entries.length === 0) return null;
+  return (
+    <div className="mt-6 flex flex-wrap items-center gap-2">
+      <span className="text-xs font-medium uppercase tracking-wide text-ink-muted">
+        Also considered:
+      </span>
+      {entries.map((e) => (
+        <button
+          key={e.id}
+          type="button"
+          onClick={() => onStart(e.id)}
+          className="rounded-chip border border-border-warm bg-white px-3 py-1 text-xs font-medium text-ink-body shadow-sm transition hover:border-ink-subtle hover:text-ink-strong hover:shadow"
+        >
+          {e.name}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Low-confidence state — show top 2-3 candidates as equal choices.
+ * Each rendered with the same editorial card treatment but smaller.
+ */
+function LowConfidence({
+  candidates,
+  sourcesIndex,
+  onStart,
+}: {
+  candidates: CatalogEntry[];
+  sourcesIndex: SourcesIndex;
+  onStart: (id: string) => void;
+}) {
+  return (
+    <div className="space-y-4">
+      <div className="rounded-card border border-border-warm bg-white/60 p-4 text-sm text-ink-body">
+        <p className="font-medium text-ink-strong">
+          A few frameworks could fit this — pick one to start.
+        </p>
+        <p className="mt-1 text-xs text-ink-muted">
+          We weren&apos;t fully confident about a single match. These are the
+          closest candidates in the catalog.
+        </p>
+      </div>
+      {candidates.map((entry) => (
+        <article
+          key={entry.id}
+          className="rounded-card border border-border-warm bg-white p-5 shadow-soft"
+        >
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold uppercase tracking-wide text-brand">
+                {entry.category}
+              </p>
+              <h3 className="mt-1 text-base font-semibold text-ink-strong">
+                {entry.name}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink-body">
+                {entry.summary}
+              </p>
+            </div>
+            <button
+              onClick={() => onStart(entry.id)}
+              className="mt-1 shrink-0 rounded-chip bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover"
+            >
+              Start →
+            </button>
+          </div>
+          {sourceFor(entry, sourcesIndex) && (
+            <div className="mt-3">
+              <SourceChip source={sourceFor(entry, sourcesIndex)} />
+            </div>
+          )}
+        </article>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Cold-start (no framework match). Shows nearest related reading and a
+ * friendly nudge.
+ */
+function ColdStart({
+  nearest,
+  sourcesIndex,
+  byId,
+  onReset,
+}: {
+  nearest: string[];
+  sourcesIndex: SourcesIndex;
+  byId: Map<string, CatalogEntry>;
+  onReset: () => void;
+}) {
+  const entries = nearest
+    .map((id) => byId.get(id))
+    .filter(Boolean) as CatalogEntry[];
+  return (
+    <article className="rounded-card-hero border border-border-warm bg-white p-8 shadow-soft-lg lg:p-10">
+      <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+        Hmm
+      </p>
+      <h2 className="mt-2 text-2xl font-semibold leading-tight text-ink-strong">
+        No clean framework match for that decision.
+      </h2>
+      <p className="mt-3 text-sm leading-relaxed text-ink-body">
+        Try describing the decision in a bit more detail — what role you&apos;re
+        in, what you&apos;ve already tried, and what success looks like — and
+        we&apos;ll route it again.
+      </p>
+      {entries.length > 0 && (
+        <div className="mt-6">
+          <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+            Closest related reading
+          </p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {entries.map((e) => (
+              <SourceChip key={e.id} source={sourceFor(e, sourcesIndex)} />
+            ))}
+          </div>
         </div>
       )}
-    </div>
+      <div className="mt-6 flex justify-end">
+        <button
+          onClick={onReset}
+          className="rounded-chip border border-border-warm bg-white px-5 py-2.5 text-sm font-medium text-ink-body shadow-sm transition hover:border-ink-subtle hover:text-ink-strong"
+        >
+          ← Try a different decision
+        </button>
+      </div>
+    </article>
   );
 }
 
@@ -124,224 +264,49 @@ export function RoutingCard({
     [catalog],
   );
 
-  const picked = result.framework_id
-    ? entryFor(result.framework_id, byId)
-    : null;
-
-  // Alternatives that resolve to a real catalog entry.
-  const alternatives = useMemo(
-    () =>
-      result.alternatives
-        .map((id) => entryFor(id, byId))
-        .filter((e): e is CatalogEntry => e !== null),
-    [result.alternatives, byId],
-  );
-
-  // Nearest reading suggestions for the cold-start state.
-  const nearest = useMemo(
-    () =>
-      result.nearest
-        .map((id) => entryFor(id, byId))
-        .filter((e): e is CatalogEntry => e !== null),
-    [result.nearest, byId],
-  );
-
-  const isColdStart = result.framework_id === null || picked === null;
-  const isLowConfidence =
-    !isColdStart && result.confidence < CONFIDENCE_FLOOR;
-
   return (
-    <main className="flex min-h-screen flex-col bg-slate-50">
-      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-6 py-16 lg:px-10">
+    <main className="flex min-h-screen flex-col bg-gradient-to-b from-cream to-peach">
+      <div className="mx-auto w-full max-w-3xl px-6 py-12 lg:px-8 lg:py-16">
         <button
           onClick={onReset}
-          className="mb-4 self-start text-xs font-medium text-slate-500 hover:text-slate-900"
+          className="text-xs font-medium text-ink-muted underline-offset-2 transition hover:text-ink-strong hover:underline"
         >
-          ← Start over
+          ← Back to the entry
         </button>
 
-        {isColdStart ? (
-          <ColdStart nearest={nearest} sourcesIndex={sourcesIndex} />
-        ) : isLowConfidence ? (
-          <LowConfidence
-            picked={picked}
-            alternatives={alternatives}
-            sourcesIndex={sourcesIndex}
-            onStart={onStart}
-          />
-        ) : (
-          <Normal
-            picked={picked}
-            result={result}
-            alternatives={alternatives}
-            sourcesIndex={sourcesIndex}
-            onStart={onStart}
-          />
-        )}
+        <div className="mt-4">
+          {result.framework_id === null ? (
+            <ColdStart
+              nearest={result.nearest}
+              sourcesIndex={sourcesIndex}
+              byId={byId}
+              onReset={onReset}
+            />
+          ) : result.confidence < CONFIDENCE_FLOOR ? (
+            <LowConfidence
+              candidates={[result.framework_id, ...result.alternatives]
+                .map((id) => entryFor(id, byId))
+                .filter(Boolean) as CatalogEntry[]}
+              sourcesIndex={sourcesIndex}
+              onStart={onStart}
+            />
+          ) : (
+            <>
+              <PrimaryPick
+                entry={entryFor(result.framework_id, byId)!}
+                source={sourceFor(entryFor(result.framework_id, byId), sourcesIndex)}
+                reasoning={result.reasoning}
+                onStart={() => onStart(result.framework_id!)}
+              />
+              <AlternativesStrip
+                ids={result.alternatives}
+                byId={byId}
+                onStart={onStart}
+              />
+            </>
+          )}
+        </div>
       </div>
     </main>
-  );
-}
-
-/** Normal state: one confident pick, alternatives shown as an "also considered" line. */
-function Normal({
-  picked,
-  result,
-  alternatives,
-  sourcesIndex,
-  onStart,
-}: {
-  picked: CatalogEntry;
-  result: RouteResult;
-  alternatives: CatalogEntry[];
-  sourcesIndex: SourcesIndex;
-  onStart: (frameworkId: string) => void;
-}) {
-  return (
-    <div>
-      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-        Recommended framework
-      </p>
-      <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <p className="text-xs font-medium uppercase tracking-wide text-emerald-700">
-          {picked.category}
-        </p>
-        <h1 className="mt-1 text-3xl font-semibold leading-tight text-slate-900">
-          {picked.name}
-        </h1>
-        <p className="mt-3 text-base leading-relaxed text-slate-700">
-          {result.reasoning}
-        </p>
-
-        <div className="mt-5">
-          <SourceChip source={sourceFor(picked, sourcesIndex)} />
-        </div>
-
-        <button
-          onClick={() => onStart(picked.id)}
-          className="mt-6 rounded-md bg-slate-900 px-5 py-2 text-sm font-medium text-white transition hover:bg-slate-800"
-        >
-          Start →
-        </button>
-      </div>
-
-      {alternatives.length > 0 && (
-        <p className="mt-4 text-sm text-slate-600">
-          Also considered:{" "}
-          {alternatives.map((alt, i) => (
-            <span key={alt.id}>
-              {i > 0 && ", "}
-              <button
-                onClick={() => onStart(alt.id)}
-                className="font-medium text-slate-700 underline hover:no-underline"
-              >
-                {alt.name}
-              </button>
-            </span>
-          ))}
-          .
-        </p>
-      )}
-    </div>
-  );
-}
-
-/** Low-confidence state: pick + alternatives presented as equal-weight choices. */
-function LowConfidence({
-  picked,
-  alternatives,
-  sourcesIndex,
-  onStart,
-}: {
-  picked: CatalogEntry;
-  alternatives: CatalogEntry[];
-  sourcesIndex: SourcesIndex;
-  onStart: (frameworkId: string) => void;
-}) {
-  // De-duplicate in case an alternative repeats the pick.
-  const seen = new Set<string>();
-  const choices = [picked, ...alternatives].filter((e) => {
-    if (seen.has(e.id)) return false;
-    seen.add(e.id);
-    return true;
-  });
-
-  return (
-    <div>
-      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-        A few frameworks could fit — pick one
-      </p>
-      <h1 className="mt-2 text-2xl font-semibold leading-tight text-slate-900">
-        Your decision spans a few frameworks
-      </h1>
-      <p className="mt-2 text-sm leading-relaxed text-slate-600">
-        We weren&apos;t confident enough to pick just one. These are the
-        closest matches — choose whichever fits best.
-      </p>
-
-      <div className="mt-6 space-y-3">
-        {choices.map((entry) => (
-          <FrameworkChoice
-            key={entry.id}
-            entry={entry}
-            source={sourceFor(entry, sourcesIndex)}
-            onStart={() => onStart(entry.id)}
-            emphasis={false}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/** Cold-start state: no clean match — show nearest related reading. */
-function ColdStart({
-  nearest,
-  sourcesIndex,
-}: {
-  nearest: CatalogEntry[];
-  sourcesIndex: SourcesIndex;
-}) {
-  return (
-    <div>
-      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-        No clean match
-      </p>
-      <h1 className="mt-2 text-2xl font-semibold leading-tight text-slate-900">
-        No clean match — here&apos;s the closest related reading
-      </h1>
-      <p className="mt-2 text-sm leading-relaxed text-slate-600">
-        We couldn&apos;t route this decision to a framework. These pieces from
-        the archive are the closest related reading.
-      </p>
-
-      {nearest.length > 0 ? (
-        <div className="mt-6 space-y-3">
-          {nearest.map((entry) => (
-            <div
-              key={entry.id}
-              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
-            >
-              <p className="text-xs font-medium uppercase tracking-wide text-emerald-700">
-                {entry.category}
-              </p>
-              <p className="mt-1 text-lg font-semibold text-slate-900">
-                {entry.name}
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                {entry.summary}
-              </p>
-              <div className="mt-3">
-                <SourceChip source={sourceFor(entry, sourcesIndex)} />
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p className="mt-6 text-sm italic text-slate-500">
-          Try describing your decision in more detail and routing again.
-        </p>
-      )}
-    </div>
   );
 }
