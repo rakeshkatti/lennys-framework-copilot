@@ -35,7 +35,20 @@ export function AppShell({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const exampleQuestions = questionBank.map((q) => q.question);
+  // Partition example questions by tier so EntryScreen can pin a
+  // hand-authored ("golden") workflow as chip #1 every render. Demo benefit:
+  // the first chip a user clicks always lands on a deep, structured workflow
+  // (DRICE / Strategy Blocks / B2B PMF / Stalled-Growth), not a synthesized
+  // long-tail one. The other 4 slots come from the rest of the bank.
+  const goldenIds = new Set(
+    catalog.filter((e) => e.tier === "workflow").map((e) => e.id),
+  );
+  const goldenQuestions = questionBank
+    .filter((q) => goldenIds.has(q.framework_id))
+    .map((q) => q.question);
+  const otherQuestions = questionBank
+    .filter((q) => !goldenIds.has(q.framework_id))
+    .map((q) => q.question);
 
   const backToEntry = useCallback(() => {
     setMode("entry");
@@ -156,7 +169,8 @@ export function AppShell({
   return (
     <div>
       <EntryScreen
-        exampleQuestions={exampleQuestions}
+        goldenQuestions={goldenQuestions}
+        otherQuestions={otherQuestions}
         onSubmit={handleSubmit}
         busy={busy}
       />

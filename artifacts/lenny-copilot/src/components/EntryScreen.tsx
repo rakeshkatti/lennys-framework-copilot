@@ -17,6 +17,32 @@ function pickRandom<T>(pool: readonly T[], count: number): T[] {
 }
 
 /**
+ * Pick 5 example questions for the chip strip: 1 golden (hand-authored
+ * deep-workflow framework) pinned at index 0, then 4 from the rest of the
+ * bank. Demo benefit: the first chip a user clicks always lands on a deep
+ * structured workflow (DRICE / Strategy Blocks / B2B PMF / Stalled-Growth),
+ * not a synthesized long-tail one. Falls back gracefully if either pool is
+ * empty so the UI never breaks.
+ */
+function pickExamples(
+  golden: readonly string[],
+  other: readonly string[],
+  total: number,
+): string[] {
+  const pinned = pickRandom(golden, golden.length > 0 ? 1 : 0);
+  const fillers = pickRandom(other, Math.max(0, total - pinned.length));
+  // Top up from the unused pool if either bucket ran short (shouldn't
+  // happen with the live question bank — 140 entries, ~20 golden — but
+  // guards against a small future bank from breaking the strip).
+  if (pinned.length + fillers.length < total) {
+    const used = new Set([...pinned, ...fillers]);
+    const leftover = [...golden, ...other].filter((q) => !used.has(q));
+    fillers.push(...pickRandom(leftover, total - pinned.length - fillers.length));
+  }
+  return [...pinned, ...fillers];
+}
+
+/**
  * Entry screen: free-text decision + 5 example chips + recycle button.
  *
  * Why chips set text instead of submitting:
@@ -40,11 +66,17 @@ function pickRandom<T>(pool: readonly T[], count: number): T[] {
  *   Shuffle.
  */
 export function EntryScreen({
-  exampleQuestions,
+  goldenQuestions,
+  otherQuestions,
   onSubmit,
   busy = false,
 }: {
-  exampleQuestions: string[];
+  /** Question-bank entries whose framework is hand-authored (tier="workflow").
+   *  The first chip is always sampled from here for demo predictability. */
+  goldenQuestions: string[];
+  /** Question-bank entries for the rest of the catalog (synthesized
+   *  frameworks). Fills chips 2–5. */
+  otherQuestions: string[];
   onSubmit: (text: string) => void;
   busy?: boolean;
 }) {
@@ -53,9 +85,9 @@ export function EntryScreen({
 
   // Seed once on mount — see the JSDoc above for why this isn't a `useState`
   // initializer. Intentionally an empty dep array; the parent re-creates
-  // `exampleQuestions` every render, but we don't want that to re-roll.
+  // these arrays every render, but we don't want that to re-roll.
   useEffect(() => {
-    setExamples(pickRandom(exampleQuestions, EXAMPLE_COUNT));
+    setExamples(pickExamples(goldenQuestions, otherQuestions, EXAMPLE_COUNT));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -66,7 +98,7 @@ export function EntryScreen({
   }
 
   function reroll() {
-    setExamples(pickRandom(exampleQuestions, EXAMPLE_COUNT));
+    setExamples(pickExamples(goldenQuestions, otherQuestions, EXAMPLE_COUNT));
   }
 
   const canSubmit = text.trim().length > 0 && !busy;
