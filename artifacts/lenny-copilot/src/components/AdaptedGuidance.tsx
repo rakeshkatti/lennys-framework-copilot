@@ -14,6 +14,7 @@ interface AdaptResponse {
   fallback: boolean;
   source: { file: string };
   reason?: string;
+  suggested_options?: string[];
 }
 
 type State =
@@ -64,6 +65,7 @@ export function AdaptedGuidance({
   step,
   inputsSoFar,
   sourcesIndex,
+  onSuggestionSelect,
 }: {
   spec: FrameworkSpec;
   step: Step;
@@ -71,6 +73,10 @@ export function AdaptedGuidance({
   /** When provided, the response's source file is resolved through this index
    *  and rendered as a link chip. When absent, behavior is unchanged. */
   sourcesIndex?: SourcesIndex;
+  /** When provided, Sonnet's `suggested_options` render as clickable chips
+   *  at the bottom of the guidance panel; clicking a chip calls back with
+   *  the option text. Wire this only for text inputs. */
+  onSuggestionSelect?: (text: string) => void;
 }) {
   const [state, setState] = useState<State>({
     kind: "loading",
@@ -153,6 +159,30 @@ export function AdaptedGuidance({
                 />
               </div>
             )}
+            {onSuggestionSelect &&
+              state.data.suggested_options &&
+              state.data.suggested_options.length > 0 && (
+                <div className="pt-3">
+                  <p className="text-[11px] font-medium uppercase tracking-wide text-slate-500">
+                    Suggestions from the source
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {state.data.suggested_options.map((opt) => (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => onSuggestionSelect(opt)}
+                        className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs text-slate-700 shadow-sm transition hover:border-slate-500 hover:text-slate-900 hover:shadow focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-1"
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="mt-1.5 text-[11px] text-slate-400">
+                    Click a suggestion to drop it in — edit before continuing.
+                  </p>
+                </div>
+              )}
           </div>
         )}
       </div>

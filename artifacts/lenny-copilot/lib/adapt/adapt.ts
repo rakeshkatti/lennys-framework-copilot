@@ -18,6 +18,10 @@ export interface AdaptResult {
   fallback: boolean;
   source: { file: string };
   reason?: string;
+  /** Optional Sonnet-suggested options for the user to click into the
+   *  textarea. Present only when the step naturally invites a small-set
+   *  choice grounded in the EXCERPT. Capped at 6. */
+  suggested_options?: string[];
 }
 
 function buildSystemPrompt(
@@ -45,6 +49,7 @@ function buildSystemPrompt(
     "4. Output 2 to 4 sentences total. Keep them concise and directly actionable for the user.",
     "5. When the EXCERPT is long, focus on the part most relevant to the STEP described in the user message; ignore unrelated sections.",
     "6. Call the submit_adapted_guidance tool exactly once. Do not write any prose outside the tool call.",
+    "7. If THIS STEP naturally invites a choice from a small set (3 to 6) of options that appear in the EXCERPT, include them as short strings (max ~60 chars each) in `suggested_options`. Otherwise omit the field. Do NOT invent options that aren't supported by the EXCERPT.",
   ].join("\n");
 }
 
@@ -67,7 +72,7 @@ function buildUserPrompt(
 const TOOL: Anthropic.Tool = {
   name: "submit_adapted_guidance",
   description:
-    "Submit 2-4 adapted guidance sentences, each with a verbatim supporting quote from the excerpt.",
+    "Submit 2-4 adapted guidance sentences, each with a verbatim supporting quote from the excerpt. Optionally include 3-6 short suggested_options when the step invites a small-set choice grounded in the excerpt.",
   input_schema: {
     type: "object",
     properties: {
@@ -89,6 +94,12 @@ const TOOL: Anthropic.Tool = {
           required: ["text", "quote"],
         },
       },
+      suggested_options: {
+        type: "array",
+        description:
+          "Optional. 3-6 short option strings (max ~60 chars each) the user can click into the textarea. Include ONLY when the step invites a small-set choice and the options are visible in the excerpt.",
+        items: { type: "string" },
+      },
     },
     required: ["sentences"],
   },
@@ -99,7 +110,7 @@ async function callClaudeOnce(
   excerpt: string,
   inputsSoFar: Record<string, unknown>,
   context: { frameworkName: string; frameworkSummary: string },
-): Promise<AdaptedSentence[] | null> {
+): Promise<{ sentences: AdaptedSentence[]; suggested_options: string[] } | null> {
   const message = await callClaude({
     kind: "step",
     // The citation rules + excerpt + framework context are static per
@@ -116,7 +127,10 @@ async function callClaudeOnce(
     (b): b is Anthropic.ToolUseBlock => b.type === "tool_use",
   );
   if (!toolBlock) return null;
-  const input = toolBlock.input as { sentences?: unknown };
+  const input = toolBlock.input as {
+    sentences?: unknown;
+    suggested_options?: unknown;
+  };
   if (!input || !Array.isArray(input.sentences)) return null;
 
   const sentences: AdaptedSentence[] = [];
@@ -133,7 +147,21 @@ async function callClaudeOnce(
       }
     }
   }
-  return sentences;
+
+  // suggested_options is optional; safely extract trimmed non-empty strings,
+  // capped at 6. Drop entirely if the field isn't an array.
+  const suggested_options: string[] = [];
+  if (Array.isArray(input.suggested_options)) {
+    for (const raw of input.suggested_options) {
+      if (typeof raw === "string") {
+        const trimmed = raw.trim();
+        if (trimmed.length > 0) suggested_options.push(trimmed);
+      }
+      if (suggested_options.length >= 6) break;
+    }
+  }
+
+  return { sentences, suggested_options };
 }
 
 function fallbackFrom(step: Step, file: string): AdaptResult {
@@ -162,12 +190,12 @@ export async function adaptStepGuidance(
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const raw = await callClaudeOnce(step, excerpt, inputsSoFar, context);
-      if (!raw || raw.length === 0) {
+      if (!raw || raw.sentences.length === 0) {
         lastError = new Error("no sentences returned");
         continue;
       }
       const allowedVocab = [excerpt, JSON.stringify(inputsSoFar)];
-      const cited = raw.filter(
+      const cited = raw.sentences.filter(
         (s) =>
           citationMatches(s.quote, excerpt) &&
           contentCoverage(s.text, allowedVocab) >= MIN_CONTENT_COVERAGE,
@@ -178,11 +206,15 @@ export async function adaptStepGuidance(
         );
         continue;
       }
-      return {
+      const result: AdaptResult = {
         sentences: cited,
         fallback: false,
         source: { file: excerptFile },
       };
+      if (raw.suggested_options.length > 0) {
+        result.suggested_options = raw.suggested_options;
+      }
+      return result;
     } catch (err) {
       lastError = err;
     }

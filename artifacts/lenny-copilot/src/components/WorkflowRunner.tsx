@@ -318,6 +318,14 @@ function StepView({
         step={step}
         inputsSoFar={allInputs}
         sourcesIndex={sourcesIndex}
+        // Only wire chip-click → textarea fill for text inputs. For score
+        // grids / multi-choice steps, the LLM's suggested_options (if any)
+        // don't apply to the structured input UI.
+        onSuggestionSelect={
+          step.input.type === "text"
+            ? (text) => onChange({ value: text })
+            : undefined
+        }
       />
 
 
