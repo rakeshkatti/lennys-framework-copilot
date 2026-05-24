@@ -35,22 +35,26 @@ describe("Engine — basic advance", () => {
 });
 
 describe("Engine — input validation", () => {
-  it("rejects a list with fewer than min_items", () => {
+  it("advances a list below min_items without throwing (soft guideline only)", () => {
+    // Plan 5 change: min_items is a soft UI nudge, not a hard block. The
+    // ListInput UI shows the count badge in rose when below, but Continue
+    // is always enabled so the user can advance and return later.
     const spec = loadSpec("drice");
     const engine = new Engine(spec);
-    expect(() => engine.advance({ items: ["only one"] })).toThrow(
-      InputValidationError,
-    );
-    expect(engine.currentStep()?.id).toBe("collect-ideas");
+    expect(() => engine.advance({ items: ["only one"] })).not.toThrow();
+    expect(engine.currentStep()?.id).not.toBe("collect-ideas");
   });
 
-  it("rejects a list whose items are empty/whitespace-only strings", () => {
+  it("trims and drops empty/whitespace-only strings, advancing with whatever survives", () => {
+    // All-whitespace inputs collapse to an empty list after trim+filter.
+    // The engine no longer blocks on this; the artifact just shows an
+    // empty collection that the user can return to.
     const spec = loadSpec("drice");
     const engine = new Engine(spec);
     expect(() =>
       engine.advance({ items: ["", "   ", "", "", ""] }),
-    ).toThrow(InputValidationError);
-    expect(engine.currentStep()?.id).toBe("collect-ideas");
+    ).not.toThrow();
+    expect(engine.currentStep()?.id).not.toBe("collect-ideas");
   });
 
   it("trims and drops empty strings when storing a valid list", () => {

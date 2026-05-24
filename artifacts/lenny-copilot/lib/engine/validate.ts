@@ -45,14 +45,12 @@ export function validateStepInput(
       const trimmed = (items as string[])
         .map((s) => s.trim())
         .filter((s) => s.length > 0);
-      const minItems = typeof config.min_items === "number" ? config.min_items : 0;
-      if (trimmed.length < minItems) {
-        const label = typeof config.item_label === "string" ? config.item_label : "item";
-        throw new InputValidationError(
-          step.id,
-          `at least ${minItems} non-empty ${label}(s) required, got ${trimmed.length}`,
-        );
-      }
+      // `config.min_items` is a SOFT guideline, not a hard block. The
+      // ListInput UI shows the count badge ("3 / 5 minimum") in rose when
+      // below to nudge the user, but Continue stays enabled so they can
+      // advance now and come back to add more later. This matches the
+      // "let me explore the workflow end-to-end" UX the demo needs.
+      // Structural checks (input is object, items is string[]) still throw.
       return { items: trimmed };
     }
     case "number": {
