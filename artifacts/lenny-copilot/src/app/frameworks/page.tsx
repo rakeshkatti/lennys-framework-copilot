@@ -5,14 +5,13 @@ import { resolveSource } from "@lib/sources";
 /**
  * Catalog page: every framework the router can match, grouped by category.
  *
- * This is a server component — `loadCatalog()` reads `data/catalog.json` at
- * request time, no client bundle cost. The page is read-only by design: this
- * is the "what's in the box" view; the interactive workflow / guidance is
- * accessed via the home-page entry → routing flow, not direct deep links.
+ * Server component — `loadCatalog()` reads `data/catalog.json` at request
+ * time, no client bundle cost. Each card is a clickable link to
+ * `/frameworks/[id]`, which opens the framework directly in WorkflowRunner
+ * (skipping the home-page routing step, since the user explicitly chose).
  *
- * Source links route through `resolveSource`, which returns a Google
- * site-search URL (Lenny's Substack truncates post slugs, so direct
- * filename-based URLs from `index.json` 404 too often to be useful).
+ * The source-piece link inside each card uses `relative z-10` to stay
+ * clickable above the card-wide overlay link.
  */
 
 /** Stable category order; unknowns sort alphabetically at the end. */
@@ -82,14 +81,15 @@ export default function FrameworksPage() {
           All frameworks
         </h1>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-600">
-          Every framework the router can match, extracted from Lenny&apos;s
-          newsletter &amp; podcast archive.{" "}
+          Click any framework to apply it to a decision you&apos;re facing — it
+          opens as an interactive guided workflow with a cited artifact at the
+          end.{" "}
           <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-emerald-700">
             Workflow
           </span>{" "}
-          frameworks ({workflowCount}) ship as interactive guided runs with a
-          finished cited artifact; the rest show as read-only guidance with a
-          link to the source piece.
+          marks the {workflowCount} hand-authored deep workflows (DRICE,
+          Strategy Blocks, B2B PMF, Stalled-Growth); the rest are synthesized
+          from each framework&apos;s key steps and grounded in the source.
         </p>
 
         <nav
@@ -142,11 +142,20 @@ function FrameworkCard({ entry }: { entry: CatalogEntry }) {
   // canonical link. The rest are searchable via the home-page routing flow.
   const primarySource = entry.source[0] ? resolveSource(entry.source[0]) : null;
 
+  // Card-link pattern: the whole card navigates to /frameworks/<id> via an
+  // absolutely-positioned overlay on the title link. The source link below
+  // sits at `relative z-10` so it stays clickable above the overlay and
+  // opens in a new tab.
   return (
-    <article className="flex h-full flex-col rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+    <article className="group relative flex h-full flex-col rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition hover:border-slate-400 hover:shadow-md focus-within:border-slate-400 focus-within:shadow-md">
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-sm font-semibold leading-tight text-slate-900">
-          {entry.name}
+          <Link
+            href={`/frameworks/${entry.id}`}
+            className="before:absolute before:inset-0 before:content-[''] focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 group-hover:text-slate-700"
+          >
+            {entry.name}
+          </Link>
         </h3>
         {entry.tier === "workflow" && (
           <span className="shrink-0 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-emerald-700">
@@ -160,16 +169,26 @@ function FrameworkCard({ entry }: { entry: CatalogEntry }) {
       <p className="mt-2 text-xs leading-relaxed text-slate-700">
         {entry.summary}
       </p>
-      {primarySource && (
-        <a
-          href={primarySource.post_url ?? "#"}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-3 inline-block self-start text-[11px] font-medium text-slate-500 underline-offset-2 hover:text-slate-700 hover:underline"
+      <div className="mt-3 flex items-center justify-between gap-3">
+        {primarySource ? (
+          <a
+            href={primarySource.post_url ?? "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative z-10 inline-block text-[11px] font-medium text-slate-500 underline-offset-2 hover:text-slate-700 hover:underline"
+          >
+            ↳ {primarySource.title}
+          </a>
+        ) : (
+          <span />
+        )}
+        <span
+          aria-hidden="true"
+          className="text-[11px] font-medium text-slate-400 transition group-hover:text-slate-900"
         >
-          ↳ {primarySource.title}
-        </a>
-      )}
+          Start →
+        </span>
+      </div>
     </article>
   );
 }
