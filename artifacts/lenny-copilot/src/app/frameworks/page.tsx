@@ -59,8 +59,6 @@ export default function FrameworksPage() {
     const rank = categoryRank(a) - categoryRank(b);
     return rank !== 0 ? rank : a.localeCompare(b);
   });
-  const workflowCount = catalog.filter((e) => e.tier === "workflow").length;
-
   return (
     <main className="flex min-h-screen flex-col bg-slate-50">
       <div className="mx-auto w-full max-w-5xl px-6 py-12 lg:px-10">
@@ -81,15 +79,9 @@ export default function FrameworksPage() {
           All frameworks
         </h1>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-600">
-          Click any framework to apply it to a decision you&apos;re facing — it
-          opens as an interactive guided workflow with a cited artifact at the
-          end.{" "}
-          <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-emerald-700">
-            Workflow
-          </span>{" "}
-          marks the {workflowCount} hand-authored deep workflows (DRICE,
-          Strategy Blocks, B2B PMF, Stalled-Growth); the rest are synthesized
-          from each framework&apos;s key steps and grounded in the source.
+          Click any framework to apply it to a decision you&apos;re working on.
+          You&apos;ll walk through it as an interactive workflow and finish
+          with a cited artifact you can copy or download.
         </p>
 
         <nav
