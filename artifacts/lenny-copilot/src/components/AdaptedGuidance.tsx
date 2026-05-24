@@ -23,9 +23,12 @@ type State =
   | { kind: "error"; staticText: string };
 
 /**
- * Source chip for a guidance response. When `post_url` is set, renders a link
- * to the original article; otherwise (or when the file isn't in the index)
- * renders plain text so we never produce a broken or empty link.
+ * Plan 5 — right-column "From the source" panel.
+ *
+ * Cream-tinted background (bg-peach/50 over the cream page BG) so the
+ * panel reads as a quiet auxiliary surface, not a primary card. The
+ * dotted-underline citation tooltips and source chip remain identical
+ * in behavior; only the visual treatment changed.
  */
 function ResponseSourceChip({
   file,
@@ -36,22 +39,20 @@ function ResponseSourceChip({
 }) {
   const label = source?.title ?? file;
   const base =
-    "inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] text-slate-600";
-
+    "inline-flex items-center gap-1 rounded-chip border border-border-warm bg-white px-2.5 py-1 text-[11px] text-ink-body";
   if (source?.post_url) {
     return (
       <a
         href={source.post_url}
         target="_blank"
         rel="noopener noreferrer"
-        className={`${base} transition hover:border-slate-400 hover:text-slate-900`}
+        className={`${base} transition hover:border-ink-subtle hover:text-ink-strong`}
       >
         <span aria-hidden>↗</span>
         {label}
       </a>
     );
   }
-
   return (
     <span className={base}>
       <span aria-hidden>◆</span>
@@ -70,19 +71,13 @@ export function AdaptedGuidance({
   spec: FrameworkSpec;
   step: Step;
   inputsSoFar: Record<string, unknown>;
-  /** When provided, the response's source file is resolved through this index
-   *  and rendered as a link chip. When absent, behavior is unchanged. */
   sourcesIndex?: SourcesIndex;
-  /** When provided, Sonnet's `suggested_options` render as clickable chips
-   *  at the bottom of the guidance panel; clicking a chip calls back with
-   *  the option text. Wire this only for text inputs. */
   onSuggestionSelect?: (text: string) => void;
 }) {
   const [state, setState] = useState<State>({
     kind: "loading",
     staticText: step.guidance.text,
   });
-  // Snapshot inputs at mount of this step so the network call is stable.
   const inputsRef = useRef(inputsSoFar);
   inputsRef.current = inputsSoFar;
 
@@ -117,20 +112,18 @@ export function AdaptedGuidance({
       cancelled = true;
       controller.abort();
     };
-    // We intentionally key only on step.id — re-fetching on every input keystroke
-    // would be wasteful. Inputs are captured at fetch time via inputsRef.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step.id, spec.id]);
 
   return (
-    <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4">
+    <aside className="rounded-card border border-border-warm bg-peach/50 p-5 shadow-soft">
       <div className="flex items-center justify-between">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-          Guidance
+        <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+          From the source
         </p>
         <Badge state={state} />
       </div>
-      <div className="mt-2 text-sm leading-relaxed text-slate-700">
+      <div className="mt-3 text-sm leading-relaxed text-ink-body">
         {state.kind === "loading" && (
           <p className="opacity-70">{state.staticText}</p>
         )}
@@ -140,7 +133,7 @@ export function AdaptedGuidance({
             {state.data.sentences.map((s, i) => (
               <p key={i} className="group">
                 <span
-                  className="border-b border-dotted border-slate-400 decoration-slate-400 hover:border-slate-700"
+                  className="border-b border-dotted border-ink-subtle decoration-ink-subtle hover:border-ink-strong"
                   title={
                     state.data.fallback
                       ? `From ${state.data.source.file}`
@@ -152,7 +145,7 @@ export function AdaptedGuidance({
               </p>
             ))}
             {sourcesIndex && (
-              <div className="pt-1">
+              <div className="pt-2">
                 <ResponseSourceChip
                   file={state.data.source.file}
                   source={sourcesIndex[state.data.source.file] ?? null}
@@ -163,44 +156,44 @@ export function AdaptedGuidance({
               state.data.suggested_options &&
               state.data.suggested_options.length > 0 && (
                 <div className="pt-3">
-                  <p className="text-[11px] font-medium uppercase tracking-wide text-slate-500">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-muted">
                     Suggestions from the source
                   </p>
-                  <div className="mt-2 flex flex-wrap gap-2">
+                  <div className="mt-2 flex flex-wrap gap-1.5">
                     {state.data.suggested_options.map((opt) => (
                       <button
                         key={opt}
                         type="button"
                         onClick={() => onSuggestionSelect(opt)}
-                        className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs text-slate-700 shadow-sm transition hover:border-slate-500 hover:text-slate-900 hover:shadow focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-1"
+                        className="rounded-chip border border-border-warm bg-white px-3 py-1 text-xs text-ink-body shadow-sm transition hover:border-brand-accent hover:text-ink-strong hover:shadow focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-1"
                       >
                         {opt}
                       </button>
                     ))}
                   </div>
-                  <p className="mt-1.5 text-[11px] text-slate-400">
-                    Click a suggestion to drop it in — edit before continuing.
+                  <p className="mt-1.5 text-[11px] text-ink-subtle">
+                    Click a chip to drop it into the notes — edit before continuing.
                   </p>
                 </div>
               )}
           </div>
         )}
       </div>
-    </div>
+    </aside>
   );
 }
 
 function Badge({ state }: { state: State }) {
   if (state.kind === "loading") {
     return (
-      <span className="rounded-full bg-slate-200 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-slate-600">
+      <span className="rounded-chip bg-slate-200 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
         Adapting…
       </span>
     );
   }
   if (state.kind === "error") {
     return (
-      <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-800">
+      <span className="rounded-chip bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-800">
         Verbatim from source
       </span>
     );
@@ -208,7 +201,7 @@ function Badge({ state }: { state: State }) {
   if (state.data.fallback) {
     return (
       <span
-        className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-800"
+        className="rounded-chip bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-800"
         title={state.data.reason ?? "fallback"}
       >
         Verbatim from source
@@ -216,7 +209,7 @@ function Badge({ state }: { state: State }) {
     );
   }
   return (
-    <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-emerald-800">
+    <span className="rounded-chip bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-emerald-800">
       Adapted · {state.data.sentences.length} cited
     </span>
   );
