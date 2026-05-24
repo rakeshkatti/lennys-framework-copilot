@@ -16,6 +16,7 @@ import { pickChallenger, type TriangulationResult } from "@lib/triangulate";
 import { renderArtifactMarkdown } from "@lib/artifact/render";
 import { StepInput, initialDraftFor } from "./StepInput";
 import { AdaptedGuidance } from "./AdaptedGuidance";
+import { ArtifactPane } from "./ArtifactPane";
 import { ArtifactExport } from "./ArtifactExport";
 
 type Snapshot = {
@@ -343,9 +344,15 @@ function StepView({
           </div>
         </div>
 
-        {/* RIGHT: sticky AdaptedGuidance (~40%); collapses below on mobile */}
+        {/* RIGHT (~40%): source-grounded guidance for THIS step, then a
+            full-workflow progress overview below it so the user can see
+            every step's status + their filled-in answers without leaving
+            the runner. Collapses to a single column below the input on
+            mobile. AdaptedGuidance is NOT sticky — it scrolls with the
+            ArtifactPane so the user can see both panels naturally on
+            longer workflows. */}
         <div className="lg:col-span-2">
-          <div className="lg:sticky lg:top-20">
+          <div className="space-y-4">
             <AdaptedGuidance
               spec={spec}
               step={step}
@@ -360,6 +367,7 @@ function StepView({
                   : undefined
               }
             />
+            <ArtifactPane spec={spec} cursor={step.id} inputs={allInputs} />
           </div>
         </div>
       </div>
