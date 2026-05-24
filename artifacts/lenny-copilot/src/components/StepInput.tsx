@@ -76,7 +76,7 @@ function ListInput({ step, draft, onChange }: InputProps) {
     <div className="space-y-2">
       {items.map((item, i) => (
         <div key={i} className="flex items-center gap-2">
-          <span className="w-6 text-right text-xs text-slate-400">
+          <span className="w-6 text-right text-xs text-ink-subtle">
             {i + 1}.
           </span>
           <input
@@ -93,7 +93,7 @@ function ListInput({ step, draft, onChange }: InputProps) {
           <button
             type="button"
             onClick={() => update(items.filter((_, j) => j !== i))}
-            className="rounded-md px-2 py-1 text-sm text-slate-500 hover:bg-slate-100"
+            className="rounded-md px-2 py-1 text-sm text-ink-muted hover:bg-peach/30"
             aria-label={`Remove ${label} ${i + 1}`}
           >
             ✕
@@ -104,13 +104,13 @@ function ListInput({ step, draft, onChange }: InputProps) {
         <button
           type="button"
           onClick={() => update([...items, ""])}
-          className="rounded-md border border-dashed border-slate-300 px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-50"
+          className="rounded-md border border-dashed border-border-warm px-3 py-1.5 text-sm text-ink-muted transition hover:border-ink-subtle hover:bg-peach/30 hover:text-ink-strong"
         >
           + Add {label}
         </button>
         <span
           className={`text-xs ${
-            nonEmpty >= minItems ? "text-slate-500" : "text-rose-600"
+            nonEmpty >= minItems ? "text-ink-muted" : "text-rose-600"
           }`}
         >
           {nonEmpty} / {minItems} minimum
@@ -137,7 +137,7 @@ function NumberInput({ step, draft, onChange }: InputProps) {
         }}
         className="w-40 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-slate-500 focus:outline-none"
       />
-      {unit && <span className="text-sm text-slate-500">{unit}</span>}
+      {unit && <span className="text-sm text-ink-muted">{unit}</span>}
     </div>
   );
 }
@@ -151,7 +151,7 @@ function ChoiceInput({ step, draft, onChange }: InputProps) {
       {options.map((opt) => (
         <label
           key={opt}
-          className="flex cursor-pointer items-center gap-3 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm hover:bg-slate-50"
+          className="flex cursor-pointer items-center gap-3 rounded-md border border-border-warm bg-white px-3 py-2 text-sm text-ink-body transition hover:border-brand-accent hover:bg-peach/30"
         >
           <input
             type="radio"
@@ -260,7 +260,7 @@ function MultiChoiceInput({ step, draft, allInputs, spec, onChange }: InputProps
 
   if (options.length === 0) {
     return (
-      <p className="text-sm italic text-slate-500">
+      <p className="text-sm italic text-ink-muted">
         No options available — complete the previous list step first.
       </p>
     );
@@ -276,8 +276,8 @@ function MultiChoiceInput({ step, draft, allInputs, spec, onChange }: InputProps
             key={opt}
             className={`flex cursor-pointer items-center justify-between gap-3 rounded-md border px-3 py-2 text-sm ${
               isSelected
-                ? "border-slate-900 bg-slate-50"
-                : "border-slate-200 bg-white hover:bg-slate-50"
+                ? "border-brand-accent bg-peach/30"
+                : "border-border-warm bg-white text-ink-body hover:border-brand-accent hover:bg-peach/30"
             }`}
           >
             <div className="flex items-center gap-3">
@@ -288,7 +288,7 @@ function MultiChoiceInput({ step, draft, allInputs, spec, onChange }: InputProps
               />
               <span>
                 {ranking && (
-                  <span className="mr-2 text-xs text-slate-400">
+                  <span className="mr-2 text-xs text-ink-subtle">
                     #{i + 1}
                   </span>
                 )}
@@ -296,7 +296,7 @@ function MultiChoiceInput({ step, draft, allInputs, spec, onChange }: InputProps
               </span>
             </div>
             {r && (
-              <span className="text-xs tabular-nums text-slate-500">
+              <span className="text-xs tabular-nums text-ink-muted">
                 {rankingMode === "sum"
                   ? `Sum ${r.score}`
                   : `RICE ${r.score.toFixed(2)}`}
@@ -305,7 +305,7 @@ function MultiChoiceInput({ step, draft, allInputs, spec, onChange }: InputProps
           </label>
         );
       })}
-      <p className="pt-1 text-xs text-slate-500">
+      <p className="pt-1 text-xs text-ink-muted">
         {selected.length} selected
       </p>
     </div>
@@ -329,7 +329,7 @@ function TextInput({ step, draft, allInputs, onChange }: InputProps) {
 
     if (items.length === 0) {
       return (
-        <p className="text-sm italic text-slate-500">
+        <p className="text-sm italic text-ink-muted">
           No items to describe — complete the previous step first.
         </p>
       );
@@ -339,7 +339,7 @@ function TextInput({ step, draft, allInputs, onChange }: InputProps) {
       <div className="space-y-4">
         {items.map((item) => (
           <div key={item}>
-            <label className="block text-sm font-medium text-slate-800">
+            <label className="block text-sm font-medium text-ink-strong">
               {item}
             </label>
             <textarea
@@ -355,7 +355,7 @@ function TextInput({ step, draft, allInputs, onChange }: InputProps) {
               className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-slate-500 focus:outline-none"
             />
             {maxLen !== undefined && (
-              <p className="mt-1 text-right text-xs text-slate-400">
+              <p className="mt-1 text-right text-xs text-ink-subtle">
                 {(values[item] ?? "").length} / {maxLen}
               </p>
             )}
@@ -397,7 +397,7 @@ function ScoreGridInput({ step, draft, allInputs, onChange }: InputProps) {
 
   if (rows.length === 0) {
     return (
-      <p className="text-sm italic text-slate-500">
+      <p className="text-sm italic text-ink-muted">
         No rows to score — complete the previous list step first.
       </p>
     );
@@ -415,7 +415,7 @@ function ScoreGridInput({ step, draft, allInputs, onChange }: InputProps) {
     <div className="overflow-x-auto">
       <table className="w-full border-separate border-spacing-y-1 text-sm">
         <thead>
-          <tr className="text-left text-xs uppercase tracking-wide text-slate-500">
+          <tr className="text-left text-xs uppercase tracking-wide text-ink-muted">
             <th className="px-2 py-2 font-medium">Idea</th>
             {dimensions.map((d) => (
               <th key={d} className="px-2 py-2 font-medium">
@@ -427,7 +427,7 @@ function ScoreGridInput({ step, draft, allInputs, onChange }: InputProps) {
         <tbody>
           {rows.map((row) => (
             <tr key={row} className="rounded-md">
-              <td className="rounded-l-md bg-white px-3 py-2 align-middle text-slate-800">
+              <td className="rounded-l-md bg-white px-3 py-2 align-middle text-ink-strong">
                 {row}
               </td>
               {dimensions.map((dim, i) => {
@@ -449,8 +449,8 @@ function ScoreGridInput({ step, draft, allInputs, onChange }: InputProps) {
                             onClick={() => setCell(row, dim, s)}
                             className={`h-7 w-7 rounded-md border text-xs font-semibold ${
                               isOn
-                                ? "border-slate-900 bg-slate-900 text-white"
-                                : "border-slate-200 bg-white text-slate-700 hover:bg-slate-100"
+                                ? "border-brand bg-brand text-white"
+                                : "border-border-warm bg-white text-ink-body hover:bg-peach/30"
                             }`}
                           >
                             {s}
