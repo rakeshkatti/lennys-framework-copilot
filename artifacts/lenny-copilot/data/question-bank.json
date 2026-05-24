@@ -978,5 +978,26 @@
     "framework_id": "first-90-days",
     "verbatim": true,
     "source": "newsletters/this-week-14-transitioning-from-startup-founder-to-product-manager.md"
+  },
+  {
+    "question": "We have 40 product ideas and only 6 engineers next quarter — how do I rank them so the team builds the highest-impact bets?",
+    "category": "Prioritization & Planning",
+    "framework_id": "drice",
+    "verbatim": false,
+    "source": "newsletters/introducing-drice-a-modern-prioritization-framework.md"
+  },
+  {
+    "question": "Our last quarter's roadmap shipped on time but barely moved the needle. How do I prioritize differently this time so the work actually drives impact?",
+    "category": "Prioritization & Planning",
+    "framework_id": "drice",
+    "verbatim": false,
+    "source": "newsletters/introducing-drice-a-modern-prioritization-framework.md"
+  },
+  {
+    "question": "I keep choosing between fast wins and big bets every planning cycle — what's a structured prioritization approach that uses actual dollar-impact estimates on the shortlist?",
+    "category": "Prioritization & Planning",
+    "framework_id": "drice",
+    "verbatim": false,
+    "source": "newsletters/introducing-drice-a-modern-prioritization-framework.md"
   }
 ]
