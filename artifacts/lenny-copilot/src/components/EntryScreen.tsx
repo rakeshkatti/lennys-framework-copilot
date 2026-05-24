@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const EXAMPLE_COUNT = 5;
 
-/** Pick `count` distinct items from `pool` at random (Fisher-Yates partial shuffle). */
+/** Fisher-Yates partial shuffle — picks `count` distinct items at random. */
 function pickRandom<T>(pool: readonly T[], count: number): T[] {
   const copy = [...pool];
   const n = Math.min(count, copy.length);
@@ -17,13 +17,26 @@ function pickRandom<T>(pool: readonly T[], count: number): T[] {
 }
 
 /**
- * Pick 5 example questions for the chip strip: 1 golden (hand-authored
- * deep-workflow framework) pinned at index 0, then 4 from the rest of the
- * bank. Demo benefit: the first chip a user clicks always lands on a deep
- * structured workflow (DRICE / Strategy Blocks / B2B PMF / Stalled-Growth),
- * not a synthesized long-tail one. Falls back gracefully if either pool is
- * empty so the UI never breaks.
+ * Plan 5 — Entry screen redesign per DESIGN.md.
+ *
+ * Layout: cream/peach page background, single centered white "hero card"
+ * (rounded-card-hero, shadow-soft-lg) containing the eyebrow, editorial
+ * headline, value sub-line, generous textarea, and orange-pill CTA.
+ * Below the card: the chip strip with the pinned-golden chip visually
+ * distinguished by an orange ring.
+ *
+ * Why examples seed in useEffect (not useState initializer): pickRandom
+ * uses Math.random which produces different values on SSR vs client
+ * hydration. Seeding in useEffect runs only client-side after mount, so
+ * server renders no chips, client populates on first paint. No hydration
+ * mismatch. Empty dep array preserves the no-re-roll-on-busy-flip property
+ * even though AppShell recreates the arrays every render.
+ *
+ * The pinned-golden chip (index 0) gets a `ring-1 ring-brand-accent`
+ * treatment so demo-priority is visually obvious without a separate label.
  */
+
+/** 1 golden chip pinned at index 0, then 4 from the rest. */
 function pickExamples(
   golden: readonly string[],
   other: readonly string[],
@@ -31,51 +44,23 @@ function pickExamples(
 ): string[] {
   const pinned = pickRandom(golden, golden.length > 0 ? 1 : 0);
   const fillers = pickRandom(other, Math.max(0, total - pinned.length));
-  // Top up from the unused pool if either bucket ran short (shouldn't
-  // happen with the live question bank — 140 entries, ~20 golden — but
-  // guards against a small future bank from breaking the strip).
   if (pinned.length + fillers.length < total) {
     const used = new Set([...pinned, ...fillers]);
     const leftover = [...golden, ...other].filter((q) => !used.has(q));
-    fillers.push(...pickRandom(leftover, total - pinned.length - fillers.length));
+    fillers.push(
+      ...pickRandom(leftover, total - pinned.length - fillers.length),
+    );
   }
   return [...pinned, ...fillers];
 }
 
-/**
- * Entry screen: free-text decision + 5 example chips + recycle button.
- *
- * Why chips set text instead of submitting:
- *   Clicking an example used to call `onSubmit` directly, which flipped `busy`
- *   in the parent and re-rendered the chip strip — so the user lost sight of
- *   what they'd just picked. Now a chip click only populates the textarea; the
- *   user confirms with "Find my framework". Same single source of truth, no
- *   disappearing chips.
- *
- * Why examples are seeded in `useEffect` (not `useState` initializer):
- *   `pickRandom` calls `Math.random()`, which returns different values on the
- *   server (SSR) and the client (hydration) — React then throws a hydration
- *   mismatch error. Seeding in `useEffect` runs only on the client after
- *   mount, so the server renders no chips and the client populates them on
- *   first paint. Same end-state as a `useState` initializer, no mismatch.
- *
- *   This also fixes the prior re-roll bug: the parent `AppShell` does
- *   `questionBank.map(...)` on every render, yielding a fresh array
- *   reference. The effect's empty dep array means the parent's re-renders
- *   don't trigger another roll — examples only change when the user clicks
- *   Shuffle.
- */
 export function EntryScreen({
   goldenQuestions,
   otherQuestions,
   onSubmit,
   busy = false,
 }: {
-  /** Question-bank entries whose framework is hand-authored (tier="workflow").
-   *  The first chip is always sampled from here for demo predictability. */
   goldenQuestions: string[];
-  /** Question-bank entries for the rest of the catalog (synthesized
-   *  frameworks). Fills chips 2–5. */
   otherQuestions: string[];
   onSubmit: (text: string) => void;
   busy?: boolean;
@@ -83,9 +68,6 @@ export function EntryScreen({
   const [text, setText] = useState("");
   const [examples, setExamples] = useState<string[]>([]);
 
-  // Seed once on mount — see the JSDoc above for why this isn't a `useState`
-  // initializer. Intentionally an empty dep array; the parent re-creates
-  // these arrays every render, but we don't want that to re-roll.
   useEffect(() => {
     setExamples(pickExamples(goldenQuestions, otherQuestions, EXAMPLE_COUNT));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -104,70 +86,76 @@ export function EntryScreen({
   const canSubmit = text.trim().length > 0 && !busy;
 
   return (
-    <main className="flex min-h-screen flex-col bg-slate-50">
-      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-6 py-16 lg:px-10">
+    <main className="relative flex min-h-screen flex-col bg-gradient-to-b from-cream to-peach">
+      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-6 py-16 lg:px-8">
         <div className="flex items-center justify-between">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
             Lenny&apos;s Framework Copilot
           </p>
           <Link
             href="/frameworks"
-            className="text-xs font-medium text-slate-500 underline-offset-2 hover:text-slate-700 hover:underline"
+            className="text-xs font-medium text-ink-muted underline-offset-2 transition hover:text-ink-strong hover:underline"
           >
-            Browse all 121 frameworks →
+            Browse all 121 →
           </Link>
         </div>
 
-        <h1 className="mt-2 text-4xl font-semibold leading-tight text-slate-900 lg:text-5xl">
-          What are you trying to figure out?
-        </h1>
-        <p className="mt-3 text-sm text-slate-500">
-          Routes across 121 frameworks from Lenny&apos;s newsletter &amp;
-          podcast.
-        </p>
+        <div className="mt-3 rounded-card-hero border border-border-warm bg-white p-8 shadow-soft-lg lg:p-10">
+          <h1 className="text-3xl font-semibold leading-[1.15] tracking-tight text-ink-strong sm:text-4xl lg:text-[2.75rem]">
+            What are you trying to figure out?
+          </h1>
+          <p className="mt-3 text-base leading-relaxed text-ink-body">
+            Routes across 121 frameworks from Lenny&apos;s newsletter &amp;
+            podcast archive — pick the right one for a real decision and walk
+            through it in three minutes.
+          </p>
 
-        <form
-          className="mt-8"
-          onSubmit={(e) => {
-            e.preventDefault();
-            submit(text);
-          }}
-        >
-          <textarea
-            rows={4}
-            value={text}
-            disabled={busy}
-            placeholder="e.g. Our activation has been flat at 18% for three months — how do I fix it?"
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
-                e.preventDefault();
-                submit(text);
-              }
+          <form
+            className="mt-6"
+            onSubmit={(e) => {
+              e.preventDefault();
+              submit(text);
             }}
-            className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-slate-500 focus:outline-none disabled:cursor-not-allowed disabled:bg-slate-100"
-          />
-
-          <div className="mt-4 flex items-center justify-between gap-4">
-            <p className="text-xs text-slate-400">
-              {busy
-                ? "Finding the right framework…"
-                : "Press ⌘/Ctrl + Enter to route."}
-            </p>
-            <button
-              type="submit"
-              disabled={!canSubmit}
-              className="rounded-md bg-slate-900 px-5 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
-            >
-              {busy ? "Finding the right framework…" : "Find my framework →"}
-            </button>
-          </div>
-        </form>
+          >
+            <label htmlFor="decision" className="sr-only">
+              Describe the decision
+            </label>
+            <textarea
+              id="decision"
+              rows={5}
+              value={text}
+              disabled={busy}
+              placeholder="e.g. We have 40 product ideas and 6 engineers next quarter — how do I rank them?"
+              onChange={(e) => setText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+                  e.preventDefault();
+                  submit(text);
+                }
+              }}
+              className="w-full resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-base leading-relaxed text-ink-strong shadow-sm transition placeholder:text-ink-subtle focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/40 disabled:cursor-not-allowed disabled:bg-slate-50"
+            />
+            <div className="mt-4 flex items-center justify-between gap-4">
+              <p className="text-xs text-ink-subtle">
+                {busy
+                  ? "Finding the right framework…"
+                  : "Press ⌘/Ctrl + Enter to route"}
+              </p>
+              <button
+                type="submit"
+                disabled={!canSubmit}
+                className="rounded-chip bg-brand px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-hover focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-300"
+              >
+                {busy ? "Finding…" : "Find my framework →"}
+              </button>
+            </div>
+          </form>
+        </div>
 
         {examples.length > 0 && (
-          <div className="mt-10">
+          <div className="mt-8">
             <div className="flex items-center justify-between">
-              <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+              <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
                 Or start from an example
               </p>
               <button
@@ -176,26 +164,35 @@ export function EntryScreen({
                 disabled={busy}
                 title="Show 5 different example questions"
                 aria-label="Show 5 different example questions"
-                className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-500 shadow-sm hover:border-slate-400 hover:text-slate-700 hover:shadow focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex items-center gap-1 rounded-chip border border-border-warm bg-white px-2.5 py-1 text-xs font-medium text-ink-muted shadow-sm transition hover:border-ink-subtle hover:text-ink-strong focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <span aria-hidden="true">↻</span> Shuffle
               </button>
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
-              {examples.map((q) => (
-                <button
-                  key={q}
-                  type="button"
-                  disabled={busy}
-                  onClick={() => setText(q)}
-                  className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-left text-xs text-slate-700 shadow-sm transition hover:border-slate-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  {q}
-                </button>
-              ))}
+              {examples.map((q, i) => {
+                const isPinnedGolden = i === 0;
+                return (
+                  <button
+                    key={q}
+                    type="button"
+                    disabled={busy}
+                    onClick={() => setText(q)}
+                    className={
+                      isPinnedGolden
+                        ? "rounded-chip border border-brand-accent bg-white px-3 py-1.5 text-left text-xs text-ink-strong shadow-sm ring-1 ring-brand-accent transition hover:bg-peach-deep/30 hover:shadow focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                        : "rounded-chip border border-border-warm bg-white px-3 py-1.5 text-left text-xs text-ink-body shadow-sm transition hover:border-ink-subtle hover:text-ink-strong hover:shadow focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                    }
+                  >
+                    {q}
+                  </button>
+                );
+              })}
             </div>
-            <p className="mt-2 text-[11px] text-slate-400">
-              Clicking a chip drops the question into the box — edit it, then hit Find.
+            <p className="mt-2 text-[11px] text-ink-subtle">
+              Click a chip to drop it in the box — edit, then hit Find. The
+              first chip (orange ring) is always a deep, hand-authored
+              workflow.
             </p>
           </div>
         )}
