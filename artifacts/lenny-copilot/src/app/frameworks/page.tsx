@@ -3,18 +3,18 @@ import { loadCatalog, type CatalogEntry } from "@lib/catalog";
 import { resolveSource } from "@lib/sources";
 
 /**
- * Catalog page: every framework the router can match, grouped by category.
+ * Plan 5 — catalog page redesign (Slice 3 / Explore).
  *
- * Server component — `loadCatalog()` reads `data/catalog.json` at request
- * time, no client bundle cost. Each card is a clickable link to
- * `/frameworks/[id]`, which opens the framework directly in WorkflowRunner
- * (skipping the home-page routing step, since the user explicitly chose).
+ * Cream-to-peach gradient page background; white header card with H1 +
+ * benefit-led description + category jump-nav as a pill strip; each
+ * category section as a labeled block with a 2-col (md) / 3-col (lg)
+ * card grid; cards have hover-lift + explicit Start affordance.
  *
- * The source-piece link inside each card uses `relative z-10` to stay
- * clickable above the card-wide overlay link.
+ * Card-link pattern: title link gets an absolute overlay so the whole
+ * card navigates to /frameworks/<id>; source-link sits at z-10 to stay
+ * clickable above the overlay.
  */
 
-/** Stable category order; unknowns sort alphabetically at the end. */
 const CATEGORY_ORDER: readonly string[] = [
   "Strategy",
   "Product-Market Fit",
@@ -40,16 +40,21 @@ function groupByCategory(catalog: CatalogEntry[]): Map<string, CatalogEntry[]> {
   const groups = new Map<string, CatalogEntry[]>();
   for (const entry of catalog) {
     const list = groups.get(entry.category);
-    if (list) {
-      list.push(entry);
-    } else {
-      groups.set(entry.category, [entry]);
-    }
+    if (list) list.push(entry);
+    else groups.set(entry.category, [entry]);
   }
   for (const list of groups.values()) {
     list.sort((a, b) => a.name.localeCompare(b.name));
   }
   return groups;
+}
+
+function slugify(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 }
 
 export default function FrameworksPage() {
@@ -59,48 +64,49 @@ export default function FrameworksPage() {
     const rank = categoryRank(a) - categoryRank(b);
     return rank !== 0 ? rank : a.localeCompare(b);
   });
+
   return (
-    <main className="flex min-h-screen flex-col bg-slate-50">
-      <div className="mx-auto w-full max-w-5xl px-6 py-12 lg:px-10">
+    <main className="min-h-screen bg-gradient-to-b from-cream to-peach">
+      <div className="mx-auto w-full max-w-5xl px-6 py-12 lg:px-8 lg:py-16">
         <div className="flex items-center justify-between">
           <Link
             href="/"
-            className="text-xs font-medium text-slate-500 underline-offset-2 hover:text-slate-700 hover:underline"
+            className="text-xs font-medium text-ink-muted underline-offset-2 transition hover:text-ink-strong hover:underline"
           >
             ← Back to copilot
           </Link>
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-            {catalog.length} frameworks &middot; {orderedCategories.length}{" "}
-            categories
+          <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+            {catalog.length} frameworks · {orderedCategories.length} categories
           </p>
         </div>
 
-        <h1 className="mt-4 text-3xl font-semibold text-slate-900 lg:text-4xl">
-          All frameworks
-        </h1>
-        <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-600">
-          Click any framework to apply it to a decision you&apos;re working on.
-          You&apos;ll walk through it as an interactive workflow and finish
-          with a cited artifact you can copy or download.
-        </p>
-
-        <nav
-          aria-label="Jump to category"
-          className="mt-6 flex flex-wrap gap-2"
-        >
-          {orderedCategories.map((cat) => (
-            <a
-              key={cat}
-              href={`#${slugify(cat)}`}
-              className="rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-medium text-slate-600 shadow-sm hover:border-slate-400 hover:text-slate-900"
-            >
-              {cat}{" "}
-              <span className="text-slate-400">
-                ({groups.get(cat)!.length})
-              </span>
-            </a>
-          ))}
-        </nav>
+        <section className="mt-4 rounded-card-hero border border-border-warm bg-white p-8 shadow-soft-lg lg:p-10">
+          <h1 className="text-3xl font-semibold leading-tight text-ink-strong sm:text-4xl">
+            All frameworks
+          </h1>
+          <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink-body">
+            Click any framework to apply it to a decision you&apos;re working on.
+            You&apos;ll walk through it as an interactive workflow and finish
+            with a cited artifact you can copy or download.
+          </p>
+          <nav
+            aria-label="Jump to category"
+            className="mt-5 flex flex-wrap gap-2"
+          >
+            {orderedCategories.map((cat) => (
+              <a
+                key={cat}
+                href={`#${slugify(cat)}`}
+                className="rounded-chip border border-border-warm bg-white px-3 py-1 text-[11px] font-medium text-ink-body shadow-sm transition hover:border-brand-accent hover:text-ink-strong"
+              >
+                {cat}{" "}
+                <span className="text-ink-subtle">
+                  ({groups.get(cat)!.length})
+                </span>
+              </a>
+            ))}
+          </nav>
+        </section>
 
         {orderedCategories.map((cat) => {
           const entries = groups.get(cat)!;
@@ -108,15 +114,15 @@ export default function FrameworksPage() {
             <section
               key={cat}
               id={slugify(cat)}
-              className="mt-10 scroll-mt-6"
+              className="mt-12 scroll-mt-24"
             >
-              <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-muted">
                 {cat}{" "}
-                <span className="ml-1 font-normal text-slate-400">
+                <span className="ml-1 font-normal text-ink-subtle">
                   ({entries.length})
                 </span>
               </h2>
-              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {entries.map((entry) => (
                   <FrameworkCard key={entry.id} entry={entry} />
                 ))}
@@ -130,44 +136,38 @@ export default function FrameworksPage() {
 }
 
 function FrameworkCard({ entry }: { entry: CatalogEntry }) {
-  // Each catalog entry can carry 1+ source files; surface the first as the
-  // canonical link. The rest are searchable via the home-page routing flow.
   const primarySource = entry.source[0] ? resolveSource(entry.source[0]) : null;
 
-  // Card-link pattern: the whole card navigates to /frameworks/<id> via an
-  // absolutely-positioned overlay on the title link. The source link below
-  // sits at `relative z-10` so it stays clickable above the overlay and
-  // opens in a new tab.
   return (
-    <article className="group relative flex h-full flex-col rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition hover:border-slate-400 hover:shadow-md focus-within:border-slate-400 focus-within:shadow-md">
+    <article className="group relative flex h-full flex-col rounded-card border border-border-warm bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:border-brand-accent hover:shadow-soft-lg focus-within:-translate-y-0.5 focus-within:border-brand-accent focus-within:shadow-soft-lg">
       <div className="flex items-start justify-between gap-3">
-        <h3 className="text-sm font-semibold leading-tight text-slate-900">
+        <h3 className="text-[15px] font-semibold leading-tight text-ink-strong">
           <Link
             href={`/frameworks/${entry.id}`}
-            className="before:absolute before:inset-0 before:content-[''] focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 group-hover:text-slate-700"
+            className="before:absolute before:inset-0 before:content-[''] focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-cream"
           >
             {entry.name}
           </Link>
         </h3>
         {entry.tier === "workflow" && (
-          <span className="shrink-0 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-emerald-700">
+          <span className="shrink-0 rounded-chip border border-brand-soft bg-peach px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-brand-hover">
             Workflow
           </span>
         )}
       </div>
-      <p className="mt-1.5 text-[11px] italic text-slate-500">
+      <p className="mt-1.5 text-[11px] italic text-ink-muted">
         {entry.decision_served}
       </p>
-      <p className="mt-2 text-xs leading-relaxed text-slate-700">
+      <p className="mt-2 text-[13px] leading-relaxed text-ink-body">
         {entry.summary}
       </p>
-      <div className="mt-3 flex items-center justify-between gap-3">
+      <div className="mt-auto flex items-center justify-between gap-3 pt-3">
         {primarySource ? (
           <a
             href={primarySource.post_url ?? "#"}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative z-10 inline-block text-[11px] font-medium text-slate-500 underline-offset-2 hover:text-slate-700 hover:underline"
+            className="relative z-10 inline-block text-[11px] font-medium text-ink-muted underline-offset-2 transition hover:text-ink-strong hover:underline"
           >
             ↳ {primarySource.title}
           </a>
@@ -176,20 +176,11 @@ function FrameworkCard({ entry }: { entry: CatalogEntry }) {
         )}
         <span
           aria-hidden="true"
-          className="text-[11px] font-medium text-slate-400 transition group-hover:text-slate-900"
+          className="text-[11px] font-semibold text-ink-subtle transition group-hover:text-brand group-focus-within:text-brand"
         >
           Start →
         </span>
       </div>
     </article>
   );
-}
-
-/** Convert a category name to a URL-safe anchor id. */
-function slugify(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
 }
