@@ -25,9 +25,12 @@ describe("loadCatalog", () => {
 });
 
 describe("loadQuestionBank", () => {
-  it("returns 140 validated entries", () => {
+  it("returns 143 validated entries", () => {
+    // 140 initial entries from Plan 2 + 3 DRICE-flavored questions added
+    // in commit 07f7c02 so the pinned-golden home-page chip can route to
+    // DRICE (previously 0 entries pointed to drice).
     const questionBank = loadQuestionBank();
-    expect(questionBank).toHaveLength(140);
+    expect(questionBank).toHaveLength(143);
   });
 
   it("references only framework ids that exist in the catalog", () => {
