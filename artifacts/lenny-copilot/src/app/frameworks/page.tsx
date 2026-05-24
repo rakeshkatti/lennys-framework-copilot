@@ -139,12 +139,18 @@ function FrameworkCard({ entry }: { entry: CatalogEntry }) {
   const primarySource = entry.source[0] ? resolveSource(entry.source[0]) : null;
 
   return (
-    <article className="group relative flex h-full flex-col rounded-card border border-border-warm bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:border-brand-accent hover:shadow-soft-lg focus-within:-translate-y-0.5 focus-within:border-brand-accent focus-within:shadow-soft-lg">
+    // Whole-card focus/hover: hover/focus-within lift the card, swap to
+    // brand-accent border, and draw a brand-orange ring around the entire
+    // article when the inner title link is focused (keyboard or click).
+    // The title link itself has its native outline suppressed so the only
+    // visible focus affordance is the card-wide ring — clicking anywhere
+    // on the card therefore highlights the card, not the title.
+    <article className="group relative flex h-full flex-col rounded-card border border-border-warm bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:border-brand-accent hover:shadow-soft-lg focus-within:-translate-y-0.5 focus-within:border-brand-accent focus-within:shadow-soft-lg focus-within:ring-2 focus-within:ring-brand focus-within:ring-offset-2 focus-within:ring-offset-cream">
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-[15px] font-semibold leading-tight text-ink-strong">
           <Link
             href={`/frameworks/${entry.id}`}
-            className="before:absolute before:inset-0 before:content-[''] focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-cream"
+            className="before:absolute before:inset-0 before:content-[''] focus:outline-none"
           >
             {entry.name}
           </Link>
