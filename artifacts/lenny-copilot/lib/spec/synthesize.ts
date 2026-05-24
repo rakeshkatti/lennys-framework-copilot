@@ -69,7 +69,13 @@ export function synthesizeSpec(entry: CatalogEntry): FrameworkSpec {
     input: {
       type: "text",
       config: {
-        placeholder: "Your answer for this step.",
+        // "Notes" rather than "Your answer" — many synthesized steps invite
+        // observations or draft thinking, not a single crisp answer. The
+        // engine already allows empty text (see validateStepInput for
+        // type "text"), so leaving a step blank is a valid path through
+        // the workflow — the artifact just shows that section empty.
+        placeholder:
+          "Notes for this step — observations, decisions, or your answer. Leave blank to skip.",
         max_len: 2000,
       },
     },
