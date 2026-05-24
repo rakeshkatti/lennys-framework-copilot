@@ -15,7 +15,6 @@ import {
 import { pickChallenger, type TriangulationResult } from "@lib/triangulate";
 import { renderArtifactMarkdown } from "@lib/artifact/render";
 import { StepInput, initialDraftFor } from "./StepInput";
-import { ArtifactPane } from "./ArtifactPane";
 import { AdaptedGuidance } from "./AdaptedGuidance";
 import { ArtifactExport } from "./ArtifactExport";
 
@@ -61,7 +60,6 @@ export function WorkflowRunner({
   const [draft, setDraft] = useState<unknown>(undefined);
   const [notice, setNotice] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [showArtifact, setShowArtifact] = useState(false);
 
   useEffect(() => {
     const storage =
@@ -133,47 +131,58 @@ export function WorkflowRunner({
 
   if (!snap) {
     return (
-      <main className="flex min-h-screen items-center justify-center text-slate-500">
+      <main className="flex min-h-screen items-center justify-center bg-gradient-to-b from-cream to-peach text-ink-muted">
         Loading…
       </main>
     );
   }
 
   const isDone = snap.cursor === ARTIFACT_CURSOR;
+  const stepIndex = currentStep
+    ? spec.steps.findIndex((s) => s.id === currentStep.id) + 1
+    : spec.steps.length;
 
   return (
-    <main className="flex min-h-screen flex-col bg-slate-50">
-      <header className="border-b border-slate-200 bg-white px-6 py-4 lg:px-10">
-        <div className="mx-auto flex max-w-7xl items-start justify-between gap-4">
-          <div>
+    <main className="flex min-h-screen flex-col bg-gradient-to-b from-cream to-peach">
+      <header className="sticky top-0 z-20 border-b border-border-warm bg-cream/95 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3 lg:px-8">
+          <div className="flex items-center gap-3">
             {onExit && (
               <button
                 onClick={onExit}
-                className="mb-1 text-xs font-medium text-slate-500 hover:text-slate-900"
+                className="text-xs font-medium text-ink-muted underline-offset-2 transition hover:text-ink-strong hover:underline"
               >
-                ← Frameworks
+                ← Exit
               </button>
             )}
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-              {spec.category}
-            </p>
-            <h1 className="text-xl font-semibold text-slate-900">
+            {onExit && <span className="text-ink-subtle">·</span>}
+            <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
               {spec.name}
-            </h1>
-            <p className="mt-1 max-w-2xl text-sm text-slate-600">
-              {spec.summary}
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setShowArtifact((v) => !v)}
-              className="rounded-md border border-slate-300 px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100 lg:hidden"
-            >
-              {showArtifact ? "Hide artifact" : "Show artifact"}
-            </button>
+          <div className="flex items-center gap-4">
+            <div className="hidden items-center gap-2 sm:flex">
+              {spec.steps.map((s, i) => {
+                const isCurrent = !isDone && s.id === currentStep?.id;
+                const isComplete = isDone || i < stepIndex - 1;
+                return (
+                  <span
+                    key={s.id}
+                    aria-label={`Step ${i + 1}: ${s.title}`}
+                    className={
+                      isCurrent
+                        ? "h-2 w-6 rounded-full bg-brand transition"
+                        : isComplete
+                        ? "h-2 w-2 rounded-full bg-brand/60 transition"
+                        : "h-2 w-2 rounded-full bg-border-warm transition"
+                    }
+                  />
+                );
+              })}
+            </div>
             <button
               onClick={handleReset}
-              className="rounded-md border border-slate-300 px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100"
+              className="rounded-chip border border-border-warm bg-white px-3 py-1.5 text-xs font-medium text-ink-body transition hover:border-ink-subtle hover:text-ink-strong"
             >
               Restart
             </button>
@@ -193,60 +202,38 @@ export function WorkflowRunner({
         </div>
       )}
 
-      <div className="mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 lg:grid-cols-[1fr_420px]">
-        <section
-          className={`${
-            showArtifact ? "hidden lg:block" : "block"
-          } border-r border-slate-200 bg-white px-6 py-8 lg:px-10 lg:py-12`}
-        >
-          {isDone ? (
-            <DoneView
-              spec={spec}
-              inputs={snap.inputs}
-              onBack={handleBack}
-              canGoBack={snap.canGoBack}
-              onExit={onExit}
-              sourcesIndex={sourcesIndex}
-              catalog={catalog}
-              routeAlternatives={routeAlternatives ?? []}
-            />
-          ) : currentStep ? (
-            <StepView
-              step={currentStep}
-              draft={draft}
-              onChange={setDraft}
-              allInputs={snap.inputs}
-              spec={spec}
-              sourcesIndex={sourcesIndex}
-              benchmarks={benchmarks}
-              error={error}
-              validationError={
-                submitAttempted && !validation.ok ? validation.error : null
-              }
-              canGoBack={snap.canGoBack}
-              canGoNext={validation.ok}
-              onBack={handleBack}
-              onNext={handleNext}
-              stepIndex={
-                spec.steps.findIndex((s) => s.id === currentStep.id) + 1
-              }
-              totalSteps={spec.steps.length}
-            />
-          ) : null}
-        </section>
-
-        <aside
-          className={`${
-            showArtifact ? "block" : "hidden lg:block"
-          } bg-slate-50 px-6 py-8 lg:px-8 lg:py-12`}
-        >
-          <ArtifactPane
-            spec={spec}
-            cursor={snap.cursor}
-            inputs={snap.inputs}
-          />
-        </aside>
-      </div>
+      {isDone ? (
+        <DoneView
+          spec={spec}
+          inputs={snap.inputs}
+          onBack={handleBack}
+          canGoBack={snap.canGoBack}
+          onExit={onExit}
+          sourcesIndex={sourcesIndex}
+          catalog={catalog}
+          routeAlternatives={routeAlternatives ?? []}
+        />
+      ) : currentStep ? (
+        <StepView
+          step={currentStep}
+          draft={draft}
+          onChange={setDraft}
+          allInputs={snap.inputs}
+          spec={spec}
+          sourcesIndex={sourcesIndex}
+          benchmarks={benchmarks}
+          error={error}
+          validationError={
+            submitAttempted && !validation.ok ? validation.error : null
+          }
+          canGoBack={snap.canGoBack}
+          canGoNext={validation.ok}
+          onBack={handleBack}
+          onNext={handleNext}
+          stepIndex={stepIndex}
+          totalSteps={spec.steps.length}
+        />
+      ) : null}
     </main>
   );
 }
@@ -285,89 +272,96 @@ function StepView({
   totalSteps: number;
 }) {
   return (
-    <div className="mx-auto max-w-2xl">
-      <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-        Step {stepIndex} of {totalSteps}
-      </p>
-      <h2 className="mt-1 text-2xl font-semibold text-slate-900">
-        {step.title}
-      </h2>
-      <p className="mt-3 text-base leading-relaxed text-slate-700">
-        {step.prompt}
-      </p>
+    <div className="mx-auto w-full max-w-6xl px-6 py-8 lg:px-8 lg:py-12">
+      <div className="grid gap-8 lg:grid-cols-5 lg:gap-10">
+        {/* LEFT: prompt + input + verdict + examples + nav (~60%) */}
+        <div className="lg:col-span-3">
+          <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+            Step {stepIndex} of {totalSteps}
+          </p>
+          <h2 className="mt-1 text-2xl font-semibold leading-tight text-ink-strong sm:text-3xl">
+            {step.title}
+          </h2>
+          <p className="mt-3 text-base leading-relaxed text-ink-body">
+            {step.prompt}
+          </p>
 
-      <div className="mt-6">
-        <StepInput
-          step={step}
-          draft={draft}
-          allInputs={allInputs}
-          spec={spec}
-          onChange={onChange}
-        />
-      </div>
+          <div className="mt-6">
+            <StepInput
+              step={step}
+              draft={draft}
+              allInputs={allInputs}
+              spec={spec}
+              onChange={onChange}
+            />
+          </div>
 
-      <BenchmarkVerdict
-        step={step}
-        draft={draft}
-        allInputs={allInputs}
-        benchmarks={benchmarks}
-      />
+          <BenchmarkVerdict
+            step={step}
+            draft={draft}
+            allInputs={allInputs}
+            benchmarks={benchmarks}
+          />
 
-      <AdaptedGuidance
-        spec={spec}
-        step={step}
-        inputsSoFar={allInputs}
-        sourcesIndex={sourcesIndex}
-        // Only wire chip-click → textarea fill for text inputs. For score
-        // grids / multi-choice steps, the LLM's suggested_options (if any)
-        // don't apply to the structured input UI.
-        onSuggestionSelect={
-          step.input.type === "text"
-            ? (text) => onChange({ value: text })
-            : undefined
-        }
-      />
+          {step.examples && step.examples.length > 0 && (
+            <div className="mt-6 flex flex-wrap gap-2">
+              {step.examples.map((ex, i) => (
+                <details
+                  key={i}
+                  className="group rounded-chip border border-border-warm bg-white px-3 py-1 text-xs text-ink-body open:rounded-card open:px-4 open:py-3 open:shadow-soft"
+                >
+                  <summary className="cursor-pointer font-medium text-ink-body">
+                    {ex.company}
+                  </summary>
+                  <p className="mt-2 leading-relaxed text-ink-body">{ex.text}</p>
+                </details>
+              ))}
+            </div>
+          )}
 
+          {(error || validationError) && (
+            <p className="mt-4 text-sm text-rose-700">
+              {error || validationError}
+            </p>
+          )}
 
-      {step.examples && step.examples.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-2">
-          {step.examples.map((ex, i) => (
-            <details
-              key={i}
-              className="group rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-700 open:rounded-lg open:px-4 open:py-3"
+          <div className="mt-8 flex items-center justify-between gap-4">
+            <button
+              onClick={onBack}
+              disabled={!canGoBack}
+              className="rounded-chip border border-border-warm bg-white px-4 py-2 text-sm font-medium text-ink-body shadow-sm transition hover:border-ink-subtle hover:text-ink-strong disabled:cursor-not-allowed disabled:opacity-50"
             >
-              <summary className="cursor-pointer font-medium text-slate-900">
-                {ex.company}
-              </summary>
-              <p className="mt-2 text-xs leading-relaxed text-slate-600">
-                {ex.text}
-              </p>
-            </details>
-          ))}
+              ← Back
+            </button>
+            <button
+              onClick={onNext}
+              disabled={!canGoNext}
+              className="rounded-chip bg-brand px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-hover focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-300"
+            >
+              Continue →
+            </button>
+          </div>
         </div>
-      )}
 
-      {(error || validationError) && (
-        <p className="mt-4 text-sm text-rose-700">
-          {error || validationError}
-        </p>
-      )}
-
-      <div className="mt-8 flex items-center justify-between">
-        <button
-          onClick={onBack}
-          disabled={!canGoBack}
-          className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 disabled:opacity-40"
-        >
-          ← Back
-        </button>
-        <button
-          onClick={onNext}
-          disabled={!canGoNext}
-          className="rounded-md bg-slate-900 px-5 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
-        >
-          Next →
-        </button>
+        {/* RIGHT: sticky AdaptedGuidance (~40%); collapses below on mobile */}
+        <div className="lg:col-span-2">
+          <div className="lg:sticky lg:top-20">
+            <AdaptedGuidance
+              spec={spec}
+              step={step}
+              inputsSoFar={allInputs}
+              sourcesIndex={sourcesIndex}
+              // Only wire chip-click → textarea fill for text inputs. For score
+              // grids / multi-choice steps, the LLM's suggested_options (if any)
+              // don't apply to the structured input UI.
+              onSuggestionSelect={
+                step.input.type === "text"
+                  ? (text) => onChange({ value: text })
+                  : undefined
+              }
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -557,17 +551,17 @@ function DoneView({
   }, [triState, challengerEntry]);
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="mx-auto w-full max-w-3xl px-6 py-8 lg:px-8 lg:py-12">
       <div className="flex items-center gap-2">
         <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
-        <p className="text-xs font-medium uppercase tracking-wide text-emerald-700">
+        <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
           Workflow complete
         </p>
       </div>
-      <h2 className="mt-1 text-2xl font-semibold text-slate-900">
+      <h2 className="mt-1 text-2xl font-semibold leading-tight text-ink-strong sm:text-3xl">
         {spec.name} — triangulated artifact
       </h2>
-      <p className="mt-3 text-base leading-relaxed text-slate-700">
+      <p className="mt-3 text-base leading-relaxed text-ink-body">
         Below: your recommended path, a deliberate counterargument from a
         different framework, and what would change your mind.
       </p>
@@ -578,7 +572,7 @@ function DoneView({
         accent="emerald"
         subtitle={`via ${spec.name}`}
       >
-        <pre className="max-h-[40vh] overflow-auto whitespace-pre-wrap break-words text-xs leading-relaxed text-slate-800">
+        <pre className="max-h-[40vh] overflow-auto whitespace-pre-wrap break-words text-xs leading-relaxed text-ink-body">
           {primaryArtifactMarkdown}
         </pre>
       </ArtifactBlock>
@@ -603,14 +597,14 @@ function DoneView({
         <button
           onClick={onBack}
           disabled={!canGoBack}
-          className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 disabled:opacity-40"
+          className="rounded-chip border border-border-warm bg-white px-4 py-2 text-sm font-medium text-ink-body shadow-sm transition hover:border-ink-subtle hover:text-ink-strong disabled:cursor-not-allowed disabled:opacity-50"
         >
           ← Back to last step
         </button>
         {onExit && (
           <button
             onClick={onExit}
-            className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+            className="rounded-chip bg-brand px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-hover focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
           >
             Back to frameworks
           </button>
@@ -643,15 +637,15 @@ function ArtifactBlock({
     indigo: "text-indigo-700",
   }[accent];
   return (
-    <section className={`mt-6 rounded-lg border ${accentCls} bg-white`}>
-      <div className="flex items-baseline justify-between gap-3 border-b border-slate-200 px-4 py-3">
+    <section className={`mt-6 rounded-card border ${accentCls} bg-white shadow-soft`}>
+      <div className="flex items-baseline justify-between gap-3 border-b border-border-warm px-4 py-3">
         <p
           className={`text-xs font-semibold uppercase tracking-wide ${labelCls}`}
         >
           {label}
         </p>
         {subtitle && (
-          <p className="text-xs text-slate-500">{subtitle}</p>
+          <p className="text-xs text-ink-muted">{subtitle}</p>
         )}
       </div>
       <div className="px-4 py-4">{children}</div>
@@ -682,7 +676,7 @@ function ChallengerSourceChip({
     );
   }
   return (
-    <span className="rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-[11px] font-medium text-slate-600">
+    <span className="rounded-full border border-border-warm bg-white px-2 py-0.5 text-[11px] font-medium text-ink-muted">
       {file ?? "Source"}
     </span>
   );
@@ -708,7 +702,7 @@ function ChallengerBlocks({
   if (!challengerEntry) {
     return (
       <ArtifactBlock label="Best counterargument" accent="amber">
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-ink-body">
           No contrasting framework available to challenge this decision.
         </p>
       </ArtifactBlock>
@@ -733,13 +727,13 @@ function ChallengerBlocks({
           accent="amber"
           subtitle={challengerSubtitle}
         >
-          <p className="flex items-center gap-2 text-sm text-slate-600">
+          <p className="flex items-center gap-2 text-sm text-ink-body">
             <span className="h-2 w-2 animate-pulse rounded-full bg-amber-500" />
             Running the challenger…
           </p>
         </ArtifactBlock>
         <ArtifactBlock label="What would change my mind" accent="indigo">
-          <p className="text-sm text-slate-500">Pending the challenger.</p>
+          <p className="text-sm text-ink-muted">Pending the challenger.</p>
         </ArtifactBlock>
       </>
     );
@@ -756,7 +750,7 @@ function ChallengerBlocks({
         accent="amber"
         subtitle={challengerSubtitle}
       >
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-ink-body">
           Couldn&apos;t load the challenger ({reason}). The recommended path
           above is unchanged — try refreshing to retry.
         </p>
@@ -773,12 +767,12 @@ function ChallengerBlocks({
         accent="amber"
         subtitle={challengerSubtitle}
       >
-        <div className="whitespace-pre-wrap break-words text-sm leading-relaxed text-slate-800">
+        <div className="whitespace-pre-wrap break-words text-sm leading-relaxed text-ink-body">
           {counterargument}
         </div>
       </ArtifactBlock>
       <ArtifactBlock label="What would change my mind" accent="indigo">
-        <div className="whitespace-pre-wrap break-words text-sm leading-relaxed text-slate-800">
+        <div className="whitespace-pre-wrap break-words text-sm leading-relaxed text-ink-body">
           {what_would_change_my_mind}
         </div>
       </ArtifactBlock>
