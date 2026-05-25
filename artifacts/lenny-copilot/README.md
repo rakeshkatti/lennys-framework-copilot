@@ -1,4 +1,4 @@
-# Lenny's Framework Copilot
+# Lenny's Newsletter Co-pilot
 
 > Type a real product decision. Get routed to the right framework from Lenny's archive. Run it as an interactive workflow. Walk out with a cited artifact and a counter-perspective from a challenger framework.
 

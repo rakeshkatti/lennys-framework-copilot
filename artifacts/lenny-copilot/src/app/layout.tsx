@@ -20,7 +20,7 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Lenny's Framework Copilot",
+  title: "Lenny's Newsletter Co-pilot",
   description:
     "Routes any product decision to the right framework from Lenny's archive — interactive workflow, cited artifact, triangulated against a challenger.",
 };

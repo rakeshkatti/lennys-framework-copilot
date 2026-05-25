@@ -20,7 +20,7 @@ export default function NotFound() {
             href="/"
             className="rounded-chip bg-brand px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-hover focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
           >
-            Back to the copilot →
+            Back to the co-pilot →
           </Link>
         </div>
       </article>

@@ -69,7 +69,7 @@ const TOOL: Anthropic.Tool = {
 };
 
 const SYSTEM_PROMPT = [
-  "You are the routing layer of Lenny's Framework Copilot.",
+  "You are the routing layer of Lenny's Newsletter Co-pilot.",
   "A user describes a product, growth, strategy, or career decision in plain English.",
   "Your job: pick the single framework from a provided candidate list that best helps them make that decision.",
   "",

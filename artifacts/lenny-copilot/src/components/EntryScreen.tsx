@@ -96,7 +96,7 @@ export function EntryScreen({
            * keeps it visible without dominating the hero card below.
            */}
           <span className="font-script text-3xl font-bold leading-none text-brand sm:text-4xl">
-            Lenny&apos;s Framework Copilot
+            Lenny&apos;s Newsletter Co-pilot
           </span>
           <Link
             href="/frameworks"

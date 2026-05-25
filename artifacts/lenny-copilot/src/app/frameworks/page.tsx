@@ -73,7 +73,7 @@ export default function FrameworksPage() {
             href="/"
             className="text-xs font-medium text-ink-muted underline-offset-2 transition hover:text-ink-strong hover:underline"
           >
-            ← Back to copilot
+            ← Back to co-pilot
           </Link>
           <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
             {catalog.length} frameworks · {orderedCategories.length} categories

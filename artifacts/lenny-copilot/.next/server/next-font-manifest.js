@@ -1,1 +1,1 @@
-self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{},\"appUsingSizeAdjust\":false,\"pagesUsingSizeAdjust\":false}"
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/rakeshkatti/dev/lennys-framework-copilot/artifacts/lenny-copilot/src/app/layout\":[\"static/media/46bdd75a3ff56824-s.p.woff2\",\"static/media/39a5c75b28bf49bc.p.woff2\",\"static/media/b5bb120f6fcabcb4-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"

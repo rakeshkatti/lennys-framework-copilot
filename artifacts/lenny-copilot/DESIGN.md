@@ -1,4 +1,4 @@
-# Design System — Lenny's Framework Copilot
+# Design System — Lenny's Newsletter Co-pilot
 
 > **Source of truth.** Read this before any visual or UI decision. All font choices, colors, spacing, and aesthetic direction are defined here. Do not deviate without explicit user approval. In QA mode, flag any code that doesn't match.
 
@@ -8,7 +8,7 @@ Extracted from three reference surfaces in Lenny's ecosystem (newsletter post, L
 
 ## Product Context
 
-- **What this is:** Lenny's Framework Copilot — interactive decision tool that routes a real product/growth/strategy decision to one of 121 frameworks from Lenny's newsletter + podcast archive, runs it as a guided workflow, ends with a cited artifact (+ always-on Decision Triangulation).
+- **What this is:** Lenny's Newsletter Co-pilot — interactive decision tool that routes a real product/growth/strategy decision to one of 121 frameworks from Lenny's newsletter + podcast archive, runs it as a guided workflow, ends with a cited artifact (+ always-on Decision Triangulation).
 - **Who it's for:** PMs, founders, growth leads at any stage who want to apply a proven framework to a real decision, not just read about one.
 - **Space:** Product-management tooling / AI productivity / Lenny's ecosystem (built for Lenny's contest).
 - **Project type:** Web app (interactive workflow) + browse catalog. Single-page-feeling Next.js 14 App Router.
@@ -36,7 +36,7 @@ Extracted from three reference surfaces in Lenny's ecosystem (newsletter post, L
 | Tiny-caps meta (bylines, "BEST VALUE" style tags) | Geist | 600 | `text-[10px] uppercase tracking-wide` |
 | Data / tables | Geist | 400 | Use CSS `font-variant-numeric: tabular-nums` |
 | Code blocks, inline code | Geist Mono | 400 | |
-| Script wordmark accents (rare, intentional) | Caveat (Google) | 600 | Used ONLY for the "Lenny's Framework Copilot" wordmark and similar Lenny-style flourishes. Never for headings or body. |
+| Script wordmark accents (rare, intentional) | Caveat (Google) | 600 | Used ONLY for the "Lenny's Newsletter Co-pilot" wordmark and similar Lenny-style flourishes. Never for headings or body. |
 
 **Loading:** Use Next.js `next/font/google` for Geist + Geist Mono. Caveat loaded the same way; preload only the weights we use.
 
@@ -145,7 +145,7 @@ These are the recurring shapes across Lenny's surfaces. Plan 5 should reuse them
 
 **Wordmark (script)**
 ```html
-<span class="font-['Caveat'] text-2xl font-semibold text-[#F97316]">Lenny's Framework Copilot</span>
+<span class="font-['Caveat'] text-2xl font-semibold text-[#F97316]">Lenny's Newsletter Co-pilot</span>
 ```
 
 ## Voice

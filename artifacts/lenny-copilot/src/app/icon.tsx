@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 /**
  * Programmatic favicon. Placeholder per Plan 5 — a brand-orange "L" on a
  * cream square with the brand-soft inner ring. The user will replace this
- * with their generated Lenny's Framework Copilot logo after Plan 5 ships.
+ * with their generated Lenny's Newsletter Co-pilot logo after Plan 5 ships.
  */
 
 export const size = { width: 32, height: 32 };

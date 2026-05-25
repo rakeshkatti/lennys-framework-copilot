@@ -1,10 +1,10 @@
-# CLAUDE.md — Lenny's Framework Copilot (app)
+# CLAUDE.md — Lenny's Newsletter Co-pilot (app)
 
 This file is loaded automatically into every Claude Code / subagent session that runs from the `artifacts/lenny-copilot/` directory. Keep it short and load-bearing; deeper conventions live in `docs/` and `DESIGN.md`.
 
 ## What this app is
 
-Lenny's Framework Copilot — an interactive decision tool. A user describes a real product/growth/strategy decision; we route to one of 121 frameworks from Lenny's newsletter + podcast archive; run it as a guided workflow; produce a cited artifact + always-on Decision Triangulation against a challenger framework.
+Lenny's Newsletter Co-pilot — an interactive decision tool. A user describes a real product/growth/strategy decision; we route to one of 121 frameworks from Lenny's newsletter + podcast archive; run it as a guided workflow; produce a cited artifact + always-on Decision Triangulation against a challenger framework.
 
 - 4 hand-authored "golden" workflows in `data/frameworks/*.json` (DRICE, Strategy Blocks, B2B PMF Diagnostic, Stalled-Growth Diagnostic).
 - 117 catalog entries in `data/catalog.json` ship as **synthesized** specs derived on the fly from `key_steps[]` (see `lib/spec/synthesize.ts`).
