@@ -591,6 +591,20 @@ function DoneView({
         triangulation={exportTriangulation}
       />
 
+      {/*
+       * Triangulation status placeholder. ArtifactExport only renders the
+       * violet Counter-perspective aside when the fetch succeeded with a
+       * non-fallback result. For every other state (loading / error /
+       * fallback / no challenger picked) we show an explicit status card
+       * so the user knows the counter-perspective is on its way (or why
+       * it isn't coming) instead of silently seeing nothing and assuming
+       * the workflow is done.
+       */}
+      <TriangulationStatus
+        triState={triState}
+        challengerName={challengerEntry?.name ?? null}
+      />
+
       <div className="mt-8 flex items-center justify-between gap-3">
         <button
           onClick={onBack}
@@ -775,5 +789,99 @@ function ChallengerBlocks({
         </div>
       </ArtifactBlock>
     </>
+  );
+}
+
+/**
+ * Triangulation status placeholder for the Done view.
+ *
+ * Visible whenever the violet Counter-perspective aside inside ArtifactExport
+ * is NOT shown — i.e. while the triangulation fetch is in flight, when it
+ * errored, when it fell back, or when no challenger was picked. Mirrors the
+ * violet treatment of the eventual aside so the loading→success transition
+ * is visually continuous (no layout jump, no surprise where the block lands).
+ *
+ * Silent fetch was a real UX problem: the user reached the final artifact,
+ * saw no counter-perspective, assumed the workflow was done, and left
+ * before the Sonnet pass returned (~5-15 seconds depending on network).
+ * Now there's always a visible status.
+ */
+function TriangulationStatus({
+  triState,
+  challengerName,
+}: {
+  triState:
+    | { kind: "idle" }
+    | { kind: "loading" }
+    | { kind: "result"; result: TriangulationResult }
+    | { kind: "error"; reason: string };
+  challengerName: string | null;
+}) {
+  // Successful non-fallback result is rendered by ArtifactExport's
+  // Counter-perspective aside; we render nothing here.
+  if (triState.kind === "result" && !triState.result.fallback) return null;
+
+  // No challenger could be picked (e.g. tiny catalog, every alternative is
+  // a near-duplicate of the primary). Don't surface anything — silent skip
+  // is the right call when there's literally no counter-perspective to
+  // generate.
+  if (triState.kind === "idle" && !challengerName) return null;
+
+  const baseAside =
+    "mt-6 rounded-card border-l-4 border-triangulation bg-triangulation-soft/40 px-6 py-6 sm:px-8";
+  const eyebrow =
+    "text-xs font-semibold uppercase tracking-wide text-triangulation";
+
+  if (triState.kind === "loading" || triState.kind === "idle") {
+    return (
+      <aside className={baseAside} aria-live="polite">
+        <p className={eyebrow}>Counter-perspective</p>
+        <div className="mt-3 flex items-center gap-3 text-sm leading-relaxed text-ink-body">
+          <span
+            aria-hidden
+            className="inline-flex h-2 w-2 animate-pulse rounded-full bg-triangulation"
+          />
+          <span>
+            Generating a deliberate counterargument
+            {challengerName ? (
+              <>
+                {" "}from{" "}
+                <span className="font-semibold text-ink-strong">
+                  {challengerName}
+                </span>
+              </>
+            ) : null}
+            … this usually takes 5–15 seconds. Stay on the page.
+          </span>
+        </div>
+      </aside>
+    );
+  }
+
+  // error OR fallback result
+  const reason =
+    triState.kind === "error"
+      ? triState.reason
+      : (triState.result.reason ?? "the challenger model didn't respond");
+
+  return (
+    <aside className={baseAside}>
+      <p className={eyebrow}>Counter-perspective</p>
+      <p className="mt-3 text-sm leading-relaxed text-ink-body">
+        We couldn&apos;t generate the counter-perspective this time
+        {challengerName ? (
+          <>
+            {" "}(challenger:{" "}
+            <span className="font-semibold text-ink-strong">
+              {challengerName}
+            </span>
+            )
+          </>
+        ) : null}
+        . The recommended path above is still your artifact — the
+        counter-perspective is a complement, not a gate.{" "}
+        <span className="text-ink-muted">({reason})</span>
+      </p>
+    </aside>
   );
 }
