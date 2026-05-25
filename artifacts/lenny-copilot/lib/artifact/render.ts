@@ -185,10 +185,10 @@ export function resolveArtifactBody(
 }
 
 /** Build a "## Sources" block. Lists every source file the spec cites
- *  (in spec order), and under each one the per-step character spans that
- *  were used to ground its guidance — so a reviewer can audit exactly which
- *  passages back the artifact. Only spans for steps the user completed are
- *  included. */
+ *  (in spec order), and under each one the per-step titles whose guidance
+ *  was grounded in that source. Only steps the user completed are included.
+ *  Raw character offsets from `source_span` are intentionally omitted —
+ *  they're spec-author / audit metadata, not reader-facing detail. */
 export function renderSources(
   spec: FrameworkSpec,
   opts: RenderOptions,
@@ -230,7 +230,7 @@ export function renderSources(
     lines.push(`- ${formatSourceLabel(file, sources)}`);
     const spans = spansByFile.get(file) ?? [];
     for (const s of spans) {
-      lines.push(`  - ${s.stepTitle} — chars ${s.start}–${s.end}`);
+      lines.push(`  - ${s.stepTitle}`);
     }
   }
   return lines.join("\n");
