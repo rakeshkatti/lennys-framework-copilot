@@ -49,8 +49,11 @@ const config: Config = {
         // CSS variables are set in src/app/layout.tsx via next/font.
         sans: ["var(--font-geist-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
         mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
-        // Reserved for the wordmark / Lenny script accents only — NEVER for body or headings.
-        script: ["var(--font-caveat)", "cursive"],
+        // Reserved for the wordmark / Lenny script accents only — NEVER for
+        // body or headings. "Bradley Hand" is a macOS system font that ships
+        // pre-installed; including it in the chain means Mac users see a
+        // handwritten wordmark immediately while the Caveat woff2 loads.
+        script: ["var(--font-caveat)", '"Bradley Hand"', "cursive"],
       },
       borderRadius: {
         // Hierarchical scale per DESIGN.md.

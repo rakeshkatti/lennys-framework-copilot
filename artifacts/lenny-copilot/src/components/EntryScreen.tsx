@@ -88,13 +88,19 @@ export function EntryScreen({
   return (
     <main className="relative flex min-h-screen flex-col bg-gradient-to-b from-cream to-peach">
       <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-6 py-16 lg:px-8">
-        <div className="flex items-center justify-between">
-          <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+        <div className="flex items-center justify-between gap-4">
+          {/*
+           * Script wordmark — DESIGN.md reserves font-script (Caveat +
+           * Bradley Hand fallback) for exactly this. Brand-orange to match
+           * the Lenny's Data / Lenny's Product Pass wordmarks. text-3xl
+           * keeps it visible without dominating the hero card below.
+           */}
+          <span className="font-script text-3xl font-bold leading-none text-brand sm:text-4xl">
             Lenny&apos;s Framework Copilot
-          </p>
+          </span>
           <Link
             href="/frameworks"
-            className="text-xs font-medium text-ink-muted underline-offset-2 transition hover:text-ink-strong hover:underline"
+            className="shrink-0 text-xs font-medium text-ink-muted underline-offset-2 transition hover:text-ink-strong hover:underline"
           >
             Browse all 121 →
           </Link>
