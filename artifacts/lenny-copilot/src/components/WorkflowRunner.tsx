@@ -567,33 +567,23 @@ function DoneView({
         </p>
       </div>
       <h2 className="mt-1 text-2xl font-semibold leading-tight text-ink-strong sm:text-3xl">
-        {spec.name} — triangulated artifact
+        {spec.name}
       </h2>
       <p className="mt-3 text-base leading-relaxed text-ink-body">
-        Below: your recommended path, a deliberate counterargument from a
-        different framework, and what would change your mind.
+        Your recommended path, with a deliberate counterargument from a
+        different framework and what would change your mind, follow below.
+        Copy as Markdown or download to share.
       </p>
 
-      {/* Block 1 — Recommended path (the user's primary artifact). */}
-      <ArtifactBlock
-        label="Recommended path"
-        accent="emerald"
-        subtitle={`via ${spec.name}`}
-      >
-        <pre className="max-h-[40vh] overflow-auto whitespace-pre-wrap break-words text-xs leading-relaxed text-ink-body">
-          {primaryArtifactMarkdown}
-        </pre>
-      </ArtifactBlock>
-
-      {/* Blocks 2 + 3 — challenger counterargument + mind-changer. */}
-      <ChallengerBlocks
-        triState={triState}
-        challengerEntry={challengerEntry}
-        sourcesIndex={sourcesIndex}
-      />
-
-      {/* Full markdown export — three blocks when triangulation succeeded,
-          the original one block otherwise. */}
+      {/*
+       * Plan 5 — single rendered view of the final artifact + triangulation.
+       * ArtifactExport renders the primary artifact via react-markdown with
+       * the Geist scale and splits the triangulation into its own violet
+       * Counter-perspective aside. The earlier Plan 3 era ArtifactBlock /
+       * ChallengerBlocks summary cards above this used to render the same
+       * content a second time as raw <pre> text, which read as duplication.
+       * Now there's one polished view.
+       */}
       <ArtifactExport
         spec={spec}
         inputs={inputs}
