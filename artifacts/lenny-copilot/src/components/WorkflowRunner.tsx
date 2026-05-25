@@ -576,24 +576,11 @@ function DoneView({
       </p>
 
       {/*
-       * Triangulation loading banner — rendered ABOVE the artifact so the
-       * user sees the progress signal immediately when the workflow
-       * completes (no scrolling needed). Disappears the moment a
-       * successful non-fallback result arrives; ArtifactExport then
-       * renders the actual Counter-perspective aside below the artifact
-       * at its natural position. The two cards never co-exist.
-       */}
-      <TriangulationStatus
-        triState={triState}
-        challengerName={challengerEntry?.name ?? null}
-      />
-
-      {/*
        * Plan 5 — single rendered view of the final artifact + triangulation.
        * ArtifactExport renders the primary artifact via react-markdown with
        * the Geist scale and splits the triangulation into its own violet
        * Counter-perspective aside (only when triangulation succeeded
-       * non-fallback). The TriangulationStatus banner above handles every
+       * non-fallback). The TriangulationStatus banner below handles every
        * other state (loading / error / fallback).
        */}
       <ArtifactExport
@@ -601,6 +588,20 @@ function DoneView({
         inputs={inputs}
         sourcesIndex={sourcesIndex}
         triangulation={exportTriangulation}
+      />
+
+      {/*
+       * Triangulation loading banner — rendered BELOW the artifact, where
+       * the eventual Counter-perspective aside also lives. The user reads
+       * top-down: artifact first, counter-perspective after. Placing the
+       * loader where the content will land means the user encounters it
+       * exactly when they're ready to read the counter-perspective — and
+       * the loading→loaded transition happens in place with no layout
+       * jump. The two cards never co-exist.
+       */}
+      <TriangulationStatus
+        triState={triState}
+        challengerName={challengerEntry?.name ?? null}
       />
 
       <div className="mt-8 flex items-center justify-between gap-3">
