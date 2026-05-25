@@ -71,7 +71,6 @@ export function StepInput(props: InputProps) {
 function ListInput({ step, draft, onChange }: InputProps) {
   const config = step.input.config;
   const items: string[] = ((draft as { items?: string[] })?.items) ?? [];
-  const minItems = (config.min_items as number | undefined) ?? 0;
   const label = (config.item_label as string | undefined) ?? "item";
   const nonEmpty = items.filter((s) => s.trim().length > 0).length;
 
@@ -79,6 +78,12 @@ function ListInput({ step, draft, onChange }: InputProps) {
     onChange({ items: next });
   }
 
+  // No "N / M minimum" badge. Reason: the spec's min_items is now a soft
+  // guideline only (Continue stays enabled below it, per lib/engine/validate.ts).
+  // The initial draft also starts with 2 rows instead of min_items rows.
+  // Showing "0 / 5 minimum" while only rendering 2 input boxes confused
+  // users into thinking they needed to fill five — when the actual behavior
+  // already accepts whatever they have. Pure neutral count instead, no nag.
   return (
     <div className="space-y-2">
       {items.map((item, i) => (
@@ -115,12 +120,8 @@ function ListInput({ step, draft, onChange }: InputProps) {
         >
           + Add {label}
         </button>
-        <span
-          className={`text-xs ${
-            nonEmpty >= minItems ? "text-ink-muted" : "text-rose-600"
-          }`}
-        >
-          {nonEmpty} / {minItems} minimum
+        <span className="text-xs text-ink-muted">
+          {nonEmpty} {nonEmpty === 1 ? label : `${label}s`}
         </span>
       </div>
     </div>
