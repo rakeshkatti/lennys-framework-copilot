@@ -66,6 +66,20 @@ const config: Config = {
         soft: "0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(160,100,40,0.06)",
         "soft-lg": "0 2px 4px rgba(0,0,0,0.05), 0 8px 24px rgba(160,100,40,0.08)",
       },
+      keyframes: {
+        // Indeterminate progress bar: a 25%-wide filled segment slides
+        // across the full width L→R, exits the right edge, then snaps
+        // back. Used by the triangulation loading banner on the workflow
+        // Done view. DESIGN.md-compliant continuous loader: translate
+        // only, no rotate, no scale.
+        indeterminate: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(400%)" },
+        },
+      },
+      animation: {
+        indeterminate: "indeterminate 1.5s ease-in-out infinite",
+      },
     },
   },
   plugins: [],

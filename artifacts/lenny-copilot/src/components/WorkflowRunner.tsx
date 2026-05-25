@@ -576,33 +576,31 @@ function DoneView({
       </p>
 
       {/*
+       * Triangulation loading banner — rendered ABOVE the artifact so the
+       * user sees the progress signal immediately when the workflow
+       * completes (no scrolling needed). Disappears the moment a
+       * successful non-fallback result arrives; ArtifactExport then
+       * renders the actual Counter-perspective aside below the artifact
+       * at its natural position. The two cards never co-exist.
+       */}
+      <TriangulationStatus
+        triState={triState}
+        challengerName={challengerEntry?.name ?? null}
+      />
+
+      {/*
        * Plan 5 — single rendered view of the final artifact + triangulation.
        * ArtifactExport renders the primary artifact via react-markdown with
        * the Geist scale and splits the triangulation into its own violet
-       * Counter-perspective aside. The earlier Plan 3 era ArtifactBlock /
-       * ChallengerBlocks summary cards above this used to render the same
-       * content a second time as raw <pre> text, which read as duplication.
-       * Now there's one polished view.
+       * Counter-perspective aside (only when triangulation succeeded
+       * non-fallback). The TriangulationStatus banner above handles every
+       * other state (loading / error / fallback).
        */}
       <ArtifactExport
         spec={spec}
         inputs={inputs}
         sourcesIndex={sourcesIndex}
         triangulation={exportTriangulation}
-      />
-
-      {/*
-       * Triangulation status placeholder. ArtifactExport only renders the
-       * violet Counter-perspective aside when the fetch succeeded with a
-       * non-fallback result. For every other state (loading / error /
-       * fallback / no challenger picked) we show an explicit status card
-       * so the user knows the counter-perspective is on its way (or why
-       * it isn't coming) instead of silently seeing nothing and assuming
-       * the workflow is done.
-       */}
-      <TriangulationStatus
-        triState={triState}
-        challengerName={challengerEntry?.name ?? null}
       />
 
       <div className="mt-8 flex items-center justify-between gap-3">
@@ -836,23 +834,32 @@ function TriangulationStatus({
     return (
       <aside className={baseAside} aria-live="polite">
         <p className={eyebrow}>Counter-perspective</p>
-        <div className="mt-3 flex items-center gap-3 text-sm leading-relaxed text-ink-body">
-          <span
-            aria-hidden
-            className="inline-flex h-2 w-2 animate-pulse rounded-full bg-triangulation"
-          />
-          <span>
-            Generating a deliberate counterargument
-            {challengerName ? (
-              <>
-                {" "}from{" "}
-                <span className="font-semibold text-ink-strong">
-                  {challengerName}
-                </span>
-              </>
-            ) : null}
-            … this usually takes 5–15 seconds. Stay on the page.
-          </span>
+        <p className="mt-3 text-sm leading-relaxed text-ink-body">
+          Generating a deliberate counterargument
+          {challengerName ? (
+            <>
+              {" "}from{" "}
+              <span className="font-semibold text-ink-strong">
+                {challengerName}
+              </span>
+            </>
+          ) : null}
+          … this usually takes 5–15 seconds. Stay on the page.
+        </p>
+        {/*
+         * Indeterminate progress bar — 25%-wide filled segment slides
+         * across the track L→R, exits the right edge, snaps back. The
+         * `overflow-hidden` clips the bar at the track edges; the
+         * keyframe (translate -100% → 400%) is defined in
+         * tailwind.config.ts. Unambiguous 'we're loading' motion; the
+         * pre-existing animate-pulse dot was too subtle to read as
+         * progress.
+         */}
+        <div
+          className="mt-4 h-1 w-full overflow-hidden rounded-full bg-triangulation/15"
+          aria-hidden
+        >
+          <div className="h-full w-1/4 rounded-full bg-triangulation animate-indeterminate" />
         </div>
       </aside>
     );
