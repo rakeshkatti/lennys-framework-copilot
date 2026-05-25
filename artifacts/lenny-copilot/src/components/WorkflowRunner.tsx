@@ -157,12 +157,19 @@ export function WorkflowRunner({
               </button>
             )}
             {onExit && <span className="text-ink-subtle">·</span>}
-            <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+            <p className="min-w-0 truncate text-xs font-semibold uppercase tracking-wide text-ink-muted">
               {spec.name}
             </p>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="hidden items-center gap-2 sm:flex">
+          {/*
+           * Progress dots visible on all viewports. Dots are tiny (8px each,
+           * 24px for the current pill) and the count is bounded by step count
+           * (max ~7) so they fit even on a 360px viewport alongside the
+           * framework name (which truncates above) and Restart. Tighter gap
+           * on mobile keeps the row compact.
+           */}
+          <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               {spec.steps.map((s, i) => {
                 const isCurrent = !isDone && s.id === currentStep?.id;
                 const isComplete = isDone || i < stepIndex - 1;
