@@ -20,8 +20,15 @@ export function initialDraftFor(
   const { type, config } = step.input;
   switch (type) {
     case "list": {
-      const minItems = (config.min_items as number | undefined) ?? 3;
-      return { items: Array.from({ length: minItems }, () => "") };
+      // Initial row count is intentionally LOW (2) regardless of min_items
+      // so the user isn't intimidated by 5 empty rows on a fresh DRICE
+      // step. They can hit "+ Add" to grow the list, and the count badge
+      // ("3 / 5 minimum") still nudges them toward the spec's target.
+      // min_items is a soft guideline per the engine validator — Continue
+      // is enabled regardless of the count.
+      const minItems = (config.min_items as number | undefined) ?? 0;
+      const initial = Math.min(Math.max(minItems, 1), 2);
+      return { items: Array.from({ length: initial }, () => "") };
     }
     case "number":
       return { value: "" };
