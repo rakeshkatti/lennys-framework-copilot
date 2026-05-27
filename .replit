@@ -30,3 +30,6 @@ externalPort = 8081
 [[ports]]
 localPort = 21705
 externalPort = 3000
+
+[nix]
+packages = ["hol", "run"]
