@@ -14,7 +14,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
     "geist": "^1.7.1",
-    "minisearch": "^7.1.2",
+    "minisearch": "^7.2.0",
     "next": "^14.2.35",
     "react": "catalog:",
     "react-dom": "catalog:",
