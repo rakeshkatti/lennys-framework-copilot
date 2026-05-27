@@ -1,0 +1,2161 @@
+[
+  {
+    "id": "drice",
+    "name": "DRICE (Detailed RICE) Prioritization",
+    "category": "Prioritization & Planning",
+    "decision_served": "Deciding which projects a growth or product team should build next to maximize impact per cycle.",
+    "source": [
+      "newsletters/introducing-drice-a-modern-prioritization-framework.md"
+    ],
+    "summary": "DRICE extends standard RICE scoring by adding a high-fidelity 'Detailed RICE' pass on the shortlisted ideas. Teams first T-shirt-score all ideas on Reach, Impact, Confidence, and Effort, then invest ~30 minutes per top idea to produce a dollar-based impact model and engineering estimate.",
+    "key_steps": [
+      "Collect 5x more ideas than you can build, T-shirt-score each on Reach, Impact, Confidence, Effort",
+      "Compute RICE score and sort",
+      "Take ~2x capacity as a preliminary shortlist",
+      "DRICE each shortlisted idea with a clear hypothesis",
+      "Build a bottom-up financial impact estimate",
+      "Get a detailed engineering effort estimate",
+      "Calculate return on eng investment and finalize the quarter's plan"
+    ],
+    "tier": "workflow"
+  },
+  {
+    "id": "gain-feedback",
+    "name": "GAIN Framework for Feedback",
+    "category": "Communication & Influence",
+    "decision_served": "Crafting and delivering feedback that someone will actually appreciate and act on.",
+    "source": [
+      "newsletters/introducing-the-gain-framework-for-feedback-an-evidence-based-approach-to-giving.md"
+    ],
+    "summary": "An evidence-based feedback framework that reframes feedback around the gain (what you want to move toward) rather than the pain. It translates raw reactions into four elements that increase receptivity and behavior change.",
+    "key_steps": [
+      "Goal: name what both parties want more of",
+      "Actions: specify what needs to change",
+      "Impacts: explain why it matters to the other person",
+      "Next actions: agree who does what by when"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "core-4-velocity",
+    "name": "Core 4 Product Velocity Metrics",
+    "category": "Metrics & Benchmarks",
+    "decision_served": "Measuring and improving how fast and effectively a product/engineering team ships value.",
+    "source": [
+      "newsletters/introducing-core-4-the-best-way-to-measure-and-improve-your-product-velocity.md"
+    ],
+    "summary": "Core 4, from the creators of DORA, SPACE, and DevEx, unifies developer-productivity research into four dimensions held in tension and used together as a balanced system.",
+    "key_steps": [
+      "Speed: how quickly the team delivers",
+      "Effectiveness: developer experience (DXI)",
+      "Quality: change failure rate and reliability",
+      "Impact: time spent on new capabilities vs maintenance",
+      "Collect a baseline survey, benchmark, and triage the lowest dimension"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "racecar-growth-framework",
+    "name": "Racecar Growth Framework",
+    "category": "Growth",
+    "decision_served": "Designing and sequencing a startup's overall growth strategy and tactics.",
+    "source": [
+      "newsletters/the-racecar-growth-framework-expanded-and-illustrated.md"
+    ],
+    "summary": "Models company growth as a racecar: a self-sustaining growth engine accelerated and maintained by supporting components. It tells you which component to focus on at each stage of company maturity.",
+    "key_steps": [
+      "Growth engine: the self-sustaining loop driving most long-term growth",
+      "Kickstarts: unscalable tactics for the first ~1,000 users",
+      "Turbo boosts: one-off pushes that spike growth",
+      "Lubricants: tactics that make the engine run efficiently",
+      "Mid-stage accelerants: levers explored at scale",
+      "Add new engines before the primary one asymptotes"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "subscription-value-loop",
+    "name": "Subscription Value Loop",
+    "category": "Growth",
+    "decision_served": "Growing a consumer subscription app by compounding LTV/CAC and shortening payback period.",
+    "source": [
+      "newsletters/the-subscription-value-loop-a-framework-for-growing-consumer-subscription-busine.md"
+    ],
+    "summary": "Phil Carter's framework for consumer subscription businesses centers on a clear core value promise that drives a compounding three-step loop. As each step strengthens, LTV/CAC rises and payback period falls.",
+    "key_steps": [
+      "Establish a clear, differentiated core value promise",
+      "Value Creation: connect users to value fast and keep them returning",
+      "Value Delivery: distribute cost-efficiently via word of mouth, SEO, sustainable paid",
+      "Value Capture: convert free users and reinvest revenue",
+      "Benchmark each step and target the weakest link"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "foundation-sprint",
+    "name": "Foundation Sprint & Founding Hypothesis",
+    "category": "Strategy",
+    "decision_served": "Jump-starting a new product or startup by aligning the team on a clear, testable strategy.",
+    "source": [
+      "newsletters/introducing-the-foundation-sprint-from-the-creators-of-the-design-sprint.md"
+    ],
+    "summary": "Jake Knapp and John Zeratsky's two-day Foundation Sprint produces a Founding Hypothesis: a sentence combining customer, approach, and differentiation. It forces hidden strategic predictions into the open so a team can test them.",
+    "key_steps": [
+      "Define the target customer",
+      "Choose the approach and why it is superior",
+      "Identify the competition and how you radically differentiate",
+      "Assemble the Founding Hypothesis sentence",
+      "Use the hypothesis to make a testable promise"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "strategy-blocks",
+    "name": "Strategy Blocks",
+    "category": "Strategy",
+    "decision_served": "Crafting and building alignment around a product or company strategy.",
+    "source": [
+      "newsletters/strategy-blocks-an-operators-guide-to-product-strategy.md"
+    ],
+    "summary": "Chandra Janakiraman's operator's framework turns classic strategy wisdom into a five-step process. It produces a 2-year small-'s' strategy (3-5 strategic pillars plus explicit non-priorities) and a separate 3/5/10-year big-'S' strategy.",
+    "key_steps": [
+      "Preparation: gather behavioral, research, leadership, competitive inputs",
+      "Strategy Sprint: a facilitated week to select strategic pillars",
+      "Design Sprint: pressure-test the chosen direction",
+      "Document Writing: write the strategy doc",
+      "Rollout: communicate and align the organization"
+    ],
+    "tier": "workflow"
+  },
+  {
+    "id": "three-step-problem-solving",
+    "name": "Three-Step Framework for Solving Problems",
+    "category": "Research & Discovery",
+    "decision_served": "Making sure you are solving the right problem before designing or building anything.",
+    "source": [
+      "newsletters/a-three-step-framework-for-solving-problems.md"
+    ],
+    "summary": "Lenny Rachitsky's framework for nailing the problem statement. It crystallizes the problem, builds team alignment, and keeps the team anchored to it throughout execution.",
+    "key_steps": [
+      "Crystallize the problem: a short, focused, solution-agnostic statement with evidence and success criteria",
+      "Align on the problem with team and stakeholders",
+      "Keep returning to the problem in every review to prevent scope creep"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "minto-pyramid-scr",
+    "name": "Minto Pyramid Principle & SCR Framework",
+    "category": "Communication & Influence",
+    "decision_served": "Structuring a persuasive proposal, presentation, or strategy doc for busy decision-makers.",
+    "source": [
+      "newsletters/the-minto-pyramid-principle-and-the-scr-framework.md"
+    ],
+    "summary": "The Minto Pyramid Principle says to present top-down: lead with your recommendation, then arguments, then data. SCR wraps it in a Situation-Complication-Resolution narrative.",
+    "key_steps": [
+      "Situation: state the agreed facts and background",
+      "Complication: explain what has changed",
+      "Resolution: give the recommendation first",
+      "Back the recommendation with supporting arguments",
+      "Back each argument with data"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "spade-decision",
+    "name": "S.P.A.D.E. Decision-Making Framework",
+    "category": "Prioritization & Planning",
+    "decision_served": "Making an important, hard, one-way-door decision with clear ownership and accountability.",
+    "source": [
+      "newsletters/my-favorite-decision-making-frameworks.md"
+    ],
+    "summary": "Gokul Rajaram's framework balances structure and simplicity for major decisions. It ensures everyone is heard while a single accountable person makes and owns the call.",
+    "key_steps": [
+      "Setting: clarify what is decided, why, when by",
+      "People: who is responsible, consulted, approves",
+      "Alternatives: lay out all viable options",
+      "Decide: stakeholders weigh in, owner decides",
+      "Explain: communicate and rally everyone"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "rapid-decision",
+    "name": "RAPID Decision Roles Framework",
+    "category": "Prioritization & Planning",
+    "decision_served": "Clarifying who plays which role in a high-value or recurring decision.",
+    "source": [
+      "newsletters/my-favorite-decision-making-frameworks.md"
+    ],
+    "summary": "Bain & Company's RAPID framework assigns explicit roles for a decision rather than a project. Best for high-value or high-frequency decisions where role ambiguity slows things down.",
+    "key_steps": [
+      "Recommend: proposes the decision",
+      "Agree: must sign off",
+      "Perform: will execute",
+      "Input: consulted for information",
+      "Decide: makes the final call"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "eisenhower-matrix",
+    "name": "Eisenhower Matrix",
+    "category": "Career & Self-management",
+    "decision_served": "Prioritizing tasks by separating what is truly important from what is merely urgent.",
+    "source": [
+      "newsletters/my-favorite-decision-making-frameworks.md"
+    ],
+    "summary": "A 2x2 grid that maps tasks by urgency and importance, helping you act on important work, schedule important-but-not-urgent work, delegate urgent-but-unimportant work, and drop the rest.",
+    "key_steps": [
+      "Urgent + Important: do now",
+      "Important + Not urgent: schedule",
+      "Urgent + Not important: delegate",
+      "Not urgent + Not important: eliminate"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "mission-vision-strategy-hierarchy",
+    "name": "Mission → Vision → Strategy → Goals → Roadmap → Task",
+    "category": "Strategy",
+    "decision_served": "Understanding how a team's purpose connects all the way down to its day-to-day work.",
+    "source": [
+      "newsletters/mission--vision--strategy--goals--roadmap--task.md"
+    ],
+    "summary": "Lenny Rachitsky's hierarchy clarifies how mission, vision, strategy, goals, roadmap, and task fit together, and why goals must precede the roadmap so prioritization is impact-driven.",
+    "key_steps": [
+      "Mission: what we are trying to achieve",
+      "Vision: what the world looks like when achieved",
+      "Strategy: our plan to win (3-5 investments)",
+      "Goals: how we measure progress",
+      "Roadmap: what to build",
+      "Task: the next atomic unit of work"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "willingness-to-pay-study",
+    "name": "Willingness-to-Pay (WTP) Research Methods",
+    "category": "Pricing",
+    "decision_served": "Determining how to price a product by measuring what customers will actually pay.",
+    "source": [
+      "newsletters/the-ultimate-guide-to-willingness-to-pay.md"
+    ],
+    "summary": "Kristen Berman's guide to running a pricing study, covering the four common quantitative WTP methods plus qualitative work. Price is shaped by product description and positioning, not a fixed number.",
+    "key_steps": [
+      "Van Westendorp: price-perception questions for an acceptable range",
+      "Becker-DeGroot-Marschak: an incentive-compatible bidding mechanism",
+      "Multiple price list: accept/reject a ladder of prices",
+      "Discrete/choice-based conjoint: infer WTP from forced choices",
+      "Pair quantitative results with qualitative research"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "evals-for-ai-products",
+    "name": "Evals Framework for AI Products",
+    "category": "Research & Discovery",
+    "decision_served": "Measuring and improving the quality of an AI product beyond informal vibe checks.",
+    "source": [
+      "newsletters/beyond-vibe-checks-a-pms-complete-guide-to-evals.md"
+    ],
+    "summary": "Aman Khan's guide to evals, the systematic way to measure whether an AI system does what it should. It defines three eval approaches and standard criteria applied across each part of an AI system.",
+    "key_steps": [
+      "Human evals: thumbs-up/down or expert labels",
+      "Code-based evals: deterministic checks on outputs",
+      "LLM-based evals: a judge LLM with a calibrated prompt",
+      "Apply standard criteria per system step",
+      "Build a labeled dataset, validate the eval, iterate"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "prompt-engineering-techniques",
+    "name": "Five Prompt Engineering Techniques",
+    "category": "Research & Discovery",
+    "decision_served": "Getting consistently better, more tailored results when working with AI models.",
+    "source": [
+      "newsletters/five-proven-prompt-engineering-techniques-and-a-few-more-advanced-tactics.md"
+    ],
+    "summary": "Mike Taylor's five day-to-day prompt engineering tactics that work across any LLM, giving the model the specific guidance it needs.",
+    "key_steps": [
+      "Role-playing: instruct the AI to assume an expert persona",
+      "Style unbundling: list components of a style, then apply",
+      "Give examples (few-shot prompting)",
+      "Use clear formatting and explicit structure",
+      "Chain-of-thought reasoning for complex tasks"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "first-principles-thinking",
+    "name": "First-Principles Thinking",
+    "category": "Strategy",
+    "decision_served": "Solving a novel problem by reasoning from fundamentals instead of copying others.",
+    "source": [
+      "newsletters/first-principles-thinking.md"
+    ],
+    "summary": "Breaking a problem down to its fundamental, undeniable truths and reasoning up from there, rather than reasoning by analogy. Effortful but the source of most genuine breakthroughs.",
+    "key_steps": [
+      "Identify and question the assumptions in the conventional approach",
+      "Break the problem down to fundamental truths",
+      "Reason upward to build an original solution",
+      "Pick carefully what to question"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "killer-sales-pitch",
+    "name": "Positioning-Based Sales Pitch Structure",
+    "category": "GTM & Sales",
+    "decision_served": "Building a B2B sales pitch that helps buyers confidently choose you over the alternatives.",
+    "source": [
+      "newsletters/how-to-build-a-killer-sales-pitch.md"
+    ],
+    "summary": "April Dunford's sales pitch structure, built because 40-60% of B2B deals end in 'no decision.' A setup frames the market around your point of view, then a follow-through centers on your differentiated value.",
+    "key_steps": [
+      "Open with your unique insight into the market",
+      "Lay out alternative approaches and their trade-offs",
+      "Define what customers really need and confirm agreement",
+      "Demo your differentiated value in that context",
+      "Tie every feature to business value"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "art-of-the-pivot",
+    "name": "The Art of the Pivot",
+    "category": "Strategy",
+    "decision_served": "Deciding whether, when, and how to pivot a struggling startup.",
+    "source": [
+      "newsletters/the-art-of-the-pivot-part-2-how-why-and-when-to-pivot.md"
+    ],
+    "summary": "Lenny Rachitsky's data-driven framework for pivoting, distinguishing quick ideation pivots from hard pivots of a live product, and identifying the two clear signs it is time to pivot.",
+    "key_steps": [
+      "Identify which pivot you face: ideation or hard pivot",
+      "Hold a hard conversation at ~3 months, then yearly check-ins",
+      "Watch for sign 1: persistent lukewarm interest, low retention, plateau",
+      "Watch for sign 2: realizing the idea will never be big enough",
+      "For hard pivots, keep one working element and double down"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "kickstart-scale-consumer-business",
+    "name": "Kickstart & Scale a Consumer Business (6-Step Playbook)",
+    "category": "Growth",
+    "decision_served": "Building a consumer startup from initial idea through a self-sustaining growth engine.",
+    "source": [
+      "newsletters/how-to-kickstart-and-scale-a-consumer-business.md"
+    ],
+    "summary": "Lenny Rachitsky's six-part playbook synthesizing the growth stories of hundreds of consumer companies, from idea generation through retention and a working growth engine.",
+    "key_steps": [
+      "INSIGHT: come up with your idea",
+      "AUDIENCE: identify your super-specific who",
+      "HOOK: craft your pitch",
+      "REACH: find early adopters by doing things that don't scale",
+      "RETAIN: iterate until enough people stick around",
+      "SCALE: build your growth engine"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "kickstart-scale-b2b-business",
+    "name": "Kickstart & Scale a B2B Business (7-Part Series)",
+    "category": "GTM & Sales",
+    "decision_served": "Taking a B2B startup from idea validation to a scaled growth engine.",
+    "source": [
+      "newsletters/how-the-most-successful-b2b-startups-came-up-with-their-original-idea.md"
+    ],
+    "summary": "Lenny Rachitsky's seven-part B2B counterpart to the consumer playbook, sequencing the major milestones of building a B2B company.",
+    "key_steps": [
+      "Come up with the original B2B idea",
+      "Validate the startup idea",
+      "Identify your ideal customer profile",
+      "Find and win your first 10 customers",
+      "Find product-market fit in B2B",
+      "Scale your B2B growth engine"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "ideal-customer-profile",
+    "name": "Ideal Customer Profile (ICP) Definition",
+    "category": "GTM & Sales",
+    "decision_served": "Identifying exactly which customers a B2B startup should target and sell to first.",
+    "source": [
+      "newsletters/how-to-identify-your-ideal-customer-profile-icp.md"
+    ],
+    "summary": "A structured method for defining the ideal customer profile for an early B2B company, focusing sales, marketing, and product on the segment most likely to buy, succeed, and refer.",
+    "key_steps": [
+      "Profile firmographics of highest-value customers",
+      "Identify the buyer and user personas",
+      "Pinpoint the specific pain or trigger",
+      "Define disqualifying criteria",
+      "Use the ICP to focus targeting and messaging"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "picking-a-wedge",
+    "name": "Picking a Wedge",
+    "category": "Strategy",
+    "decision_served": "Choosing a narrow initial focus that lets a startup enter a market and expand.",
+    "source": [
+      "newsletters/picking-a-wedge.md"
+    ],
+    "summary": "A wedge is the narrow, focused entry point a startup uses to win an initial beachhead before expanding to a broader vision.",
+    "key_steps": [
+      "Recognize when too broad a focus dilutes product and GTM",
+      "Identify a narrow use case, segment, or feature you can win",
+      "Choose a wedge acute enough to attract early users but expandable",
+      "Validate the wedge gets real traction",
+      "Use the wedge as a launchpad toward the larger vision"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "first-90-days",
+    "name": "First 90 Days Quick Wins",
+    "category": "Career & Self-management",
+    "decision_served": "Making an early, credible impact when joining a new company or team.",
+    "source": [
+      "newsletters/how-to-make-an-impact-in-your-first-90-days.md"
+    ],
+    "summary": "A collection of 25 quick-win tactics from top leaders for the first 90 days, emphasizing learning before acting, building relationships, and finding visible early wins.",
+    "key_steps": [
+      "Spend early weeks learning product, customers, and decisions",
+      "Meet broadly and build relationships",
+      "Identify a small set of visible quick wins",
+      "Diagnose the biggest problems and form a point of view",
+      "Earn trust before pushing major changes"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "validate-startup-idea",
+    "name": "Startup Idea Validation Framework",
+    "category": "Product-Market Fit",
+    "decision_served": "Pressure-testing a startup idea before committing significant time and money.",
+    "source": [
+      "newsletters/how-to-validate-your-startup-idea.md"
+    ],
+    "summary": "Todd Jackson's framework for validating a startup idea, drawn from companies like Flexport, Vanta, and LaunchDarkly.",
+    "key_steps": [
+      "Articulate the problem and the specific customer",
+      "Talk to many potential customers to confirm acute pain",
+      "Test demand with a pitch, prototype, or pre-sales",
+      "Look for strong signals of pull, not polite interest",
+      "Decide to commit, iterate, or move on"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "perfect-name-framework",
+    "name": "Four-Part Naming Framework",
+    "category": "GTM & Sales",
+    "decision_served": "Choosing the right name for a new product or company.",
+    "source": [
+      "newsletters/how-to-find-the-perfect-name.md"
+    ],
+    "summary": "David Placek's step-by-step naming process from Lexicon Branding. A great name builds trust, signals an original idea, and compounds advantage over time.",
+    "key_steps": [
+      "Build for trust: a name that inspires trust and imagination",
+      "Communicate an original idea, never merely describe",
+      "Be accessible across languages, cultures, platforms",
+      "Run a rigorous generation and evaluation process"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "north-star-metric",
+    "name": "North Star Metric Selection",
+    "category": "Metrics & Benchmarks",
+    "decision_served": "Choosing the single metric that best captures the value your product delivers.",
+    "source": [
+      "newsletters/choosing-your-north-star-metric.md"
+    ],
+    "summary": "A guide, based on a survey of 40+ growth-stage companies, for choosing the metric that best captures core value and encodes your strategy.",
+    "key_steps": [
+      "Identify the moment users get core value",
+      "Choose a metric that captures that value and predicts success",
+      "Ensure teams can actually move the metric",
+      "Pair the North Star with supporting input metrics",
+      "Treat the North Star as the expression of strategy"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "kombucha-scale",
+    "name": "Kombucha Scale (Decision Triage)",
+    "category": "Prioritization & Planning",
+    "decision_served": "Deciding whether a decision is even worth a structured decision-making process.",
+    "source": [
+      "newsletters/my-favorite-decision-making-frameworks.md"
+    ],
+    "summary": "Gokul Rajaram's quick triage heuristic: weigh a decision's importance and urgency before investing process. Trivial choices are made instantly; reserve frameworks for hard, consequential decisions.",
+    "key_steps": [
+      "Assess how important the decision is",
+      "Assess how urgent it is",
+      "If low-stakes, decide instantly",
+      "Reserve structured frameworks for important, hard decisions"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "regret-minimization-framework",
+    "name": "Regret Minimization Framework",
+    "category": "Career & Self-management",
+    "decision_served": "Making a major life or career decision by projecting which choice you'll least regret.",
+    "source": [
+      "newsletters/my-favorite-decision-making-frameworks.md"
+    ],
+    "summary": "Jeff Bezos's mental model for big personal decisions: imagine yourself at 80 looking back, and choose the option that minimizes regret.",
+    "key_steps": [
+      "Project yourself to age 80 looking back",
+      "Imagine the regret you'd feel for each option",
+      "Choose the path that minimizes long-term regret",
+      "Use it for big, irreversible life/career decisions"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "one-way-two-way-door-decisions",
+    "name": "One-Way vs. Two-Way Door Decisions",
+    "category": "Prioritization & Planning",
+    "decision_served": "Calibrating how much rigor and time a decision deserves based on reversibility.",
+    "source": [
+      "newsletters/my-favorite-decision-making-frameworks.md",
+      "podcasts/bill-carr.md"
+    ],
+    "summary": "Jeff Bezos's Type 1 / Type 2 distinction: irreversible 'one-way door' decisions warrant deliberate process, while reversible 'two-way door' decisions should be made fast.",
+    "key_steps": [
+      "Classify the decision: reversible or irreversible",
+      "For two-way-door decisions, decide fast and empower individuals",
+      "For one-way-door decisions, slow down and apply rigor",
+      "Avoid heavyweight process on reversible decisions"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "dory-and-pulse",
+    "name": "Dory and Pulse",
+    "category": "Communication & Influence",
+    "decision_served": "Surfacing every voice and reaching a decision fairly in a live meeting.",
+    "source": [
+      "newsletters/my-favorite-decision-making-frameworks.md"
+    ],
+    "summary": "Shishir Mehrotra's two-part meeting ritual: Dory collects and upvotes questions, and Pulse runs structured votes, equalizing voices and removing groupthink.",
+    "key_steps": [
+      "Dory: participants submit questions, others upvote",
+      "Address top-voted items first",
+      "Pulse: run a structured vote",
+      "Mix variations to fit the decision",
+      "Use it live to make decisions in real time"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "rice-prioritization",
+    "name": "RICE Scoring",
+    "category": "Prioritization & Planning",
+    "decision_served": "Quickly ranking a large backlog of ideas by expected return.",
+    "source": [
+      "newsletters/introducing-drice-a-modern-prioritization-framework.md"
+    ],
+    "summary": "The industry-standard prioritization process of T-shirt-scoring ideas on four dimensions and computing a comparable score, the first pass before the deeper DRICE analysis.",
+    "key_steps": [
+      "Reach: how many customers experience the idea",
+      "Impact: how much it moves the target metric",
+      "Confidence: how likely it is to work",
+      "Effort: engineering time required",
+      "Score = (Reach x Impact x Confidence) / Effort, then sort"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "four-growth-engines",
+    "name": "The Four Growth Engines",
+    "category": "Growth",
+    "decision_served": "Choosing which self-sustaining loop will drive the majority of your long-term growth.",
+    "source": [
+      "newsletters/the-racecar-growth-framework-expanded-and-illustrated.md"
+    ],
+    "summary": "Within the Racecar framework, four common self-sustaining growth engines, each a loop where an output is reinvested to produce more growth.",
+    "key_steps": [
+      "SEO: content drives search discovery and more content",
+      "Paid ads: ads drive users, revenue funds more ads",
+      "Sales: salespeople win customers, revenue funds more sales",
+      "Virality: users share the product, friends sign up and share"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "opportunity-solution-tree",
+    "name": "Opportunity Solution Tree",
+    "category": "Research & Discovery",
+    "decision_served": "Connecting a desired outcome to the opportunities and solutions a team could pursue.",
+    "source": [
+      "newsletters/mission--vision--strategy--goals--roadmap--task.md",
+      "podcasts/teresa-torres.md"
+    ],
+    "summary": "Teresa Torres's visual framework that branches from a target outcome into customer opportunities, then solutions and experiments, keeping discovery anchored to outcomes.",
+    "key_steps": [
+      "Place a desired outcome at the root",
+      "Branch into the opportunity space — needs, pain points",
+      "Frame opportunities as problems, not disguised solutions",
+      "Branch opportunities into candidate solutions",
+      "Branch solutions into assumption tests"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "magic-loop",
+    "name": "The Magic Loop",
+    "category": "Career & Self-management",
+    "decision_served": "When you want to advance your career or get unstuck, even with a busy or imperfect manager.",
+    "source": [
+      "newsletters/the-magic-loop.md",
+      "podcasts/ethan-evans-20.md"
+    ],
+    "summary": "Ethan Evans's five-step career-growth loop builds a collaborative, mutually beneficial relationship with your manager. By repeatedly doing your job well, offering help, delivering, and asking for growth-aligned work, you compound responsibility and trust.",
+    "key_steps": [
+      "Do your current job well and confirm it with your manager",
+      "Ask your manager how you can help them",
+      "Do what you are asked, even if unglamorous",
+      "Ask for work that also grows your skills toward a career goal",
+      "Repeat the loop"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "stalled-growth-diagnostic",
+    "name": "Five-Step Stalled-Growth Diagnosis",
+    "category": "Growth",
+    "decision_served": "When B2B SaaS growth has slowed and you need to find the real bottleneck before throwing money at marketing.",
+    "source": [
+      "podcasts/jason-cohen.md"
+    ],
+    "summary": "Jason Cohen's sequential diagnostic for stalled growth: work through five levers in order, since each later lever only matters if the earlier one is healthy.",
+    "key_steps": [
+      "Logo retention / churn (do you have product-market fit?)",
+      "Pricing and positioning",
+      "Net revenue retention / expansion",
+      "Marketing channels and channel saturation",
+      "Target market expansion to an adjacent product or channel"
+    ],
+    "tier": "workflow"
+  },
+  {
+    "id": "jobs-to-be-done",
+    "name": "Jobs to Be Done",
+    "category": "Research & Discovery",
+    "decision_served": "When you need to understand why customers actually 'hire' a product so you can build the right thing.",
+    "source": [
+      "podcasts/bob-moesta.md"
+    ],
+    "summary": "JTBD reframes demand as customers hiring products to make progress in a specific context, surfacing the true competitive set and the forces that drive someone to change.",
+    "key_steps": [
+      "Find the struggling moment and context that creates demand",
+      "Map the demand-side competitive set",
+      "Understand the six phases of the buying timeline",
+      "Interview to reconstruct the real switching story"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "jtbd-four-forces",
+    "name": "The Four Forces of Progress",
+    "category": "Research & Discovery",
+    "decision_served": "When deciding whether a customer will actually switch to your product, and what is blocking them.",
+    "source": [
+      "podcasts/bob-moesta.md"
+    ],
+    "summary": "Bob Moesta's model of the four competing forces acting on every switch decision. A customer only moves when forces pushing toward the new solution outweigh forces holding them in place.",
+    "key_steps": [
+      "Push of the current situation",
+      "Pull of the new solution",
+      "Anxiety of the new",
+      "Habit of the present"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "positioning-five-components",
+    "name": "The Five Components of Positioning",
+    "category": "GTM & Sales",
+    "decision_served": "When figuring out how to position a product so its value is obvious to the right buyers.",
+    "source": [
+      "podcasts/april-dunford.md"
+    ],
+    "summary": "April Dunford's methodology builds positioning bottom-up from competitive alternatives rather than starting with a market category.",
+    "key_steps": [
+      "Competitive alternatives (what you must beat, including status quo)",
+      "Unique attributes / differentiated capabilities",
+      "Value the capabilities deliver",
+      "Best-fit customers who care most about that value",
+      "Market category that makes your value obvious"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "crossing-the-chasm",
+    "name": "Crossing the Chasm",
+    "category": "GTM & Sales",
+    "decision_served": "When taking a disruptive product from early-adopter traction to a repeatable mainstream business.",
+    "source": [
+      "podcasts/geoffrey-moore.md"
+    ],
+    "summary": "Geoffrey Moore's model for the gap between visionary early adopters and pragmatist mainstream buyers. Crossing requires dominating one narrow beachhead segment.",
+    "key_steps": [
+      "Win an early market via a visionary executive sponsor",
+      "Pick one narrow beachhead segment",
+      "Over-commit to that segment's problem to win reference accounts",
+      "Use the bowling-alley model to expand to adjacent segments",
+      "Match the go-to-market playbook to each adoption phase"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "seven-powers",
+    "name": "7 Powers",
+    "category": "Strategy",
+    "decision_served": "When assessing whether your business has a durable competitive advantage worth building toward.",
+    "source": [
+      "podcasts/hamilton-helmer.md"
+    ],
+    "summary": "Hamilton Helmer's taxonomy of the seven structural conditions that create persistent differential returns.",
+    "key_steps": [
+      "Scale economies",
+      "Network economies",
+      "Counter-positioning",
+      "Switching costs",
+      "Branding",
+      "Cornered resource",
+      "Process power"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "okr-objectives-key-results",
+    "name": "OKRs (Objectives and Key Results)",
+    "category": "Prioritization & Planning",
+    "decision_served": "When a team needs to translate strategy into a focused, measurable goal for the quarter.",
+    "source": [
+      "podcasts/christina-wodtke.md"
+    ],
+    "summary": "Christina Wodtke's approach to OKRs: a quarterly objective paired with ~three key results that answer 'how do we know we succeeded?'.",
+    "key_steps": [
+      "Set one aspirational objective for the quarter",
+      "Define ~3 key results that answer 'how would we know?'",
+      "Triangulate: a hard number, a quality measure, a dollar measure",
+      "Track weekly and improve estimation over time"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "gist-planning",
+    "name": "GIST Planning",
+    "category": "Prioritization & Planning",
+    "decision_served": "When you want to move an organization from opinion-driven roadmaps to evidence-guided planning.",
+    "source": [
+      "podcasts/itamar-gilad.md"
+    ],
+    "summary": "Itamar Gilad's meta-framework that breaks product change into four layers, integrating lean startup, discovery, and growth methods.",
+    "key_steps": [
+      "Goals: what you're trying to achieve",
+      "Ideas: hypothetical ways to achieve the goals",
+      "Steps: build-measure-learn loops",
+      "Tasks: granular work in Kanban/Jira"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "confidence-meter",
+    "name": "The Confidence Meter",
+    "category": "Prioritization & Planning",
+    "decision_served": "When deciding whether you have enough evidence to commit resources to a product idea.",
+    "source": [
+      "podcasts/itamar-gilad.md"
+    ],
+    "summary": "Itamar Gilad's tool for calibrating how much confidence an idea deserves based on the strength of the evidence behind it.",
+    "key_steps": [
+      "Identify the idea or guess being evaluated",
+      "Gather evidence (opinions, data, experiments, validations)",
+      "Rate confidence based on evidence strength, not enthusiasm",
+      "Decide whether to commit or build more confidence"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "strategic-narrative",
+    "name": "Strategic Narrative",
+    "category": "Communication & Influence",
+    "decision_served": "When you need a story that aligns sales, marketing, product, hiring, and fundraising around why your product matters.",
+    "source": [
+      "podcasts/andy-raskin-.md"
+    ],
+    "summary": "Andy Raskin's five-part narrative structure, modeled on movies, that defines a movement built around an undeniable shift in the world.",
+    "key_steps": [
+      "Name a big shift from an old game to a new game",
+      "Name the stakes (winners already playing the new game)",
+      "Name the object of the new game",
+      "Show the obstacles to reaching the new game",
+      "Show how you help customers overcome them"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "category-design",
+    "name": "Category Design",
+    "category": "Strategy",
+    "decision_served": "When deciding whether to compete in an existing market or create and dominate a new one.",
+    "source": [
+      "podcasts/christopher-lochhead.md"
+    ],
+    "summary": "Christopher Lochhead's discipline of designing a market rather than just a product. The category king captures ~two-thirds of the category's economics.",
+    "key_steps": [
+      "Choose to design a category rather than capture demand",
+      "Craft a point of view that frames, claims, and names the problem",
+      "Get product, company, and category right together",
+      "Use concentrated 'lightning strikes'",
+      "Evangelize the problem inside communities"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "distribution-platform-cycle",
+    "name": "The Four-Step Distribution Platform Cycle",
+    "category": "Growth",
+    "decision_served": "When timing an entry onto a new distribution platform for acquisition.",
+    "source": [
+      "podcasts/brian-balfour.md"
+    ],
+    "summary": "Brian Balfour's model that every new distribution platform follows the same predictable cycle.",
+    "key_steps": [
+      "Step Zero: market conditions are met for a new platform",
+      "Step One: a moat is identified, a player races to gather it",
+      "Step Two: the platform opens, enabling outsized distribution",
+      "Step Three: the platform closes for control and monetization"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "premortem-kill-criteria",
+    "name": "Pre-mortem with Kill Criteria",
+    "category": "Prioritization & Planning",
+    "decision_served": "When committing to a project and you want to defend against sunk-cost bias and quitting too late.",
+    "source": [
+      "podcasts/annie-duke.md"
+    ],
+    "summary": "Annie Duke's approach pairs a pre-mortem with explicit pre-commitments so imagined failure modes change behavior.",
+    "key_steps": [
+      "Imagine the project failed and identify early signals",
+      "Convert each signal into a concrete kill criterion",
+      "Pre-commit an action for each criterion",
+      "Monitor and execute the pre-committed action"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "make-time-framework",
+    "name": "Make Time",
+    "category": "Career & Self-management",
+    "decision_served": "When you want to consistently spend your best attention on what matters instead of feeling reactive.",
+    "source": [
+      "podcasts/jake-knapp--john-zeratsky.md"
+    ],
+    "summary": "Jake Knapp and John Zeratsky's four-part daily system for designing time.",
+    "key_steps": [
+      "Highlight: choose one priority moment for the day",
+      "Laser: protect focused attention",
+      "Energize: manage sleep, food, exercise",
+      "Reflect: review what worked and adjust"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "design-sprint",
+    "name": "The Design Sprint",
+    "category": "Research & Discovery",
+    "decision_served": "When you need to validate a big product idea quickly without building the real thing.",
+    "source": [
+      "podcasts/jake-knapp--john-zeratsky.md"
+    ],
+    "summary": "Jake Knapp's scripted five-day process to go from a problem to a tested prototype.",
+    "key_steps": [
+      "Map the problem and pick a target",
+      "Sketch competing solutions",
+      "Decide on the best solution and storyboard it",
+      "Build a realistic prototype",
+      "Test the prototype with real customers"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "dhm-product-strategy",
+    "name": "DHM Product Strategy Model",
+    "category": "Strategy",
+    "decision_served": "When defining what your product strategy should actually optimize for.",
+    "source": [
+      "podcasts/gibson-biddle.md"
+    ],
+    "summary": "Gibson Biddle's model that product strategy means delighting customers in hard-to-copy, margin-enhancing ways.",
+    "key_steps": [
+      "Delight customers (does it create real customer love?)",
+      "Hard to copy (can competitors easily replicate it?)",
+      "Margin-enhancing (does it strengthen the business model?)"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "gem-roadmap-prioritization",
+    "name": "GEM Roadmap Prioritization",
+    "category": "Prioritization & Planning",
+    "decision_served": "When leadership needs to align on how to fundamentally rank competing roadmap priorities.",
+    "source": [
+      "podcasts/gibson-biddle.md"
+    ],
+    "summary": "Gibson Biddle's framework forces leaders to force-rank three fundamental factors so the whole org shares the same priority order.",
+    "key_steps": [
+      "Growth: year-over-year customer growth",
+      "Engagement: product quality, often proxied by retention",
+      "Monetization: turning customers and product into revenue",
+      "Force-rank the three and get leadership to agree"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "strategy-three-pillars",
+    "name": "The Three Pillars of Product Strategy",
+    "category": "Strategy",
+    "decision_served": "When a product leader needs to articulate a complete product strategy others can follow.",
+    "source": [
+      "podcasts/jackie-bavaro.md"
+    ],
+    "summary": "Jackie Bavaro's breakdown of product strategy into three connected documents.",
+    "key_steps": [
+      "Vision: the inspiring picture of the future",
+      "Strategic framework: target market, definition of success, big bets",
+      "Roadmap: the sequenced plan of what to build"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "pearl-interview-answers",
+    "name": "The PEARL Framework",
+    "category": "Hiring",
+    "decision_served": "When evaluating a candidate's storytelling answers in a PM interview (or structuring your own).",
+    "source": [
+      "podcasts/jackie-bavaro.md"
+    ],
+    "summary": "Jackie Bavaro's structure for answering experience-based interview questions, an upgrade on STAR that adds insight and learning.",
+    "key_steps": [
+      "Problem: the problem worth solving",
+      "Epiphany: the insight others missed",
+      "Action: what you did",
+      "Result: the outcome",
+      "Learning: what you took away"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "product-risk-taxonomy",
+    "name": "The Four Product Risks",
+    "category": "Research & Discovery",
+    "decision_served": "When deciding which risks a product team must de-risk before committing to build something.",
+    "source": [
+      "podcasts/christian-idiodi.md"
+    ],
+    "summary": "Christian Idiodi's taxonomy of the four risks every product team must tackle as a cross-functional sport.",
+    "key_steps": [
+      "Value risk: will people buy/choose it?",
+      "Usability risk: can they use it?",
+      "Feasibility risk: can we build it?",
+      "Viability/business risk: will our business support it?"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "adjacent-user-theory",
+    "name": "The Adjacent User Theory",
+    "category": "Growth",
+    "decision_served": "When a hypergrowth product's growth is slowing and you need to find where the next users will come from.",
+    "source": [
+      "podcasts/bangaly-kaba.md"
+    ],
+    "summary": "Bangaly Kaba's theory that growth comes from the users just outside your current circle who are aware of but unable to succeed with the product.",
+    "key_steps": [
+      "Deeply understand who your current users are",
+      "Identify the adjacent user who tries but can't succeed",
+      "Dogfood the product in the adjacent user's state",
+      "Watch, talk to, and visit adjacent users",
+      "Fix the experience to enable the adjacent user's job"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "working-backwards-prfaq",
+    "name": "Working Backwards (PR/FAQ)",
+    "category": "Research & Discovery",
+    "decision_served": "When deciding whether a new product or feature is worth building before committing engineering resources.",
+    "source": [
+      "podcasts/bill-carr.md",
+      "podcasts/ian-mcallister.md"
+    ],
+    "summary": "Amazon's process of starting from the customer's needs and writing a future press release plus FAQ before any code.",
+    "key_steps": [
+      "Write a customer-facing press release for the finished product",
+      "Write the FAQ addressing hard questions",
+      "Iterate via concentric-circle reviews up to the CEO",
+      "Compare PR/FAQs and fund only the best ideas",
+      "Hand the validated idea to product development"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "three-questions-to-end-a-meeting",
+    "name": "Three Questions to End Every Meeting",
+    "category": "Communication & Influence",
+    "decision_served": "When you want a meeting to actually produce forward progress.",
+    "source": [
+      "podcasts/alisa-cohn.md"
+    ],
+    "summary": "Alisa Cohn's closing ritual that captures decisions and accountability so meetings have continuity.",
+    "key_steps": [
+      "What did we decide here?",
+      "Who needs to do what by when?",
+      "Who else needs to know?"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "three-realities-feedback",
+    "name": "The Three Realities of Feedback",
+    "category": "Communication & Influence",
+    "decision_served": "When giving interpersonal feedback and you want it to land without triggering defensiveness.",
+    "source": [
+      "podcasts/carole-robin.md"
+    ],
+    "summary": "Carole Robin's model that every exchange contains three realities. Effective feedback means sharing only what you legitimately know: the behavior and its impact on you.",
+    "key_steps": [
+      "Reality 1: my intent and how I see the world",
+      "Reality 2: the observable behavior",
+      "Reality 3: the impact of that behavior on the other person",
+      "Give feedback only from realities 2 and 3"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "discover-your-superpowers",
+    "name": "Discover Your Superpowers",
+    "category": "Career & Self-management",
+    "decision_served": "When you want to identify your true strengths and apply them to your future growth.",
+    "source": [
+      "podcasts/donna-lichaw.md"
+    ],
+    "summary": "Donna Lichaw's method for surfacing your superpowers by mining the stories of your past and present.",
+    "key_steps": [
+      "Collect stories from your past and present",
+      "Pull recurring strengths out of those stories",
+      "Name and own the superpowers",
+      "Transpose and apply them to your future goals"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "channel-product-fit-decision",
+    "name": "Deciding When to Invest in a New Acquisition Channel",
+    "category": "Growth",
+    "decision_served": "When you are considering investing in an emerging acquisition channel.",
+    "source": [
+      "podcasts/adam-grenier.md"
+    ],
+    "summary": "Adam Grenier's caution that a new channel rarely fixes a growth problem, because a changed market may mean you no longer have product-market fit.",
+    "key_steps": [
+      "Assume you no longer have PMF in the new market",
+      "Re-validate fit before blaming the channel",
+      "Recognize the whole customer base may have changed",
+      "Only then evaluate launching a new channel"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "growth-model-spreadsheet",
+    "name": "The Growth Model",
+    "category": "Growth",
+    "decision_served": "When you need a shared, analytical understanding of how your business actually grows.",
+    "source": [
+      "podcasts/dan-hockenmaier.md"
+    ],
+    "summary": "Dan Hockenmaier's practice of building an analytical, spreadsheet-based representation of how the business grows.",
+    "key_steps": [
+      "Identify the core growth equation and inputs",
+      "Build it as a linked spreadsheet model",
+      "Force every input to line up and connect",
+      "Use the model to guide deep dives and decisions"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "growth-loops",
+    "name": "Growth Loops",
+    "category": "Growth",
+    "decision_served": "When designing self-reinforcing distribution into a product rather than relying on linear funnels.",
+    "source": [
+      "podcasts/casey-winters.md"
+    ],
+    "summary": "Casey Winters' framing of growth as loops where the output of one cycle feeds the input of the next.",
+    "key_steps": [
+      "Identify the loop type (content, viral, or paid)",
+      "Design the loop so output feeds the next cycle's input",
+      "Build the loop into the product before reaching PMF",
+      "Once a loop scales, hire a specialist to make it 10x better"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "data-led-growth-plg",
+    "name": "Data-Led Growth (PLG)",
+    "category": "Growth",
+    "decision_served": "When adding a product-led growth motion and deciding how to make a free product pay off.",
+    "source": [
+      "podcasts/hila-qu.md"
+    ],
+    "summary": "Hila Qu reframes PLG as fundamentally data-led growth: a free product is given away to gain reach and usage data.",
+    "key_steps": [
+      "Give away a free product to lower the barrier",
+      "Capture and analyze usage behavior of free users",
+      "Identify features that correlate with conversion and retention",
+      "Optimize activation and the funnel using that data",
+      "Pair PLG with a targeted sales motion where it fits"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "executive-recommendation-communication",
+    "name": "Make the Recommendation (Communicating with Executives)",
+    "category": "Communication & Influence",
+    "decision_served": "When presenting work to executives and you want your message to land.",
+    "source": [
+      "podcasts/ami-vora.md"
+    ],
+    "summary": "Ami Vora's principle that executives hold only a few facts, so the most valuable thing you can do is the work of making a clear recommendation.",
+    "key_steps": [
+      "Assume the executive can hold ~3 facts at once",
+      "Do the analysis and come with a clear recommendation",
+      "Let the executive add breadth and pattern-matching",
+      "Keep the exchange complementary: your depth, their breadth"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "brain-systems-decision-making",
+    "name": "Brain Systems Model for Decision-Making",
+    "category": "Team & Operating Model",
+    "decision_served": "When improving how teams collaborate, build products, and make decisions.",
+    "source": [
+      "podcasts/evan-lapointe.md"
+    ],
+    "summary": "Evan LaPointe's model translates brain complexity into a few stackable systems, picturing the brain as a 'college campus' of departments.",
+    "key_steps": [
+      "Accept that the brain operates as distinct systems",
+      "Picture the brain as a campus of departments",
+      "Stack the three or four main systems as layers",
+      "Apply the model to teamwork, product, and decisions"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "independent-opinions-decision-making",
+    "name": "Gathering Independent Opinions",
+    "category": "Team & Operating Model",
+    "decision_served": "When making a group decision and you want to avoid junior voices conforming to senior ones.",
+    "source": [
+      "podcasts/annie-duke.md"
+    ],
+    "summary": "Annie Duke's practice of collecting opinions independently before any group discussion, so estimates aren't anchored to the most senior person.",
+    "key_steps": [
+      "Pose the question and collect each view privately",
+      "Aggregate the independent opinions",
+      "Surface the real spread of disagreement",
+      "Discuss openly now that anchoring is prevented"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "program-vs-project-orientation",
+    "name": "Program vs Project Orientation",
+    "category": "Team & Operating Model",
+    "decision_served": "When structuring how teams own work: as enduring program teams or as swarming project teams.",
+    "source": [
+      "podcasts/bill-carr.md"
+    ],
+    "summary": "Bill Carr contrasts a project orientation with a program orientation where a standing team permanently owns an area and its controllable metrics.",
+    "key_steps": [
+      "Identify the area of ongoing responsibility",
+      "Assign a standing team that always owns it",
+      "Have the team think holistically, not project-by-project",
+      "Hold the team to controllable input metrics"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "compelling-product-vision",
+    "name": "Crafting a Compelling Product Vision",
+    "category": "Strategy",
+    "decision_served": "When a product leader needs to craft and tell a vision that aligns teams.",
+    "source": [
+      "podcasts/ebi-atawodi.md"
+    ],
+    "summary": "Ebi Atawodi's framework treats vision as both a set of elements that make it good and a story you tell to align teams.",
+    "key_steps": [
+      "Define the elements of a good vision",
+      "Anchor it in a simple, compelling 'why'",
+      "Shape the vision into a story",
+      "Use the story to align teams"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "algorithm-vs-human-decision-boundary",
+    "name": "Algorithm vs Human Decision Boundary",
+    "category": "Product-Market Fit",
+    "decision_served": "When building algorithm-heavy products and deciding what the algorithm owns versus what people own.",
+    "source": [
+      "podcasts/adriel-frederick.md"
+    ],
+    "summary": "Adriel Frederick's framework rejects feeding all data to an algorithm with one objective, because algorithms miss long-term effects and intent.",
+    "key_steps": [
+      "Recognize algorithms miss long-term effects and intent",
+      "Decide what the algorithm is responsible for",
+      "Decide what people remain responsible for",
+      "Own the framework for how those decisions get made"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "seeking-truth-of-suffering",
+    "name": "Seeking the Truth of Your Suffering",
+    "category": "Career & Self-management",
+    "decision_served": "When you feel burned out or unfulfilled in your career.",
+    "source": [
+      "podcasts/andy-johns.md"
+    ],
+    "summary": "Andy Johns' personal process for moving from career burnout toward emotional liberation.",
+    "key_steps": [
+      "Begin with the suffering you actually feel",
+      "Seek the truth and root cause of that suffering",
+      "Practice self-compassion as you find it wasn't your fault"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "summarization-to-build-alignment",
+    "name": "Summarization to Build Alignment and Ideas",
+    "category": "Communication & Influence",
+    "decision_served": "When leading a discussion and struggling to find a compelling 'why' or big idea.",
+    "source": [
+      "podcasts/anneka-gupta.md"
+    ],
+    "summary": "Anneka Gupta's tactic of bringing many voices into a room and repeatedly summarizing what people say and what it implies for direction.",
+    "key_steps": [
+      "Bring many diverse voices into the conversation",
+      "Listen to what each person says",
+      "Summarize what people are saying at intervals",
+      "Summarize what that means for the direction"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "hierarchy-of-engagement",
+    "name": "Hierarchy of Engagement",
+    "category": "Product-Market Fit",
+    "decision_served": "Deciding what to build and measure next when growing a consumer or social product.",
+    "source": [
+      "podcasts/sarah-tavel.md"
+    ],
+    "summary": "Sarah Tavel's three-level model for building enduring consumer products. You must master each level before moving up.",
+    "key_steps": [
+      "Level 1: Growing engaged users who complete the core action",
+      "Level 2: Retaining users via accruing benefits and mounting loss",
+      "Level 3: Self-perpetuating growth via virtuous loops"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "strategy-kernel",
+    "name": "The Strategy Kernel (Good Strategy / Bad Strategy)",
+    "category": "Strategy",
+    "decision_served": "Crafting a real strategy instead of a list of goals or aspirations.",
+    "source": [
+      "podcasts/richard-rumelt.md"
+    ],
+    "summary": "Richard Rumelt's definition of what every genuine strategy must contain. Strategy is problem-solving.",
+    "key_steps": [
+      "Diagnosis: identify and name the key challenge",
+      "Guiding policy: an overall approach for dealing with it",
+      "Coherent actions: concrete, mutually reinforcing steps"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "strategy-choice-cascade",
+    "name": "Strategy Choice Cascade (Playing to Win)",
+    "category": "Strategy",
+    "decision_served": "Defining a winning strategy by making a connected set of choices.",
+    "source": [
+      "podcasts/roger-martin.md"
+    ],
+    "summary": "Roger Martin's five linked questions that together produce a strategy, answered as an integrated set.",
+    "key_steps": [
+      "What is our winning aspiration?",
+      "Where will we play?",
+      "How will we win there?",
+      "What capabilities must we have?",
+      "What management systems are required?"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "four-levels-of-pmf",
+    "name": "Four Levels of Product-Market Fit",
+    "category": "Product-Market Fit",
+    "decision_served": "Diagnosing how strong your product-market fit is and what to work on next.",
+    "source": [
+      "podcasts/todd-jackson.md"
+    ],
+    "summary": "Todd Jackson and First Round's framework for B2B founders. PMF is not binary; it strengthens through four levels across satisfaction, demand, and efficiency.",
+    "key_steps": [
+      "Level 1 Nascent: a handful of satisfied customers won through grind",
+      "Level 2 Developing: product does the heavy lifting",
+      "Level 3 Strong: repeatable demand, improving efficiency",
+      "Level 4 Extreme: widespread demand, satisfaction, efficient delivery"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "pmf-four-ps",
+    "name": "The Four Ps of Pivoting Toward PMF",
+    "category": "Product-Market Fit",
+    "decision_served": "Deciding what to change when your product is stuck below product-market fit.",
+    "source": [
+      "podcasts/todd-jackson.md"
+    ],
+    "summary": "Todd Jackson's companion to the levels framework: when stuck, there are exactly four levers you can adjust.",
+    "key_steps": [
+      "Persona: who you are targeting",
+      "Problem: the problem you are solving",
+      "Promise: how you describe and position the product",
+      "Product: the product itself"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "sean-ellis-test",
+    "name": "The Sean Ellis Test (PMF Survey)",
+    "category": "Product-Market Fit",
+    "decision_served": "Measuring whether you have product-market fit before scaling growth.",
+    "source": [
+      "newsletters/what-to-ask-your-users-about-product-market-fit.md",
+      "podcasts/sean-ellis.md"
+    ],
+    "summary": "A research-driven approach to measuring PMF. The core signal is the Sean Ellis question (40%+ 'very disappointed' is the threshold), triangulated with relative-utility and behavioral questions, or 6-12 user interviews.",
+    "key_steps": [
+      "Ask how users would feel if they could no longer use the product",
+      "Ask how the product compares to alternatives",
+      "Ask a behavioral question about the last tool used for the job",
+      "If you can't survey 100+, interview 6-12 users",
+      "Look for explicit superior value and genuine enthusiasm"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "superhuman-pmf-engine",
+    "name": "The Superhuman Product-Market Fit Engine",
+    "category": "Product-Market Fit",
+    "decision_served": "Systematically increasing your product-market fit score and writing your roadmap.",
+    "source": [
+      "podcasts/rahul-vohra.md"
+    ],
+    "summary": "Rahul Vohra's process for turning PMF into a numeric, optimizable metric, focusing roadmap effort on 'somewhat disappointed' users who like the main benefit.",
+    "key_steps": [
+      "Measure PMF with the 'how disappointed' survey question",
+      "Segment respondents into very / somewhat / not disappointed",
+      "Ignore not-disappointed; don't over-serve very-disappointed",
+      "Target somewhat-disappointed users who resonate with the benefit",
+      "Each cycle: half the time on what users love, half on objections"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "pattern-breakers",
+    "name": "Pattern Breakers (Inflections, Insights, Founder Future Fit)",
+    "category": "Strategy",
+    "decision_served": "Evaluating whether a startup idea has breakthrough potential.",
+    "source": [
+      "podcasts/mike-maples-jr.md"
+    ],
+    "summary": "Mike Maples Jr's three forces that underlie breakthrough startups.",
+    "key_steps": [
+      "Inflection: an external turning point that creates new empowerment",
+      "Insight: a non-obvious idea for how to harness that inflection",
+      "Founder future fit: founders living in the future, suited to the idea"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "willingness-to-pay-conversation",
+    "name": "The Willingness-to-Pay Conversation",
+    "category": "Pricing",
+    "decision_served": "Validating demand and prioritizing a product roadmap before you build.",
+    "source": [
+      "podcasts/madhavan-ramanujam.md"
+    ],
+    "summary": "Madhavan Ramanujam's principle that price is a measure of value, so willingness-to-pay must be discussed early.",
+    "key_steps": [
+      "Have the value conversation months before launch",
+      "Ask whether customers would pay, without asking the price directly",
+      "Classify features by willingness to pay",
+      "Prioritize the roadmap around the 20% that drives 80% of WTP",
+      "Avoid feature shock; don't give the high-value 20% for free"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "productize-to-segments",
+    "name": "Productize to Segments (Act Differently)",
+    "category": "Pricing",
+    "decision_served": "Designing products and packaging for distinct customer segments.",
+    "source": [
+      "podcasts/madhavan-ramanujam.md"
+    ],
+    "summary": "Madhavan Ramanujam's segmentation principle: real segmentation is based on needs, value, and willingness to pay, not demographics.",
+    "key_steps": [
+      "Reject demographic/persona-only segmentation",
+      "Segment by needs, value, and willingness to pay",
+      "Test whether teams can act differently for each segment",
+      "Productize and package distinctly for each segment",
+      "For startups, launch for the priority segment first"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "jolt-effect",
+    "name": "The JOLT Effect",
+    "category": "GTM & Sales",
+    "decision_served": "Closing deals that are stalling due to customer indecision rather than competition.",
+    "source": [
+      "newsletters/how-to-build-a-killer-sales-pitch.md",
+      "podcasts/matt-dixon.md"
+    ],
+    "summary": "From Dixon and McKenna's research, 40-60% of B2B deals end in 'no decision' because buyers fear messing up. The fix is reducing the buyer's perceived risk of deciding.",
+    "key_steps": [
+      "Judge the level of indecision early in the deal",
+      "Offer a recommendation instead of overwhelming with options",
+      "Limit the exploration so the customer trusts your guidance",
+      "Take risk off the table — de-risk the deal"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "challenger-sale",
+    "name": "The Challenger Sale",
+    "category": "GTM & Sales",
+    "decision_served": "Differentiating yourself in a sales conversation to win complex deals.",
+    "source": [
+      "podcasts/matt-dixon.md"
+    ],
+    "summary": "Matt Dixon's research on what makes top salespeople different: they teach customers what should keep them up at night.",
+    "key_steps": [
+      "Teach the customer something new about their business",
+      "Tailor the message to the customer's economic drivers",
+      "Take control of the conversation, including price and timing",
+      "Reframe the customer's status quo"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "indistractable-four-steps",
+    "name": "Becoming Indistractable (Four-Step Model)",
+    "category": "Career & Self-management",
+    "decision_served": "Regaining focus and doing your most important work without distraction.",
+    "source": [
+      "podcasts/nir-eyal.md"
+    ],
+    "summary": "Nir Eyal's strategy for focus. Since 90% of distraction starts from internal triggers, you master those first.",
+    "key_steps": [
+      "Master internal triggers — the uncomfortable feelings driving distraction",
+      "Make time for traction by timeboxing your values",
+      "Hack back external triggers — pings, meetings, interruptions",
+      "Prevent distraction with pacts (effort, price, identity)"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "give-away-your-legos",
+    "name": "Give Away Your Legos",
+    "category": "Career & Self-management",
+    "decision_served": "Navigating your role and career as a fast-scaling company outgrows your job.",
+    "source": [
+      "podcasts/molly-graham.md"
+    ],
+    "summary": "Molly Graham's advice for thriving in hypergrowth: deliberately handing off your current scope is the path to a bigger career.",
+    "key_steps": [
+      "Recognize that scaling makes your job bigger",
+      "Notice the discomfort when someone takes over your scope",
+      "Deliberately give away the part of the job you've gotten good at",
+      "Move up to building larger systems"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "radical-candor",
+    "name": "Radical Candor",
+    "category": "Communication & Influence",
+    "decision_served": "Giving feedback that helps people improve without being a jerk or being too soft.",
+    "source": [
+      "podcasts/ada-chen-rekhi.md",
+      "podcasts/kim-scott.md"
+    ],
+    "summary": "Kim Scott's two-by-two framework for feedback: care personally on one axis, challenge directly on the other. Radical candor is doing both at once.",
+    "key_steps": [
+      "Care personally — show you care about the person",
+      "Challenge directly — give clear, candid feedback",
+      "Avoid obnoxious aggression (challenge without care)",
+      "Avoid ruinous empathy (care without challenge)",
+      "Avoid manipulative insincerity (neither)"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "what-is-what-could-be",
+    "name": "What Is / What Could Be (The Sparkline)",
+    "category": "Communication & Influence",
+    "decision_served": "Structuring a presentation or pitch to move an audience to act.",
+    "source": [
+      "podcasts/nancy-duarte.md"
+    ],
+    "summary": "Nancy Duarte's persuasive presentation structure using contrast between the status quo and a better future.",
+    "key_steps": [
+      "Make the listener the hero; approach with empathy",
+      "Establish 'what is' — the current reality",
+      "Contrast with 'what could be' — a better future",
+      "Oscillate between what is and what could be",
+      "End with the 'new bliss'"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "state-change-method",
+    "name": "The State Change Method",
+    "category": "Communication & Influence",
+    "decision_served": "Keeping an audience engaged during a talk, meeting, or presentation.",
+    "source": [
+      "podcasts/wes-kao.md"
+    ],
+    "summary": "Wes Kao's technique for sustaining attention by punctuating monologues with 'state changes' every few minutes.",
+    "key_steps": [
+      "Recognize attention spans are only 2-4 minutes",
+      "Audit your material for long stretches of monologue",
+      "Insert a state change every 3-5 minutes or slides",
+      "Use prompts, questions, view switches, or polls"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "managing-up-tldr-context",
+    "name": "Managing Up with TLDR + Context",
+    "category": "Communication & Influence",
+    "decision_served": "Communicating decisions and updates to senior stakeholders efficiently.",
+    "source": [
+      "podcasts/wes-kao.md"
+    ],
+    "summary": "Wes Kao's approach to managing up: lead with the gist, with supporting context optional for those who already agree.",
+    "key_steps": [
+      "Understand what is keeping your manager up at night",
+      "Lead with the TLDR — the most important point",
+      "Add a clearly labeled 'context' section below",
+      "Let readers who already agree stop after the gist"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "eigenquestions",
+    "name": "Eigenquestions",
+    "category": "Prioritization & Planning",
+    "decision_served": "Cutting through a tangle of decisions to the one question that resolves the rest.",
+    "source": [
+      "podcasts/shishir-mehrotra.md"
+    ],
+    "summary": "Shishir Mehrotra's decision ritual: an eigenquestion is the question that, when answered, also answers the most subsequent questions.",
+    "key_steps": [
+      "List the cluster of questions and decisions in play",
+      "Identify which question resolves the most others",
+      "Frame and debate that eigenquestion explicitly",
+      "Let its answer cascade to dependent decisions"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "product-led-acquisition",
+    "name": "Product-Led Acquisition",
+    "category": "Growth",
+    "decision_served": "Choosing a growth model where product usage itself drives new users.",
+    "source": [
+      "podcasts/julian-shapiro.md"
+    ],
+    "summary": "Julian Shapiro's reframing of product-led growth: acquisition driven by the product's everyday use, at zero marginal cost.",
+    "key_steps": [
+      "Identify whether using the product naturally exposes non-users",
+      "Build incentive structures for users to invite others",
+      "Engineer the everyday use case to pull in new users",
+      "Prefer this over volatile paid acquisition"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "creativity-faucet",
+    "name": "The Creativity Faucet",
+    "category": "Career & Self-management",
+    "decision_served": "Overcoming creative blocks when writing or generating ideas.",
+    "source": [
+      "podcasts/julian-shapiro.md"
+    ],
+    "summary": "Julian Shapiro's mental model: drain the obvious, low-quality ideas first before fresh ones can flow.",
+    "key_steps": [
+      "Treat your mind like a faucet clogged with stale ideas",
+      "Drain the obvious, mediocre ideas onto the page first",
+      "Keep going until the unoriginal backlog is cleared",
+      "Continue and the fresh, novel ideas begin to flow"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "word-of-mouth-engine",
+    "name": "The Word-of-Mouth Growth Engine",
+    "category": "Growth",
+    "decision_served": "Building word of mouth as a primary, measurable growth channel.",
+    "source": [
+      "podcasts/nilan-peiris.md"
+    ],
+    "summary": "Nilan Peiris's system at Wise for driving the majority of growth through word of mouth.",
+    "key_steps": [
+      "Measure word of mouth by asking customers how they heard of you",
+      "Use NPS and its comments to find what drives promoters",
+      "Identify the levers that move users up the NPS scale",
+      "Deliver a 10x better experience worth sharing",
+      "Connect customers emotionally to the mission"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "who-a-method-hiring",
+    "name": "Hire People Who Have Done the Thing Next (Who Method)",
+    "category": "Hiring",
+    "decision_served": "Hiring the right person for a role rather than gambling on a resume.",
+    "source": [
+      "podcasts/jonathan-lowenhar.md"
+    ],
+    "summary": "Jonathan Lowenhar's hiring approach: define what success looks like 12 months out, then hire someone who has already done exactly that.",
+    "key_steps": [
+      "Don't start from a generic job description",
+      "Envision success: 12 months after the hire, what has changed?",
+      "Document that picture of success concretely",
+      "Interview for people who have already done those things",
+      "Avoid gambling on prestigious logos"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "working-backwards-exit",
+    "name": "Working Backwards from the Exit (Seduction vs For-Sale Sign)",
+    "category": "Strategy",
+    "decision_served": "Positioning a company to be acquired on favorable terms.",
+    "source": [
+      "podcasts/jonathan-lowenhar.md"
+    ],
+    "summary": "Jonathan Lowenhar's framework contrasting two acquisition paths: a weak 'for-sale sign' vs 'seducing' acquirers over time.",
+    "key_steps": [
+      "Recognize the for-sale sign path is reactive and weak",
+      "Build relationships with potential acquirers early",
+      "Treat it like courtship, not an enterprise sales push",
+      "Make the acquirer want a future together"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "fear-gives-bad-advice",
+    "name": "Fear Gives Bad Advice (Do the Opposite)",
+    "category": "Team & Operating Model",
+    "decision_served": "Making a hard leadership decision when you feel fear or anger.",
+    "source": [
+      "podcasts/matt-mochary.md"
+    ],
+    "summary": "Matt Mochary's coaching principle: when gripped by fear, recognize it, check with someone not in fear, and often do the opposite.",
+    "key_steps": [
+      "Notice when you are in fear",
+      "Recognize fear is about ego threats, not real danger",
+      "Check with someone who is not in fear",
+      "Often do the opposite of what fear advises"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "firing-with-grace",
+    "name": "Firing With Grace",
+    "category": "Team & Operating Model",
+    "decision_served": "Letting someone go in a humane way that preserves the relationship.",
+    "source": [
+      "podcasts/matt-mochary.md"
+    ],
+    "summary": "Matt Mochary's approach to firing: do it with compassion, then become the person's agent to help them find their ideal next role.",
+    "key_steps": [
+      "Recognize losing a job is deeply traumatic",
+      "Deliver the news with compassion",
+      "Become the person's agent to help them find their dream role",
+      "Help them discover and land that role",
+      "Use the test: would you still be friends afterward?"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "career-job-after-next",
+    "name": "Work Backwards from the Job After Next",
+    "category": "Career & Self-management",
+    "decision_served": "Choosing your next career move so it serves a long-term destination.",
+    "source": [
+      "podcasts/nikhyl-singhal.md"
+    ],
+    "summary": "Nikhyl Singhal's framework for career decisions: treat your career like a product and optimize for the job after next.",
+    "key_steps": [
+      "Define your long-term career end state",
+      "Break it into version one, two, three like a product",
+      "Optimize for the job after next, not just the next job",
+      "Choose the current move in service of that arc",
+      "Don't conflate promotion with career"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "viral-teen-app-heuristic",
+    "name": "The Teen Invitation Heuristic for Viral Apps",
+    "category": "Growth",
+    "decision_served": "Choosing a target audience for a consumer app that needs to grow virally.",
+    "source": [
+      "podcasts/nikita-bier.md"
+    ],
+    "summary": "Nikita Bier's heuristic for viral consumer apps: build for teens, whose habits are malleable and who invite freely.",
+    "key_steps": [
+      "Target teens, whose habits are still malleable",
+      "Note invites per user drop ~20% per year of age from 13 to 18",
+      "Exploit that teens see each other in person daily",
+      "Seed the app school-by-school",
+      "Accept that adult-focused apps require paid acquisition"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "j-curve-vs-stairs",
+    "name": "J-Curve vs Stairs",
+    "category": "Team & Operating Model",
+    "decision_served": "Setting expectations for how progress feels during periods of change or scaling.",
+    "source": [
+      "podcasts/molly-graham.md"
+    ],
+    "summary": "Molly Graham's mental model: progress in scaling environments follows a J-curve where things get worse before they get better.",
+    "key_steps": [
+      "Recognize change often follows a J-curve, not steady stairs",
+      "Expect a dip — things get worse before better",
+      "Distinguish a J-curve dip from genuine decline",
+      "Hold steady through the dip"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "b2b-pmf-diagnostic",
+    "name": "B2B Product-Market Fit Diagnostic",
+    "category": "Product-Market Fit",
+    "decision_served": "Diagnosing where you are on the path to B2B product-market fit and what to do next.",
+    "source": [
+      "newsletters/a-guide-for-finding-product-market-fit-in-b2b.md"
+    ],
+    "summary": "Lenny Rachitsky's five-step ladder for B2B product-market fit: locate yourself on the path from one company loving the product to consistent growth, with benchmark timelines and a stuck-branch diagnostic.",
+    "key_steps": [
+      "Get one company to love your product",
+      "Get one company to pay a meaningful amount",
+      "Get more than one company to love and pay (3-10 paid customers)",
+      "Notice the shift from push to pull (organic growth, cold inbound)",
+      "Keep growing consistently"
+    ],
+    "tier": "workflow"
+  },
+  {
+    "id": "fundraising-process-playbook",
+    "name": "The 4-Step Fundraising Process Playbook",
+    "category": "Fundraising",
+    "decision_served": "Running a structured Series A (or seed) fundraise from preparation through closing the term sheet.",
+    "source": [
+      "newsletters/a-playbook-for-fundraising.md"
+    ],
+    "summary": "Marc McCabe's end-to-end guide treats fundraising as a trust-building exercise broken into four stages: preparation, outreach, navigating the process, and partner meetings plus closing. The core idea is to architect a synchronized process so multiple funds reach a decision at the same time, creating a real market for your equity.",
+    "key_steps": [
+      "Preparation: decide why and when to raise, then build a teaser deck, full deck, forecast, and supporting materials over ~4 weeks",
+      "Harden the pitch by testing 70%-complete materials with 4-6 friendly founders or investors",
+      "Outreach: build a list of 50-60 funds that can write a lead check and line up warm introductions",
+      "Navigate the process: compress all first meetings into a 2-3 week window to keep funds on similar timelines",
+      "Track every fund like a project manager and keep dialogue moving with relevant updates",
+      "Partner meetings + closing: treat the sponsoring partner as a co-conspirator and get legal review of any term sheet",
+      "Plan for ~8-16 weeks start to term sheet and keep at least 8 months of runway"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "seed-round-101",
+    "name": "Raising a Seed Round 101",
+    "category": "Fundraising",
+    "decision_served": "Deciding whether and how to raise a great seed round as an early-stage founder.",
+    "source": [
+      "newsletters/raising-a-seed-round-101.md"
+    ],
+    "summary": "Terrence Rohan and Jack Altman's practical guide to seed fundraising, drawn from 1,000+ rounds and advice from iconic founders. It covers whether to raise venture at all, what to prove first, how much to raise, and how to create FOMO across investors to maximize the odds of a strong round.",
+    "key_steps": [
+      "Decide if venture is right: you want scale, accept ~10-20% dilution, and believe outside capital has concrete upside",
+      "Before raising, establish proof of commitment, proof of work, and proof of insight",
+      "Size the raise for 24-36 months of runway plus a 25% buffer (typically $2M-$4M)",
+      "Plan a compressed 2-3 week pitch window and research every target investor",
+      "Prepare a minimal but well-crafted deck or memo and secure powerful warm intros",
+      "Start small with angels on a SAFE to build social proof before the lead check",
+      "Negotiate mainly post-money valuation and board terms; don't celebrate until funds wire"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "when-to-raise-saas",
+    "name": "When Should a Startup Raise Money",
+    "category": "Fundraising",
+    "decision_served": "Deciding the right timing to raise meaningful capital and accelerate spend at a SaaS startup.",
+    "source": [
+      "newsletters/this-week-15-when-should-a-saas-startup-raise-money.md"
+    ],
+    "summary": "A clear timing guideline: raise meaningful money and accelerate hiring and growth only after you've found product-market fit. Raising and scaling before PMF causes premature scaling, one of the most common ways startups die.",
+    "key_steps": [
+      "Recognize the three business stages: search for PMF, growth, and maturity",
+      "In stage one, minimize raising to preserve dilution and avoid time pressure while iterating toward PMF",
+      "Confirm you have genuine product-market fit before scaling spend",
+      "Raise in the growth stage to fund hiring, paid channels, and a sales team",
+      "Raise when added capital can buy a higher growth rate worth the dilution trade-off",
+      "Be deliberate about how much you raise, from whom, and the burn it implies"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "why-now-narrative",
+    "name": "The 'Why Now' Framework",
+    "category": "Fundraising",
+    "decision_served": "Articulating why your startup is uniquely possible or timely right now when pitching investors.",
+    "source": [
+      "newsletters/why-now.md"
+    ],
+    "summary": "A strong 'why now' isn't strictly essential, but it improves your odds because it can unlock a 10x better product or create a new untapped market need. There are five sources of why now, and your why now can also emerge later as the world changes around you.",
+    "key_steps": [
+      "Understand the two advantages a why now creates: enabling a 10x better product or a new untapped market need",
+      "Check the five sources: new technology ubiquity, new data/APIs, regulatory change, behavior change, belief change",
+      "Identify which source(s) timing most benefits you",
+      "If you lack a strong why now, lean on great execution, a 10x product, and a large market",
+      "Remember a why now can emerge later as trends shift in your favor",
+      "Don't expect even an amazing why now to save weak execution"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "activate-investor-network",
+    "name": "Activating Your Investor Network",
+    "category": "Fundraising",
+    "decision_served": "Getting maximum value from existing investors after the round has closed.",
+    "source": [
+      "newsletters/how-to-activate-your-investor-network.md"
+    ],
+    "summary": "Sam Corcos's system for treating an investor network as one of a startup's biggest untapped sources of value. It rests on building the right network and then making targeted, time-bounded, specific asks that are easy to act on.",
+    "key_steps": [
+      "Build a great network by optimizing for eigenvector centrality (well-connected investors)",
+      "Make good asks: keep them targeted, time-bounded, and specific",
+      "Make it as easy as possible for investors to help you",
+      "Do the work yourself; don't expect value without putting in effort",
+      "Send frequent, structured requests rather than waiting for proactive help",
+      "Treat investor outreach as a repeatable, high-volume practice"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "angel-investing-lessons",
+    "name": "Lessons from 140+ Angel Investments",
+    "category": "Fundraising",
+    "decision_served": "Getting started as an angel investor and deciding how to source and evaluate deals.",
+    "source": [
+      "newsletters/lessons-from-140-angel-investments.md"
+    ],
+    "summary": "Lenny's seven biggest surprises from 140+ angel investments, plus how to get started and what to look for. The central lesson: angel investing is more about access and not missing power-law winners than it is about picking, so build a wide portfolio and become someone founders want on their cap table.",
+    "key_steps": [
+      "Get started via friends, pairing with active investors, syndicates, training programs, or cold outreach",
+      "Optimize for access: become someone founders want on their cap table through knowledge, audience, signal, or reputation",
+      "Build deal flow by sharing great deals with 3-5 trusted investor friends",
+      "Mostly follow high-signal leads, but place ~30% of bets on low-signal deals you have unique insight into",
+      "Evaluate startups on pain, market size, evidence of PMF, A+ founders, unfair advantage, and business model",
+      "Invest in enough deals (~30+) to catch a power-law winner, with consistent check sizes"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "when-to-hire-first-pm",
+    "name": "When to Hire Your First Product Manager",
+    "category": "Hiring",
+    "decision_served": "Deciding whether and when your growing startup needs its first full-time product manager.",
+    "source": [
+      "newsletters/when-to-hire-your-first-product-manager.md"
+    ],
+    "summary": "Whether or not you hire a PM, someone must do the three jobs of a PM: shape the product, ship the product, and synchronize the people. Three signs indicate it's time to hire a dedicated PM.",
+    "key_steps": [
+      "Recognize the three jobs of a PM: shape the product, ship the product, synchronize the people",
+      "Check whether current team members are both good at and want to do those jobs",
+      "Watch for sign 1: frequent bottlenecks where teammates can't ship because of you",
+      "Watch for sign 2: frequent misalignment across stakeholders",
+      "Watch for sign 3: a burning need to go deep on a problem post-PMF",
+      "If the signs are present, hire a full-time PM rather than stretching the team"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "six-rules-hiring-growth",
+    "name": "Six Rules of Hiring for Growth",
+    "category": "Hiring",
+    "decision_served": "Deciding when and how to make your first growth hire and build a growth team.",
+    "source": [
+      "newsletters/six-rules-of-hiring-for-growth.md"
+    ],
+    "summary": "Elena Verna's six hard-won rules for growth hiring, structured to avoid the most common founder mistakes (hiring a generalist with no growth definition, building growth before data, leading with a Head of Growth). The core principle: define your growth model before you hire for growth.",
+    "key_steps": [
+      "Rule 1: Build a growth model (growth levers and motions) before hiring for growth",
+      "Rule 2: Build a data team before a growth team",
+      "Rule 3: Don't make Head of Growth your first growth hire",
+      "Rule 4: Hire the right growth profile for your specific growth motion",
+      "Rule 5: Don't default to chasing external talent over internal candidates",
+      "Rule 6: Put growth in the right department for your model"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "hire-first-growth-team",
+    "name": "How to Hire Your First Growth Team",
+    "category": "Hiring",
+    "decision_served": "Sequencing and timing the build-out of a first dedicated growth team by company stage.",
+    "source": [
+      "newsletters/how-to-hire-your-first-growth-team.md"
+    ],
+    "summary": "Elena Verna and Andrea Wang's stage-by-stage guide, built from interviews with 12 top growth leaders, for building a first growth team. Growth connects more people to existing value, so it must come after PMF, and acquisition is almost always the right first goal.",
+    "key_steps": [
+      "Before PMF: develop a growth model hypothesis instead of hiring growth talent",
+      "Finding PMF: rely on founder-led growth across product-, marketing-, or sales-led motions",
+      "After PMF: form the first growth team, typically around an acquisition goal",
+      "Hire generalists with high iteration velocity, a growth mindset, and strong execution",
+      "Prefer internal candidates who already have business context for early growth roles",
+      "Expand to activation, monetization, and engagement pods as the team earns trust"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "early-stage-hiring",
+    "name": "Winning at Early-Stage Hiring",
+    "category": "Hiring",
+    "decision_served": "Attracting and closing world-class talent as a small early-stage startup.",
+    "source": [
+      "newsletters/winning-at-early-stage-hiring.md"
+    ],
+    "summary": "Five consistent themes that separate founders who hire world-class people month after month from those who struggle. The biggest lever is a captivating vision, reinforced by an A++ early team that compounds over time.",
+    "key_steps": [
+      "Refine a captivating, ambitious vision that makes candidates feel their work would be meaningful",
+      "Set an even higher bar for your first few hires to build an A++ early team",
+      "Lean on social proof, referral networks, and the hiring flywheel that great people create",
+      "Never lower the recruiting bar to fill a short-term need",
+      "Treat recruiting as a continuous, founder-led priority"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "work-trial-interview",
+    "name": "Adding a Work Trial to Your Interview Process",
+    "category": "Hiring",
+    "decision_served": "Designing a work-trial step that gives far more hiring signal than a conventional interview.",
+    "source": [
+      "newsletters/adding-a-work-trial-to-your-interview-process.md"
+    ],
+    "summary": "Lessons from Linear, Automattic, 37signals, Gumroad, Auth0, and PostHog on running work trials, where candidates complete a project representative of the actual role. Trials give dramatically more signal on real performance and on how much a candidate wants the job.",
+    "key_steps": [
+      "Define a work trial: a project representative of the real work the role involves",
+      "Choose where to sit on the spectrum from at-home project to co-working in the real codebase, based on company size",
+      "Design trial projects that mirror day-to-day work and produce gradeable output",
+      "Slot the trial into the overall interview process and decide whether and how much to pay candidates",
+      "Evaluate performance against the skills and judgment the role actually requires",
+      "Use the trial to also gauge how much the candidate wants to work at your company"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "interview-product-managers",
+    "name": "How to Interview Product Managers",
+    "category": "Hiring",
+    "decision_served": "Structuring a PM interview process and deciding which skills to test for.",
+    "source": [
+      "newsletters/how-to-interview-product-managers.md"
+    ],
+    "summary": "A complete blueprint for a PM interview process: recruiter screen, hiring-manager screen, a full-day interview combining a project with 1:1s, a blind-vote panel, and reference checks. It pairs the structure with the six core IC PM skills to test and tips for closing offers.",
+    "key_steps": [
+      "Run a recruiter phone screen to confirm minimum requirements and org fit (optional)",
+      "Run a hiring-manager phone screen to test a couple of the most important attributes",
+      "Run a full-day interview: a project plus three to six 1:1s, each testing one key PM skill",
+      "Hold a post-interview panel where each interviewer blind-votes Strong No / No / Yes / Strong Yes",
+      "Test the six core IC PM skills, including communication and collaboration",
+      "Do reference checks, then craft a compelling offer and work hard to close it"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "determine-activation-metric",
+    "name": "How to Determine Your Activation Metric",
+    "category": "Metrics & Benchmarks",
+    "decision_served": "Quantitatively pinning down the activation milestone that predicts long-term retention.",
+    "source": [
+      "newsletters/how-to-determine-your-activation-metric.md"
+    ],
+    "summary": "A three-step process for finding the activation metric that is causal for retention, not merely correlated. It moves from brainstorming candidate 'aha' moments to regression analysis to experiments that confirm causality.",
+    "key_steps": [
+      "Brainstorm and explore usage data for potential 'aha' moments in the user journey",
+      "Run a regression analysis to find which moments correlate with an inflection in retention",
+      "Run experiments to test whether increasing that moment causally increases retention",
+      "Use qualitative interviews and surveys when historical usage data is thin",
+      "For multi-player B2B products, identify activation per job-to-be-done or workspace setup behavior",
+      "Pick the milestone that is causal for retention as your activation metric"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "measure-cohort-retention",
+    "name": "How to Measure Cohort Retention",
+    "category": "Metrics & Benchmarks",
+    "decision_served": "Accurately calculating, visualizing, and reporting on cohort retention.",
+    "source": [
+      "newsletters/how-to-measure-cohort-retention.md"
+    ],
+    "summary": "Olga Berezovsky's deep dive into the formulas, SQL, and visualizations needed to measure cohort retention correctly. The first and most consequential step is defining what 'active' means for your product, since retention is both the most important and least understood metric.",
+    "key_steps": [
+      "Define 'active' carefully, ideally using a main user action rather than visits or logins",
+      "Choose the retention type (n-day, unbounded, bracket) that fits your product's usage cadence",
+      "Build cohorts and compute retention with correct formulas and SQL",
+      "Visualize retention as cohort tables and curves, watching for when curves flatten",
+      "Account for differences between consumer, B2B, and B2C definitions of retention",
+      "Iterate on retention reporting over months to reach accuracy"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "marketplace-metrics",
+    "name": "The Most Important Marketplace Metrics to Track",
+    "category": "Metrics & Benchmarks",
+    "decision_served": "Choosing which KPIs to focus on and optimize when building a marketplace.",
+    "source": [
+      "newsletters/the-most-important-marketplace-metrics-to-track.md"
+    ],
+    "summary": "Lenny's recommendation, drawn from his Airbnb experience and a dozen marketplace founders, of the four most important metrics for any burgeoning marketplace. Fill rate is the ultimate measure of marketplace health because it bakes in supply quality, availability, and conversion.",
+    "key_steps": [
+      "Track fill rate: the percentage of intentful sessions that convert",
+      "Track bookings growth: completed transactions per week or month",
+      "Track supply growth: new active supply per week or month",
+      "Track GMV growth: dollars flowing through your system per week or month",
+      "Also watch universal metrics like retention, user growth, and payback period",
+      "Narrow focus to the two or three metrics that most drive your marketplace's health"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "consumer-metrics",
+    "name": "The Most Important Consumer Metrics to Track",
+    "category": "Metrics & Benchmarks",
+    "decision_served": "Selecting which metrics to focus on for a consumer (B2C) product by business model.",
+    "source": [
+      "newsletters/the-most-important-consumer-metrics-to-track.md"
+    ],
+    "summary": "The metrics that matter most for a consumer product depend heavily on how it makes money. This guide breaks consumer businesses into five types and recommends a focused starting set of metrics for each.",
+    "key_steps": [
+      "Identify your consumer business type: trial subscription, freemium subscription, ad-based, marketplace, or DTC",
+      "For trial subscription, focus on trials growth, conversion, retention, revenue, CAC, and payback",
+      "For freemium, focus on user growth, conversion to paid, retention, and virality",
+      "For ad-based products, focus on engagement, audience growth, and revenue per user",
+      "Treat the suggested metrics as a starting point, not the only answer",
+      "Narrow to the two or three metrics that most directly drive your business"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "bottom-up-saas-metrics",
+    "name": "The Most Important Bottom-Up SaaS Metrics to Track",
+    "category": "Metrics & Benchmarks",
+    "decision_served": "Choosing which metrics an early-stage bottom-up (PLG) SaaS startup should track.",
+    "source": [
+      "newsletters/the-most-important-bottom-up-saas-metrics-to-track.md"
+    ],
+    "summary": "A priority-ranked set of metrics for early-stage bottom-up SaaS founders, divided into pre-revenue, post-revenue, and additional buckets. The guidance is to start with a few metrics and add more over time rather than tracking everything at once.",
+    "key_steps": [
+      "Pre-revenue: track retention (user, logo, L7/L30)",
+      "Pre-revenue: track virality within an organization (invite rate, invite conversion, virality factor)",
+      "Post-revenue: track MRR and revenue growth",
+      "Add metrics like activation, conversion, and expansion as the business matures",
+      "Pick the right tools to track and visualize these metrics",
+      "Start with a few metrics in priority order rather than all of them at once"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "consumer-subscription-metrics",
+    "name": "The Most Important Consumer Subscription Metrics to Track",
+    "category": "Metrics & Benchmarks",
+    "decision_served": "Choosing which metrics to track for a consumer subscription business.",
+    "source": [
+      "newsletters/the-most-important-consumer-subscription-metrics-to-track.md"
+    ],
+    "summary": "A consumer subscription business has to nail six things, from acquiring users to delivering profitably, and the most important ones differ across Content, Software, and Physical Goods. This guide maps the key metrics to each of the six buckets.",
+    "key_steps": [
+      "Acquire new users sustainably and track acquisition metrics",
+      "Get new users to quickly experience value (most important for Software)",
+      "Make sure enough users continue to find value (most important for Content)",
+      "Make sure enough users decide to pay (free/trial to paid conversion)",
+      "Make sure enough users continue to pay (retention and churn)",
+      "Deliver the product or service profitably (most important for Physical Goods)"
+    ],
+    "tier": "guidance"
+  },
+  {
+    "id": "saas-consumer-metric-benchmarks",
+    "name": "SaaS & Consumer Metric Benchmarks",
+    "category": "Metrics & Benchmarks",
+    "decision_served": "Judging whether a given metric (activation, churn, retention, growth, conversion, payback, waitlist) is good for your type of business.",
+    "source": [
+      "newsletters/what-is-a-good-activation-rate.md",
+      "newsletters/what-is-good-monthly-churn.md",
+      "newsletters/what-is-good-retention.md",
+      "newsletters/what-is-a-good-growth-rate.md",
+      "newsletters/what-is-good-free-to-paid-conversion.md",
+      "newsletters/what-is-a-good-payback-period.md",
+      "newsletters/what-is-good-waitlist-conversion.md"
+    ],
+    "summary": "A benchmark reference family answering the recurring 'what is a good X?' question across the core SaaS and consumer metrics. Each benchmark is segmented by business type (B2C, B2B SMB, B2B enterprise) and price point, with GOOD / GREAT / OK thresholds drawn from large surveys and panels of growth experts.",
+    "key_steps": [
+      "Identify which metric you need to benchmark: activation, churn, retention, growth rate, free-to-paid conversion, payback period, or waitlist conversion",
+      "Segment by business type (B2C, B2B SMB, B2B enterprise) and price point before comparing",
+      "Compare against GOOD, GREAT, and OK thresholds rather than a single number",
+      "For payback period, target shorter for B2C and progressively longer for SMB and enterprise",
+      "For monthly churn, translate the rate into how fast you churn through your user base",
+      "Use the benchmark to decide whether a metric is on track for growth or needs intervention"
+    ],
+    "tier": "guidance"
+  }
+]

@@ -1,0 +1,135 @@
+{
+  "id": "strategy-blocks",
+  "name": "Strategy Blocks (Day-2 Sprint Core)",
+  "category": "Strategy",
+  "shape": "sequential-process",
+  "source": ["newsletters/strategy-blocks-an-operators-guide-to-product-strategy.md"],
+  "summary": "Chandra Janakiraman's Day-2 strategy-sprint core: dump problems, cluster into themes, score the themes on four dimensions, let the top-three by summed score become your strategic pillars, then write a two-year winning-aspiration headline.",
+  "decision_served": "What should our team's strategic pillars and two-year winning aspiration be?",
+  "spec_version": "1",
+  "steps": [
+    {
+      "id": "problem-dump",
+      "title": "Generate the problem dump",
+      "prompt": "Add the team's problem statements — everything affecting users or preventing the product from growing. Aim for volume, not polish; don't filter for importance or quality yet. (Janakiraman's real sprint targets 50-150 statements with a working group; for this walkthrough enter at least 5 so the engine can rank.)",
+      "input": {
+        "type": "list",
+        "config": { "min_items": 5, "item_label": "problem statement" }
+      },
+      "guidance": {
+        "text": "The first step is for the team to generate a list of problems based on the notes from day 1. Each member of the strategy working group adds their problem statements to a shared repository (e.g. Google Sheets). Typically anywhere between 50 and 150 problem statements should be collected this way. The importance and quality of each problem is not important in this first step. Focus on generating a high volume of problem statements.",
+        "source_span": {
+          "file": "newsletters/strategy-blocks-an-operators-guide-to-product-strategy.md",
+          "start": 12638,
+          "end": 13073
+        }
+      },
+      "examples": [],
+      "benchmark_hook": null,
+      "branching": null
+    },
+    {
+      "id": "cluster",
+      "title": "Cluster problems into opportunity themes",
+      "prompt": "Group the problem statements into 10-15 broader themes, give each a short, pithy name, and flip each into an opportunity framing (e.g. 'difficulty finding features' becomes 'discovery'; 'unwanted content' becomes 'relevance').",
+      "input": {
+        "type": "list",
+        "config": { "min_items": 3, "max_items": 15, "item_label": "opportunity cluster" }
+      },
+      "guidance": {
+        "text": "Next, cluster related problems into broader themes, and give each theme a relatively short and pithy name. Typically, 10 to 15 problem clusters emerge from 50 to 150 problem statements. Flip each problem cluster into an opportunity framing (e.g. difficulty finding features → discovery, unwanted content → relevance, etc.).",
+        "source_span": {
+          "file": "newsletters/strategy-blocks-an-operators-guide-to-product-strategy.md",
+          "start": 13080,
+          "end": 13414
+        }
+      },
+      "examples": [],
+      "benchmark_hook": null,
+      "branching": null
+    },
+    {
+      "id": "score-clusters",
+      "title": "Score each opportunity on four dimensions",
+      "prompt": "Score each opportunity cluster from 1 (low) to 3 (high) along the four key dimensions. Where hard data isn't available, a qualitative score based on team debate is a reasonable fallback — evidence will come with execution.",
+      "input": {
+        "type": "score-grid",
+        "config": {
+          "rows_from": "cluster",
+          "dimensions": [
+            "Expected impact",
+            "Certainty of impact",
+            "Clarity of levers",
+            "Uniqueness of levers"
+          ],
+          "scale": ["1", "2", "3"],
+          "scoring": "sum"
+        }
+      },
+      "guidance": {
+        "text": "Next, score each opportunity area along four key dimensions: Expected impact — think about the number of people impacted by the problem, the frequency of impact, and the relative pain that people experience in that area. Certainty of impact — establish if the need is well-proven or more speculative at this stage. Clarity of levers — understand if the team has a rough sense of the levers that could be deployed to improve the situation. Uniqueness of levers — assess if the levers can have a unique and differentiated experience as a result of being built by the team/company (brand, network, skill, technical, or process advantage — some secret sauce that has helped the company differentiate in the past).",
+        "source_span": {
+          "file": "newsletters/strategy-blocks-an-operators-guide-to-product-strategy.md",
+          "start": 13426,
+          "end": 14373
+        }
+      },
+      "examples": [],
+      "benchmark_hook": null,
+      "branching": null
+    },
+    {
+      "id": "pillars",
+      "title": "Confirm your top-three strategic pillars",
+      "prompt": "The clusters with the highest summed scores bubble up automatically. Confirm the top three as your strategic pillars — these are where you'll focus the next two years of work.",
+      "input": {
+        "type": "multi-choice",
+        "config": {
+          "options_from": "cluster",
+          "preselect": "sum_top",
+          "preselect_count": 3,
+          "min_choices": 3,
+          "max_choices": 3
+        }
+      },
+      "guidance": {
+        "text": "Once these scores are generated across the 10 to 15 opportunity areas, a simple sum of scores and a sort based on totals helps automatically bubble up the top three opportunity areas. These become the strategic pillars.",
+        "source_span": {
+          "file": "newsletters/strategy-blocks-an-operators-guide-to-product-strategy.md",
+          "start": 14734,
+          "end": 14957
+        }
+      },
+      "examples": [],
+      "benchmark_hook": null,
+      "branching": null
+    },
+    {
+      "id": "aspiration",
+      "title": "Write the two-year winning-aspiration headline",
+      "prompt": "Imagine a day two years into the future. The team has made significant progress on all three strategic pillars, and a journalist is covering your company's work. What does the headline say? Express it in terms of how the team's work has made users' lives better and grown the company.",
+      "input": {
+        "type": "text",
+        "config": {
+          "placeholder": "Future-journalist headline (one or two sentences)",
+          "max_len": 400
+        }
+      },
+      "guidance": {
+        "text": "Winning aspiration: Once the strategic pillars and the 'how might we's' are established, kick off day 3 with a creative exercise. Imagine a day two years into the future when the team has made significant progress on all three opportunity areas, and a journalist covers the company/team's work. Ask the team to imagine the headline, and express it in the form of how the team's work has made the consumers' lives better and grown the company. The working group generates multiple versions of these headlines and then blends and mashes them up into one statement that incorporates common elements from across the different versions. This ultimately becomes the 2-year winning aspiration for the effort.",
+        "source_span": {
+          "file": "newsletters/strategy-blocks-an-operators-guide-to-product-strategy.md",
+          "start": 15131,
+          "end": 15842
+        }
+      },
+      "examples": [],
+      "benchmark_hook": null,
+      "branching": null
+    }
+  ],
+  "artifact": {
+    "type": "strategy-doc",
+    "template": "## Strategy Blocks: Day-2 Output\n\n### Two-year winning aspiration\n\n{{steps.aspiration.output}}\n\n### Strategic pillars\n\n{{steps.pillars.output}}\n\n### How we got here\n\n- Problems collected: {{steps.problem-dump.count}}\n- Opportunity clusters: {{steps.cluster.count}}\n- Scored on Expected impact, Certainty of impact, Clarity of levers, Uniqueness of levers (1-3 each); top three by summed score became pillars.\n\n### Full ranked opportunity scoring\n\n{{table:steps.score-clusters.output}}"
+  }
+}

@@ -63,6 +63,7 @@ export async function POST(req: Request) {
     excerpt.excerpt,
     excerpt.file,
     inputsSoFar,
+    { frameworkName: spec.name, frameworkSummary: spec.summary },
   );
   return NextResponse.json(result, { status: 200 });
 }

@@ -18,6 +18,7 @@ const step = spec.steps.find((s) => s.id === "collect-ideas")!;
 const excerpt =
   "As a rule of thumb, you'll want to have at least 5x as many ideas as you could reasonably build in the next time period (typically a quarter) before starting to prioritize.";
 const excerptFile = "newsletters/introducing-drice.md";
+const TEST_CONTEXT = { frameworkName: "Test Framework", frameworkSummary: "A test." };
 
 function toolReply(sentences: Array<{ text: string; quote: string }>) {
   return {
@@ -58,7 +59,7 @@ describe("adaptStepGuidance — adversarial citation filtering", () => {
       ]),
     );
 
-    const result = await adaptStepGuidance(step, excerpt, excerptFile, {});
+    const result = await adaptStepGuidance(step, excerpt, excerptFile, {}, TEST_CONTEXT);
     expect(result.fallback).toBe(true);
     expect(result.sentences).toHaveLength(1);
     expect(result.sentences[0].text).toBe(step.guidance.text);
@@ -75,7 +76,7 @@ describe("adaptStepGuidance — adversarial citation filtering", () => {
       ]),
     );
 
-    const result = await adaptStepGuidance(step, excerpt, excerptFile, {});
+    const result = await adaptStepGuidance(step, excerpt, excerptFile, {}, TEST_CONTEXT);
     expect(result.fallback).toBe(true);
   });
 
@@ -91,7 +92,7 @@ describe("adaptStepGuidance — adversarial citation filtering", () => {
       ]),
     );
 
-    const result = await adaptStepGuidance(step, excerpt, excerptFile, {});
+    const result = await adaptStepGuidance(step, excerpt, excerptFile, {}, TEST_CONTEXT);
     expect(result.fallback).toBe(false);
     expect(result.sentences).toHaveLength(1);
     expect(createMock).toHaveBeenCalledTimes(2);
@@ -99,7 +100,7 @@ describe("adaptStepGuidance — adversarial citation filtering", () => {
 
   it("falls back to verbatim guidance if both attempts error", async () => {
     createMock.mockRejectedValue(new Error("API down"));
-    const result = await adaptStepGuidance(step, excerpt, excerptFile, {});
+    const result = await adaptStepGuidance(step, excerpt, excerptFile, {}, TEST_CONTEXT);
     expect(result.fallback).toBe(true);
     expect(result.sentences[0].text).toBe(step.guidance.text);
     expect(createMock).toHaveBeenCalledTimes(2);
@@ -115,8 +116,58 @@ describe("adaptStepGuidance — adversarial citation filtering", () => {
         },
       ]),
     );
-    const result = await adaptStepGuidance(step, excerpt, excerptFile, {});
+    const result = await adaptStepGuidance(step, excerpt, excerptFile, {}, TEST_CONTEXT);
     expect(result.fallback).toBe(false);
     expect(result.sentences).toHaveLength(1);
+  });
+});
+
+describe("adaptStepGuidance — suggested_options", () => {
+  const validSentence = {
+    text: "Aim for at least 5x more ideas than you can reasonably build in a quarter before prioritizing.",
+    quote:
+      "at least 5x as many ideas as you could reasonably build in the next time period",
+  };
+
+  function toolReplyWithOptions(
+    sentences: Array<{ text: string; quote: string }>,
+    suggested_options: unknown,
+  ) {
+    return {
+      content: [
+        {
+          type: "tool_use",
+          id: "t1",
+          name: "submit_adapted_guidance",
+          input: { sentences, suggested_options },
+        },
+      ],
+    };
+  }
+
+  it("returns suggested_options when the model provides them and they are well-formed", async () => {
+    createMock.mockResolvedValueOnce(
+      toolReplyWithOptions([validSentence], ["Push", "Pull", "Anxiety", "Habit"]),
+    );
+
+    const result = await adaptStepGuidance(step, excerpt, excerptFile, {}, TEST_CONTEXT);
+    expect(result.suggested_options).toEqual(["Push", "Pull", "Anxiety", "Habit"]);
+  });
+
+  it("caps suggested_options at 6 and drops empty/non-string entries", async () => {
+    createMock.mockResolvedValueOnce(
+      toolReplyWithOptions(
+        [validSentence],
+        ["A", "B", "", null, "C", "D", "E", "F", "G", "H"],
+      ),
+    );
+    const result = await adaptStepGuidance(step, excerpt, excerptFile, {}, TEST_CONTEXT);
+    expect(result.suggested_options).toEqual(["A", "B", "C", "D", "E", "F"]);
+  });
+
+  it("omits suggested_options entirely when not provided", async () => {
+    createMock.mockResolvedValueOnce(toolReply([validSentence]));
+    const result = await adaptStepGuidance(step, excerpt, excerptFile, {}, TEST_CONTEXT);
+    expect(result.suggested_options).toBeUndefined();
   });
 });

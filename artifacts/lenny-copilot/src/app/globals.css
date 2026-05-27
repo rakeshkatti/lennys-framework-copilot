@@ -2,9 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Root layout sets body to bg-cream + font-sans + text-ink-body via
+ * Tailwind classes. Page-level background colors override per route
+ * (e.g. /frameworks uses bg-cream; the workflow runner switches to white
+ * cards on cream BG). No hardcoded colors here.
+ */
+
 html,
 body {
   height: 100%;
-  background: #f8fafc;
-  color: #0f172a;
 }

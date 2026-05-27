@@ -1,0 +1,16 @@
+{
+  "b2b-pmf-diagnostic": {
+    "self-locate": {
+      "file": "newsletters/a-guide-for-finding-product-market-fit-in-b2b.md",
+      "excerpt": "I asked every founder when they first felt product-market fit, and their answers fell along a spectrum that provides a useful guide to finding ever-increasing PMF:\n\n- **Step 1:** Get one company to love your product\n- **Step 2:** Get one company to pay (a meaningful amount of money) for your product\n- **Step 3**: Get more than one company to love and pay for your product\n- **Step 4:** Start noticing a shift from push to pull, and organic growth\n- **Step 5:** Keep growing consistently"
+    },
+    "capture-counts": {
+      "file": "newsletters/a-guide-for-finding-product-market-fit-in-b2b.md",
+      "excerpt": "### In B2B, it normally takes two years to start feeling product-market fit\n\n1. **The median time from idea to feeling product-market fit was roughly 2 years.** Start to worry if you've been working on your idea for over 2 years and not feeling PMF (see below what that feels like), and start to seriously worry if it's been over 3 years.\n2. **From a working product to feeling PMF typically took 9-18 months.**\n\nFor most founders, hitting 3 to 10 paid customers was the moment they felt like they had real PMF."
+    },
+    "stuck-diagnose": {
+      "file": "newsletters/a-guide-for-finding-product-market-fit-in-b2b.md",
+      "excerpt": "### What to do if you get stuck on this journey\n\nFirst, don't worry too much. This happens to basically every startup. But do worry, because most startups don't make it out of this phase.\n\nIf you're feeling stuck on your path to PMF, take 10 minutes and deeply think about these questions:\n\n1. Is the problem you're solving truly important and underserved?\n2. Is your solution Delta-4 better than the status quo?\n3. Have you tried rethinking your ICP? How truly painful is the pain you're attempting to solve for them?\n4. Have you tried rethinking your idea? Revisit Step 1.\n5. Is your idea truly venture-scale?\n\nGood luck!"
+    }
+  }
+}

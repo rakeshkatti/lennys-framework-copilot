@@ -136,6 +136,17 @@ export function parse(tokens: Token[]): Node {
       return inner;
     }
     const left = parsePrimary();
+    // Bare boolean literal as a complete condition (e.g., `"if": "true"` for
+    // an unconditional fall-through branch). The evaluator handles literal
+    // nodes directly via Boolean(node.value), so we return the literal
+    // without trying to parse a comparison.
+    if (
+      left.kind === "literal" &&
+      typeof left.value === "boolean" &&
+      (!peek() || (peek()?.type !== "op" && peek()?.type !== "and" && peek()?.type !== "or"))
+    ) {
+      return left;
+    }
     const op = consume();
     if (!op || op.type !== "op") {
       throw new Error(

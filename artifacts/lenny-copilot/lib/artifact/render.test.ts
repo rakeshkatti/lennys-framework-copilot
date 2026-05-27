@@ -186,11 +186,15 @@ describe("renderArtifactMarkdown", () => {
     expect(md.match(/^- a\.md$/gm)?.length).toBe(1);
     // Per-step spans for completed steps are nested under their source file.
     expect(md).toContain("- f.md");
-    expect(md).toContain("Ideas — chars 0–1");
-    expect(md).toContain("Score — chars 0–1");
-    expect(md).toContain("Deepdive — chars 0–1");
-    // Skipped step's span is NOT in the sources.
-    expect(md).not.toContain("Winrate — chars");
+    // Per-step lines list the step title only; raw char offsets from
+    // source_span are intentionally omitted — they were spec-author /
+    // audit metadata, not reader-facing detail.
+    expect(md).toContain("  - Ideas");
+    expect(md).toContain("  - Score");
+    expect(md).toContain("  - Deepdive");
+    expect(md).not.toMatch(/chars\s+\d+/);
+    // Skipped step is NOT in the sources.
+    expect(md).not.toContain("  - Winrate");
   });
 });
 

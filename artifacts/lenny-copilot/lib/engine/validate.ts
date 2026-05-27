@@ -1,5 +1,5 @@
 import type { Step } from "../spec";
-import type { SML } from "./scoring";
+import type { CellValue } from "./scoring";
 
 export class InputValidationError extends Error {
   constructor(
@@ -45,14 +45,12 @@ export function validateStepInput(
       const trimmed = (items as string[])
         .map((s) => s.trim())
         .filter((s) => s.length > 0);
-      const minItems = typeof config.min_items === "number" ? config.min_items : 0;
-      if (trimmed.length < minItems) {
-        const label = typeof config.item_label === "string" ? config.item_label : "item";
-        throw new InputValidationError(
-          step.id,
-          `at least ${minItems} non-empty ${label}(s) required, got ${trimmed.length}`,
-        );
-      }
+      // `config.min_items` is a SOFT guideline, not a hard block. The
+      // ListInput UI shows the count badge ("3 / 5 minimum") in rose when
+      // below to nudge the user, but Continue stays enabled so they can
+      // advance now and come back to add more later. This matches the
+      // "let me explore the workflow end-to-end" UX the demo needs.
+      // Structural checks (input is object, items is string[]) still throw.
       return { items: trimmed };
     }
     case "number": {
@@ -206,7 +204,7 @@ export function validateStepInput(
         }
         requiredRows = items;
       }
-      const cleaned: Record<string, Record<string, SML>> = {};
+      const cleaned: Record<string, Record<string, CellValue>> = {};
       const rowsToCheck = requiredRows ?? Object.keys(grid);
       for (const row of rowsToCheck) {
         const rowScores = (grid as Record<string, unknown>)[row];
@@ -216,7 +214,7 @@ export function validateStepInput(
             `missing scores for row "${row}"`,
           );
         }
-        const rowOut: Record<string, SML> = {};
+        const rowOut: Record<string, CellValue> = {};
         for (const dim of dimensions) {
           const v = (rowScores as Record<string, unknown>)[dim];
           if (typeof v !== "string" || !scale.includes(v)) {
@@ -225,7 +223,7 @@ export function validateStepInput(
               `row "${row}" dimension "${dim}" must be one of ${scale.join("/")}`,
             );
           }
-          rowOut[dim] = v as SML;
+          rowOut[dim] = v;
         }
         cleaned[row] = rowOut;
       }

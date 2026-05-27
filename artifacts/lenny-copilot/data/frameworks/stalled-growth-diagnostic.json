@@ -1,0 +1,225 @@
+{
+  "id": "stalled-growth-diagnostic",
+  "name": "Stalled-Growth 5-Lever Diagnostic",
+  "category": "Growth",
+  "shape": "diagnostic-tree",
+  "source": ["podcasts/jason-cohen.md"],
+  "summary": "Jason Cohen's gated diagnostic for a SaaS product whose growth has stalled. Walk the five levers in order — logo churn, pricing & positioning, net revenue retention, marketing-channel saturation, and target market — stopping at the first one that's broken, because fixing anything downstream of a binding constraint won't help.",
+  "decision_served": "Why has my product's growth stalled, and which lever do I fix first?",
+  "spec_version": "1",
+  "steps": [
+    {
+      "id": "segment",
+      "title": "Pick your customer segment",
+      "prompt": "Which segment best describes your business? This sets the benchmark thresholds Cohen invokes (e.g. 2% monthly churn is good for B2B SMB, terrible for enterprise).",
+      "input": {
+        "type": "choice",
+        "config": {
+          "options": ["B2C SaaS", "B2B SMB + Mid-Market", "B2B Enterprise"],
+          "field": "value"
+        }
+      },
+      "guidance": {
+        "text": "So I look at it like a question. The first question is, are people leaving too much? Because if your monthly cancellation is 2% for SMB, that's good. So you could try to work on it, but since it's already good, it's still probably a good ROI to work on it, but it's possible that you've got diminishing returns and that this isn't really the reason — or it's not really reasonable for it to go [lower]. How low can it go for SMB? There's some floor and you might be near it. So the first question is: is logo churn too high? — and trying to set a threshold lower than what people normally want to do.",
+        "source_span": {
+          "file": "podcasts/jason-cohen.md",
+          "start": 37656,
+          "end": 38290
+        }
+      },
+      "examples": [],
+      "benchmark_hook": null,
+      "branching": null
+    },
+    {
+      "id": "logo-churn",
+      "title": "Lever 1 — Are customers leaving?",
+      "prompt": "What's your monthly logo cancellation rate (% of paying customers who cancel per month)? Compute the hard cap: new customers per month divided by this rate is the maximum company size you can ever reach.",
+      "input": {
+        "type": "number",
+        "config": { "min": 0, "max": 100, "unit": "% per month", "field": "value" }
+      },
+      "guidance": {
+        "text": "It's actually quite simple. Let's say you have 5% per month. It's simply the amount of new customers you add divided by that cancellation rate. That is the limit. So suppose you add 100 customers a month and you have 5% cancellation. 100 divided by 5% is 2,000. A company like that will never have more than 2,000 customers. And as you approach that number, growth is very slow because you bring in a bunch of customers and almost the same number leave. Ah, look — we've diagnosed why growth slows automatically at all SaaS companies. So that's why this is the first thing: it's such a hard cap, and it means people don't want your product. These are two reasons why it's the most important thing.",
+        "source_span": {
+          "file": "podcasts/jason-cohen.md",
+          "start": 16217,
+          "end": 17066
+        }
+      },
+      "examples": [
+        {
+          "company": "Groove",
+          "text": "I stole this from a company called Groove, who has a great case study online. They had an email they sent out, and they started by asking 'Why did you cancel?' — they got 10% usable responses. They changed the same email to 'What made you cancel?' and it's 20% usable responses. So there's maybe some anecdata that this is a good idea.",
+          "source_span": {
+            "file": "podcasts/jason-cohen.md",
+            "start": 20426,
+            "end": 20822
+          }
+        }
+      ],
+      "benchmark_hook": {
+        "metric": "monthly_churn",
+        "segment_from": "segment.value"
+      },
+      "branching": [
+        { "if": "inputs.logo-churn.value > 3", "next": "artifact" }
+      ]
+    },
+    {
+      "id": "pricing-positioning",
+      "title": "Lever 2 — Is your pricing & positioning correct?",
+      "prompt": "Have you stress-tested pricing recently — both the number AND how it's structured/positioned? If your prices haven't changed since you 'just guessed' them, the answer is almost certainly no.",
+      "input": {
+        "type": "choice",
+        "config": {
+          "options": [
+            "Yes — we've tested it recently and have evidence the number, structure, and positioning are right",
+            "No — we guessed and haven't changed it, or we copied competitors"
+          ],
+          "field": "value"
+        }
+      },
+      "guidance": {
+        "text": "So the next question I have is: is the pricing correct? Pricing is a perennially interesting topic. There's this funny thing, especially with newer companies, that the pricing is always too low. It's not always, but that's the common thing. Patrick Campbell, who has 4,200 data points about startups — let that sink in a little — has this great quote which goes like this: \"Your prices are way too low because you just guessed and you haven't changed them.\" When I think 'is your pricing correct?', I'm thinking in a more general way than just the number — I'm thinking about the structure, the positioning, and all that. Price is not just the number on the webpage; how it's structured is just as important, how the product's positioned is just as important.",
+        "source_span": {
+          "file": "podcasts/jason-cohen.md",
+          "start": 38292,
+          "end": 38771
+        }
+      },
+      "examples": [
+        {
+          "company": "Anonymous enterprise SaaS (Cohen advisee)",
+          "text": "He had a product selling to enterprise and government and said, 'Yeah, I charge $300.' I said '$300 a month, that's not enough.' He goes 'No, per year.' I said 'How many signups do you get a week?' — 'One or two.' I said 'Just for fun, just change it from per year to per month' — in other words, 12x-ing the price. He did, and he still got one or two per week. Nothing changed. The point: you 12x'd the price and nothing observable changed. That means you're not near the price yet.",
+          "source_span": {
+            "file": "podcasts/jason-cohen.md",
+            "start": 40221,
+            "end": 41516
+          }
+        }
+      ],
+      "benchmark_hook": null,
+      "branching": [
+        { "if": "inputs.pricing-positioning.value == \"No — we guessed and haven't changed it, or we copied competitors\"", "next": "artifact" }
+      ]
+    },
+    {
+      "id": "net-revenue-retention",
+      "title": "Lever 3 — Are existing customers growing? (NRR)",
+      "prompt": "What is your 12-month net revenue retention (NRR), %? Cohen's bar: it must be >100% just to outrun cancellations, and the median public SaaS company at IPO has NRR of 119%.",
+      "input": {
+        "type": "number",
+        "config": { "min": 0, "max": 300, "unit": "%", "field": "value" }
+      },
+      "guidance": {
+        "text": "And in fact, the median for an IPO SaaS company — like at IPO — the median NRR is 119%. So yes, that's what it takes. You can't do this — you're limited — in less. Now, your goal may or may not be to get that big, but the point being it's mandatory for growth. If cancellations overtake marketing in magnitude, one way to combat them is to have existing customers paying you more — usage-based pricing, upgrades, tiers — so that growth scales with your customer base instead of just with marketing. NRR captures that. If NRR is below 100%, cancellations are winning and growth has a hard cap, no matter how good marketing is.",
+        "source_span": {
+          "file": "podcasts/jason-cohen.md",
+          "start": 59735,
+          "end": 59990
+        }
+      },
+      "examples": [
+        {
+          "company": "Public SaaS index",
+          "text": "There are over a hundred SaaS public companies, and something like two of them have NRR less than 100%. And those companies have horrible financials and their valuations are bad. In fact, the median for an IPO SaaS company is 119%.",
+          "source_span": {
+            "file": "podcasts/jason-cohen.md",
+            "start": 59471,
+            "end": 59820
+          }
+        }
+      ],
+      "benchmark_hook": null,
+      "branching": [
+        { "if": "inputs.net-revenue-retention.value < 100", "next": "artifact" }
+      ]
+    },
+    {
+      "id": "marketing-channels",
+      "title": "Lever 4 — Are your marketing channels saturated?",
+      "prompt": "Do you know — right now, channel by channel — which of your acquisition channels are saturated and which still have headroom? If you can't answer that confidently, treat it as saturated.",
+      "input": {
+        "type": "choice",
+        "config": {
+          "options": [
+            "Yes — we have headroom in at least one channel and can name it",
+            "No / unsure — channels feel tapped out, AdWords and SEO aren't moving the needle anymore"
+          ],
+          "field": "value"
+        }
+      },
+      "guidance": {
+        "text": "Do you know right now which channels are saturated and which aren't? You can't just rely on marketing forever. Just adding one little feature and then hoping we can flog AdWords is not going to work. There really are limits — inventory was the old word for it, but there's only so many searches in your area, and channels tend to decline over time (the elephant curve). So maybe growth is slowing because all your channels are saturated, possibly even sagging. The obvious thing is get more channels, but maybe there aren't any. So you could say it's obvious to say this — but are you acting like this is true? Often we don't.",
+        "source_span": {
+          "file": "podcasts/jason-cohen.md",
+          "start": 1932,
+          "end": 2117
+        }
+      },
+      "examples": [
+        {
+          "company": "Constant Contact",
+          "text": "Constant Contact had this very problem of growth being slow. One of the things they did that restarted growth is they physically went to a bunch of cities and held workshops showing 'Here's how to do email marketing for your small business.' Restaurateurs and dentists would come — teaching them how, of course, with Constant Contact — so they became customers. You'd think there's no way this is cost-effective for a $20/month product. It was very effective, and actually restarted growth.",
+          "source_span": {
+            "file": "podcasts/jason-cohen.md",
+            "start": 79624,
+            "end": 80580
+          }
+        },
+        {
+          "company": "HubSpot",
+          "text": "HubSpot famously tested selling through agencies instead of direct. That ended up being 50% of their revenue after four or five years — one of the main reasons they were able to continue growing.",
+          "source_span": {
+            "file": "podcasts/jason-cohen.md",
+            "start": 80974,
+            "end": 81180
+          }
+        }
+      ],
+      "benchmark_hook": null,
+      "branching": [
+        { "if": "inputs.marketing-channels.value == \"No / unsure — channels feel tapped out, AdWords and SEO aren't moving the needle anymore\"", "next": "artifact" }
+      ]
+    },
+    {
+      "id": "target-market",
+      "title": "Lever 5 — Do you actually need to grow (this thing, in this market)?",
+      "prompt": "If the first four levers all check out and growth is still stalled, the question becomes: do you need this product, in this market, to grow — or is the right move a new product, new market, a profit-focused mode, or something else entirely?",
+      "input": {
+        "type": "text",
+        "config": {
+          "placeholder": "Your honest answer: does this product/market still need to grow, or is the next move a new product, a new market, maximizing profit instead of revenue, or stepping off the growth treadmill?",
+          "max_len": 2000,
+          "field": "value"
+        }
+      },
+      "guidance": {
+        "text": "The last question is, do you need to grow? Growth is stalled. If we assume every question before has been answered in a satisfactory way, you could ask: is that a problem? What do we mean by grow? If we define 'you' as this product in this market and this company, the answer might be: no — what we need is a different product in a different market. Or you could change the word 'revenue': maybe we maximize profit instead of revenue now. This is a company like 37Signals or a lot of bootstrap companies who have hit some limit and realize: that's okay. So maybe growing forever isn't the goal — or growing revenue isn't.",
+        "source_span": {
+          "file": "podcasts/jason-cohen.md",
+          "start": 85832,
+          "end": 87257
+        }
+      },
+      "examples": [
+        {
+          "company": "37Signals & bootstrap founders",
+          "text": "This is a company like 37Signals or really lots of bootstrap companies who have hit some sort of limit and realize: 'That's okay. The founders are getting paid millions of dollars a year in dividends. If I got bigger, it might be an organization that I don't like or serving a market segment that I don't want to serve.' So maybe growing forever isn't the goal actually, or growing revenue isn't.",
+          "source_span": {
+            "file": "podcasts/jason-cohen.md",
+            "start": 86787,
+            "end": 87257
+          }
+        }
+      ],
+      "benchmark_hook": null,
+      "branching": null
+    }
+  ],
+  "artifact": {
+    "type": "diagnosis",
+    "template": "## Stalled-Growth Diagnosis\n\n**Segment:** {{steps.segment.output}}\n\n### Lever 1 — Logo churn\nMonthly cancellation rate: **{{steps.logo-churn.output}}%**. {{steps.logo-churn.verdict}}\n\n### Lever 2 — Pricing & positioning\n{{steps.pricing-positioning.output}}\n\n### Lever 3 — Net revenue retention\n12-month NRR: **{{steps.net-revenue-retention.output}}%**. Cohen's bar is >100% just to outrun cancellations; the median SaaS company at IPO is 119%.\n\n### Lever 4 — Marketing channels\n{{steps.marketing-channels.output}}\n\n### Lever 5 — Do you need to grow?\n{{steps.target-market.output}}\n\n---\n\n**Binding constraint:** the first lever above that fired its branch is where to focus. Fixing anything downstream of it won't move growth — Cohen's whole point is that this list is in order, and the first problem swamps the rest."
+  }
+}

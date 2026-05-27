@@ -5,6 +5,18 @@ import { ARTIFACT_CURSOR, rankScoreGrid, type SML } from "@lib/engine";
 
 type Status = "completed" | "current" | "pending";
 
+/**
+ * Plan 5 — right-column "Your progress" panel.
+ *
+ * Shows every step of the workflow with status badges (completed / current
+ * / pending) and the user's filled-in answers for each completed step.
+ * Sits below AdaptedGuidance in the right column on desktop so the user
+ * can see what they've answered across the whole workflow without losing
+ * the source-grounded guidance for the current step.
+ *
+ * Tokens per DESIGN.md (cream/peach surfaces, brand-orange accents for the
+ * current step, ink-* text scale).
+ */
 export function ArtifactPane({
   spec,
   cursor,
@@ -21,15 +33,12 @@ export function ArtifactPane({
   }
 
   return (
-    <div className="sticky top-6">
-      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-        Artifact preview
+    <aside className="rounded-card border border-border-warm bg-white p-5 shadow-soft">
+      <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+        Your progress
       </p>
-      <h2 className="mt-1 text-lg font-semibold text-slate-900">
-        {spec.name}
-      </h2>
-      <p className="mt-1 text-xs text-slate-500">
-        Builds up as you complete each step.
+      <p className="mt-1 text-[11px] text-ink-subtle">
+        Builds up as you complete each step. Click any step name to jump in your head.
       </p>
 
       <ol className="mt-4 space-y-2">
@@ -38,26 +47,28 @@ export function ArtifactPane({
           return (
             <li
               key={step.id}
-              className={`rounded-lg border p-3 transition ${
+              className={
                 status === "current"
-                  ? "border-slate-900 bg-white shadow-sm"
+                  ? "rounded-lg border border-brand bg-peach/30 p-3 shadow-sm transition"
                   : status === "completed"
-                  ? "border-slate-200 bg-white"
-                  : "border-dashed border-slate-200 bg-transparent opacity-60"
-              }`}
+                  ? "rounded-lg border border-border-warm bg-white p-3 transition"
+                  : "rounded-lg border border-dashed border-border-warm bg-transparent p-3 opacity-60 transition"
+              }
             >
               <div className="flex items-center gap-2">
                 <StepDot status={status} index={idx + 1} />
                 <p
-                  className={`text-sm font-medium ${
-                    status === "pending" ? "text-slate-500" : "text-slate-900"
-                  }`}
+                  className={
+                    status === "pending"
+                      ? "text-sm font-medium text-ink-muted"
+                      : "text-sm font-medium text-ink-strong"
+                  }
                 >
                   {step.title}
                 </p>
               </div>
               {status === "completed" && (
-                <div className="mt-2 pl-7 text-xs text-slate-600">
+                <div className="mt-2 pl-7 text-xs text-ink-body">
                   <StepSummary step={step} value={inputs[step.id]} />
                 </div>
               )}
@@ -65,23 +76,23 @@ export function ArtifactPane({
           );
         })}
         <li
-          className={`rounded-lg border p-3 ${
+          className={
             cursor === ARTIFACT_CURSOR
-              ? "border-emerald-500 bg-emerald-50"
-              : "border-dashed border-slate-200 opacity-60"
-          }`}
+              ? "rounded-lg border border-brand bg-peach/30 p-3"
+              : "rounded-lg border border-dashed border-border-warm p-3 opacity-60"
+          }
         >
           <div className="flex items-center gap-2">
             <span
-              className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-semibold ${
+              className={
                 cursor === ARTIFACT_CURSOR
-                  ? "bg-emerald-600 text-white"
-                  : "bg-slate-200 text-slate-500"
-              }`}
+                  ? "flex h-5 w-5 items-center justify-center rounded-full bg-brand text-[10px] font-semibold text-white"
+                  : "flex h-5 w-5 items-center justify-center rounded-full bg-border-warm text-[10px] font-semibold text-ink-muted"
+              }
             >
               ✓
             </span>
-            <p className="text-sm font-medium text-slate-900">
+            <p className="text-sm font-medium text-ink-strong">
               {spec.artifact.type === "scored-table"
                 ? "Scored & ranked artifact"
                 : "Artifact"}
@@ -89,17 +100,20 @@ export function ArtifactPane({
           </div>
         </li>
       </ol>
-    </div>
+    </aside>
   );
 }
 
 function StepDot({ status, index }: { status: Status; index: number }) {
-  const base = "flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-semibold";
+  const base =
+    "flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold";
   if (status === "completed")
-    return <span className={`${base} bg-slate-900 text-white`}>✓</span>;
+    return <span className={`${base} bg-brand text-white`}>✓</span>;
   if (status === "current")
-    return <span className={`${base} bg-slate-900 text-white`}>{index}</span>;
-  return <span className={`${base} bg-slate-200 text-slate-500`}>{index}</span>;
+    return <span className={`${base} bg-brand text-white`}>{index}</span>;
+  return (
+    <span className={`${base} bg-border-warm text-ink-muted`}>{index}</span>
+  );
 }
 
 function StepSummary({ step, value }: { step: Step; value: unknown }) {
@@ -157,9 +171,12 @@ function StepSummary({ step, value }: { step: Step; value: unknown }) {
         <table className="w-full text-left text-xs">
           <tbody>
             {ranked.map((r) => (
-              <tr key={r.item} className="border-b border-slate-100 last:border-0">
+              <tr
+                key={r.item}
+                className="border-b border-border-warm last:border-0"
+              >
                 <td className="py-1 pr-2">{r.item}</td>
-                <td className="py-1 text-right font-mono tabular-nums text-slate-500">
+                <td className="py-1 text-right font-mono tabular-nums text-ink-muted">
                   {r.score.toFixed(2)}
                 </td>
               </tr>
@@ -175,8 +192,8 @@ function StepSummary({ step, value }: { step: Step; value: unknown }) {
           <ul className="space-y-1">
             {Object.entries(values).map(([k, val]) => (
               <li key={k}>
-                <span className="font-medium text-slate-800">{k}:</span>{" "}
-                <span className="text-slate-600">
+                <span className="font-medium text-ink-strong">{k}:</span>{" "}
+                <span className="text-ink-body">
                   {val.length > 80 ? val.slice(0, 80) + "…" : val}
                 </span>
               </li>
@@ -186,7 +203,7 @@ function StepSummary({ step, value }: { step: Step; value: unknown }) {
       }
       const text = String(v.value ?? "");
       return (
-        <p className="text-slate-600">
+        <p className="text-ink-body">
           {text.length > 200 ? text.slice(0, 200) + "…" : text}
         </p>
       );

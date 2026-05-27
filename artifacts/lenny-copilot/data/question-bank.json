@@ -1,0 +1,1003 @@
+[
+  {
+    "question": "I'm a first-time B2B founder pre-PMF. Most prioritization frameworks assume an established feature set and a big company. Is there a framework that works for an early-stage startup still hunting for product-market fit?",
+    "category": "Prioritization & Planning",
+    "framework_id": "rice-prioritization",
+    "verbatim": true,
+    "source": "newsletters/prioritizing-at-startups.md"
+  },
+  {
+    "question": "How do you prioritize your roadmap? Which prioritization framework do you recommend for a team within a mid-sized company?",
+    "category": "Prioritization & Planning",
+    "framework_id": "rice-prioritization",
+    "verbatim": true,
+    "source": "newsletters/prioritizing.md"
+  },
+  {
+    "question": "What are your favorite decision-making frameworks for hard, one-way-door decisions?",
+    "category": "Prioritization & Planning",
+    "framework_id": "spade-decision",
+    "verbatim": true,
+    "source": "newsletters/my-favorite-decision-making-frameworks.md"
+  },
+  {
+    "question": "My team keeps trying to launch a big bet project at a big company, but our resources keep getting pulled away. How do I keep support for a long-horizon bet?",
+    "category": "Prioritization & Planning",
+    "framework_id": "strategy-blocks",
+    "verbatim": true,
+    "source": "newsletters/defending-your-big-bets.md"
+  },
+  {
+    "question": "I'm struggling to decide whether to sunset a feature that's eating a lot of our engineering resources. How do I make that call?",
+    "category": "Prioritization & Planning",
+    "framework_id": "rice-prioritization",
+    "verbatim": true,
+    "source": "newsletters/when-to-sunset-a-feature.md"
+  },
+  {
+    "question": "Should I always run an experiment when I make a change to my product? If not, when should I skip the test?",
+    "category": "Prioritization & Planning",
+    "framework_id": "confidence-meter",
+    "verbatim": true,
+    "source": "newsletters/when-not-to-run-an-experiment---issue-54.md"
+  },
+  {
+    "question": "What's your favorite roadmap template that you like to use?",
+    "category": "Prioritization & Planning",
+    "framework_id": "mission-vision-strategy-hierarchy",
+    "verbatim": true,
+    "source": "newsletters/this-week-8-splitting-equity-with-late-joining-co-founders-favorite-roadmap-temp.md"
+  },
+  {
+    "question": "Do you have examples of great 1-Pagers, PRDs, or product specs? I want a structure I can borrow and a sense of what great looks like.",
+    "category": "Prioritization & Planning",
+    "framework_id": "three-step-problem-solving",
+    "verbatim": true,
+    "source": "newsletters/examples-and-templates-of-1-pagers-and-prds.md"
+  },
+  {
+    "question": "How do you think about setting goals for your team and company each quarter?",
+    "category": "Prioritization & Planning",
+    "framework_id": "okr-objectives-key-results",
+    "verbatim": true,
+    "source": "newsletters/setting-goals.md"
+  },
+  {
+    "question": "I've heard podcast guests mention first-principles thinking. What exactly is it and how do I use it in my work?",
+    "category": "Prioritization & Planning",
+    "framework_id": "first-principles-thinking",
+    "verbatim": true,
+    "source": "newsletters/first-principles-thinking.md"
+  },
+  {
+    "question": "We have a backlog of 40 ideas and 6 engineers. How do I objectively rank them when stakeholders all think their request is the top priority?",
+    "category": "Prioritization & Planning",
+    "framework_id": "rice-prioritization",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "I have a three-step process I want for solving any thorny product problem from scratch. What's a repeatable method?",
+    "category": "Prioritization & Planning",
+    "framework_id": "three-step-problem-solving",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "When creating a new product, what strategies minimize the cold start problem — making it useful with zero users and zero data?",
+    "category": "Growth",
+    "framework_id": "kickstart-scale-consumer-business",
+    "verbatim": true,
+    "source": "newsletters/this-week-2-tackling-the-chicken-and-egg-problem-building-a-growth-team-from-scr.md"
+  },
+  {
+    "question": "Can you go one level deeper on the Racecar Growth Framework — how do I actually use it in practice?",
+    "category": "Growth",
+    "framework_id": "racecar-growth-framework",
+    "verbatim": true,
+    "source": "newsletters/the-racecar-growth-framework-expanded-and-illustrated.md"
+  },
+  {
+    "question": "My product is growing, but slowly. What most often precedes an inflection in growth?",
+    "category": "Growth",
+    "framework_id": "racecar-growth-framework",
+    "verbatim": true,
+    "source": "newsletters/growth-inflections.md"
+  },
+  {
+    "question": "Can you share examples of companies that found innovative growth loops, like marketplaces getting supply to drive demand?",
+    "category": "Growth",
+    "framework_id": "growth-loops",
+    "verbatim": true,
+    "source": "newsletters/magical-growth-loops.md"
+  },
+  {
+    "question": "I noticed some of my customers are signing up to become supply in my marketplace, which grows it faster. Any advice for leaning into this?",
+    "category": "Growth",
+    "framework_id": "growth-loops",
+    "verbatim": true,
+    "source": "newsletters/demand-driving-supply-the-little-understood-growth-loop-behind-a-surprising-numb.md"
+  },
+  {
+    "question": "I'm thinking about my growth strategy. Beyond Facebook ads and SEO, what are all the ways people discover new products?",
+    "category": "Growth",
+    "framework_id": "four-growth-engines",
+    "verbatim": true,
+    "source": "newsletters/how-people-discover-new-products.md"
+  },
+  {
+    "question": "I loved the consumer growth series, but are there other growth tactics or levers founders have found effective?",
+    "category": "Growth",
+    "framework_id": "racecar-growth-framework",
+    "verbatim": true,
+    "source": "newsletters/all-the-ways-to-grow-your-product.md"
+  },
+  {
+    "question": "I'm looking for creative ways to get the word out about my product. Do you have examples of clever growth tactics for inspiration?",
+    "category": "Growth",
+    "framework_id": "racecar-growth-framework",
+    "verbatim": true,
+    "source": "newsletters/60-ideas-to-boost-your-growth.md"
+  },
+  {
+    "question": "Which startups are best at content-driven growth, and what can I learn from them?",
+    "category": "Growth",
+    "framework_id": "four-growth-engines",
+    "verbatim": true,
+    "source": "newsletters/content-driven-growth.md"
+  },
+  {
+    "question": "This Justin Kan tweet about distribution stuck with me — how do I find my product's distribution advantage?",
+    "category": "Growth",
+    "framework_id": "distribution-platform-cycle",
+    "verbatim": true,
+    "source": "newsletters/finding-your-distribution-advantage.md"
+  },
+  {
+    "question": "I work at a fintech company where the core challenge is building trust and we're not a daily-use product. How should I think about growth here?",
+    "category": "Growth",
+    "framework_id": "racecar-growth-framework",
+    "verbatim": true,
+    "source": "newsletters/this-week-6-cultivating-good-relationships-with-distributed-co-workers-building.md"
+  },
+  {
+    "question": "We're a startup struggling with growth and retention because of an economic downturn. Any advice on what we should do?",
+    "category": "Growth",
+    "framework_id": "channel-product-fit-decision",
+    "verbatim": true,
+    "source": "newsletters/leading-your-company-through-a-pandemic---issue-20.md"
+  },
+  {
+    "question": "I want to build a referral program for my marketplace. Any advice — I haven't found great content on this?",
+    "category": "Growth",
+    "framework_id": "growth-loops",
+    "verbatim": true,
+    "source": "newsletters/building-a-referrals-program.md"
+  },
+  {
+    "question": "I'm planning to launch my product soon. How do companies generate buzz when they launch?",
+    "category": "Growth",
+    "framework_id": "kickstart-scale-consumer-business",
+    "verbatim": true,
+    "source": "newsletters/generating-buzz.md"
+  },
+  {
+    "question": "How do I hit #1 on Product Hunt, and how do I know if a Product Hunt launch is even right for my startup?",
+    "category": "Growth",
+    "framework_id": "kickstart-scale-consumer-business",
+    "verbatim": true,
+    "source": "newsletters/how-to-successfully-launch-on-product-hunt-when-its-right-for-your-startup.md"
+  },
+  {
+    "question": "I'm an early-stage marketplace and need to kickstart supply for a labor marketplace like Thumbtack. How do labor marketplaces find their supply?",
+    "category": "Growth",
+    "framework_id": "kickstart-scale-consumer-business",
+    "verbatim": true,
+    "source": "newsletters/kickstarting-supply-in-a-labor-marketplace.md"
+  },
+  {
+    "question": "What are the 28 ways to grow supply in a marketplace? I need a checklist of supply-side acquisition tactics.",
+    "category": "Growth",
+    "framework_id": "kickstart-scale-consumer-business",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "Our self-serve signup rate is fine but only 28% of signups ever reach the aha moment. How do I systematically improve activation?",
+    "category": "Growth",
+    "framework_id": "kickstart-scale-consumer-business",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "Our weekly active users have been flat at ~12k for five months despite shipping features. How do I diagnose where my growth engine is stalling?",
+    "category": "Growth",
+    "framework_id": "stalled-growth-diagnostic",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "I'm thinking about expanding my marketplace business internationally. What should I be thinking about when making and executing this decision?",
+    "category": "Strategy",
+    "framework_id": "picking-a-wedge",
+    "verbatim": true,
+    "source": "newsletters/this-week-12-expanding-your-business-internationally.md"
+  },
+  {
+    "question": "How do marketplaces expand from a single market to new markets? When should we expand and how do we pick which markets to enter?",
+    "category": "Strategy",
+    "framework_id": "picking-a-wedge",
+    "verbatim": true,
+    "source": "newsletters/marketplace-city-expansion-strategy.md"
+  },
+  {
+    "question": "How do strategy, vision, mission, goals, and roadmap all fit together? Where should I start?",
+    "category": "Strategy",
+    "framework_id": "mission-vision-strategy-hierarchy",
+    "verbatim": true,
+    "source": "newsletters/mission--vision--strategy--goals--roadmap--task.md"
+  },
+  {
+    "question": "How do I get better at product strategy?",
+    "category": "Strategy",
+    "framework_id": "strategy-blocks",
+    "verbatim": true,
+    "source": "newsletters/getting-better-at-product-strategy.md"
+  },
+  {
+    "question": "How do I know if I should pivot or stay the course?",
+    "category": "Strategy",
+    "framework_id": "art-of-the-pivot",
+    "verbatim": true,
+    "source": "newsletters/the-art-of-the-pivot-part-2-how-why-and-when-to-pivot.md"
+  },
+  {
+    "question": "I keep hearing I need a wedge to narrow our product and GTM. What exactly is a wedge and how do I pick the right one?",
+    "category": "Strategy",
+    "framework_id": "picking-a-wedge",
+    "verbatim": true,
+    "source": "newsletters/picking-a-wedge.md"
+  },
+  {
+    "question": "I know differentiation matters, but why exactly, and what are concrete ways we can differentiate our product?",
+    "category": "Strategy",
+    "framework_id": "dhm-product-strategy",
+    "verbatim": true,
+    "source": "newsletters/differentiating-your-product.md"
+  },
+  {
+    "question": "How can I differentiate my product and business from potential competitors in the eyes of our customers?",
+    "category": "Strategy",
+    "framework_id": "dhm-product-strategy",
+    "verbatim": true,
+    "source": "newsletters/this-week-0-advice-on-growth-product-and-leadership.md"
+  },
+  {
+    "question": "I'm working on a startup idea — what types of business models exist, and are there creative ways to design our business model?",
+    "category": "Strategy",
+    "framework_id": "foundation-sprint",
+    "verbatim": true,
+    "source": "newsletters/types-of-business-models.md"
+  },
+  {
+    "question": "I've worked on my startup for two years and it isn't taking off. What are my options?",
+    "category": "Strategy",
+    "framework_id": "art-of-the-pivot",
+    "verbatim": true,
+    "source": "newsletters/what-to-do-if-your-product-isnt-taking-off.md"
+  },
+  {
+    "question": "I'm told my startup idea isn't venture-scale. What does that actually mean and how do I assess it?",
+    "category": "Strategy",
+    "framework_id": "pattern-breakers",
+    "verbatim": true,
+    "source": "newsletters/your-startup-idea-probably-isnt-venture-scale.md"
+  },
+  {
+    "question": "As an investor, how do you evaluate a marketplace business idea? What do you look for?",
+    "category": "Strategy",
+    "framework_id": "seven-powers",
+    "verbatim": true,
+    "source": "newsletters/evaluating-a-marketplace-business-idea.md"
+  },
+  {
+    "question": "I'm building a marketplace and want to know what's most likely to kill my business. What should I watch out for?",
+    "category": "Strategy",
+    "framework_id": "seven-powers",
+    "verbatim": true,
+    "source": "newsletters/why-marketplaces-fail.md"
+  },
+  {
+    "question": "How do marketplaces win? What do new marketplaces need to get right to succeed?",
+    "category": "Strategy",
+    "framework_id": "seven-powers",
+    "verbatim": true,
+    "source": "newsletters/how-marketplaces-win.md"
+  },
+  {
+    "question": "I'm building a new marketplace. How do I build trust between strangers transacting for the first time?",
+    "category": "Strategy",
+    "framework_id": "category-design",
+    "verbatim": true,
+    "source": "newsletters/how-to-build-trust-in-a-marketplace.md"
+  },
+  {
+    "question": "We have a strategy doc but the team can't remember it. How do I structure strategy so it's memorable and actually drives decisions?",
+    "category": "Strategy",
+    "framework_id": "strategy-blocks",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "Our enterprise competitor just shipped the feature we were betting on as our differentiator. How do I rethink our strategic position?",
+    "category": "Strategy",
+    "framework_id": "dhm-product-strategy",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "I have a startup idea and I've started talking to potential customers. What should I be asking them to know if I have product-market fit?",
+    "category": "Product-Market Fit",
+    "framework_id": "validate-startup-idea",
+    "verbatim": true,
+    "source": "newsletters/this-week-3-finding-productmarket-fit-interviewing-for-a-director-of-pm-role-and.md"
+  },
+  {
+    "question": "How do I know if my product is working? What does it feel like when you've found product-market fit?",
+    "category": "Product-Market Fit",
+    "framework_id": "sean-ellis-test",
+    "verbatim": true,
+    "source": "newsletters/what-it-feels-like-when-youve-found-product-market-fit.md"
+  },
+  {
+    "question": "I'm working on a marketplace startup. How long does it usually take to find product-market fit?",
+    "category": "Product-Market Fit",
+    "framework_id": "b2b-pmf-diagnostic",
+    "verbatim": true,
+    "source": "newsletters/how-long-it-takes-to-find-product-market-fit.md"
+  },
+  {
+    "question": "I'm a B2B founder. Is there a specific guide for finding product-market fit in B2B, since most PMF advice feels consumer-focused?",
+    "category": "Product-Market Fit",
+    "framework_id": "b2b-pmf-diagnostic",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "I have an idea for a startup. How can I validate it's a good idea, and how will I know when it's promising enough to commit to?",
+    "category": "Product-Market Fit",
+    "framework_id": "validate-startup-idea",
+    "verbatim": true,
+    "source": "newsletters/how-to-validate-your-startup-idea.md"
+  },
+  {
+    "question": "How did today's fastest-growing B2B startups turn their early users into paying customers?",
+    "category": "Product-Market Fit",
+    "framework_id": "b2b-pmf-diagnostic",
+    "verbatim": true,
+    "source": "newsletters/how-todays-fastest-growing-b2b-startups-turned-their-early-users-into-paying-cus.md"
+  },
+  {
+    "question": "We ran the Sean Ellis survey and only 28% of users said they'd be very disappointed without us. Are we close to PMF and what do we fix?",
+    "category": "Product-Market Fit",
+    "framework_id": "sean-ellis-test",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "We're well funded and have been trying to scale a product but it's not working. We're under board pressure. How do I think about whether we have PMF?",
+    "category": "Product-Market Fit",
+    "framework_id": "four-levels-of-pmf",
+    "verbatim": true,
+    "source": "newsletters/this-week-7-effectively-communicating-about-a-failure-to-execs-managing-founder.md"
+  },
+  {
+    "question": "Our 30-day retention curve keeps declining and never flattens. Does that mean we don't have product-market fit yet?",
+    "category": "Product-Market Fit",
+    "framework_id": "hierarchy-of-engagement",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "What KPIs should I focus on and track for a marketplace?",
+    "category": "Metrics & Benchmarks",
+    "framework_id": "marketplace-metrics",
+    "verbatim": true,
+    "source": "newsletters/the-most-important-marketplace-metrics-to-track.md"
+  },
+  {
+    "question": "I'm building a consumer app and wondering what metrics I should focus on.",
+    "category": "Metrics & Benchmarks",
+    "framework_id": "consumer-metrics",
+    "verbatim": true,
+    "source": "newsletters/the-most-important-consumer-metrics-to-track.md"
+  },
+  {
+    "question": "What metrics do early-stage bottom-up SaaS startups track and how do they visualize them — beyond MRR and revenue?",
+    "category": "Metrics & Benchmarks",
+    "framework_id": "bottom-up-saas-metrics",
+    "verbatim": true,
+    "source": "newsletters/the-most-important-bottom-up-saas-metrics-to-track.md"
+  },
+  {
+    "question": "I read your bottom-up SaaS metrics post — do you have the same kind of metrics advice for a consumer subscription business?",
+    "category": "Metrics & Benchmarks",
+    "framework_id": "consumer-subscription-metrics",
+    "verbatim": true,
+    "source": "newsletters/the-most-important-consumer-subscription-metrics-to-track.md"
+  },
+  {
+    "question": "What is considered a good activation rate?",
+    "category": "Metrics & Benchmarks",
+    "framework_id": "saas-consumer-metric-benchmarks",
+    "verbatim": true,
+    "source": "newsletters/what-is-a-good-activation-rate.md"
+  },
+  {
+    "question": "I learned a lot from your activation rate post, but how do I quantitatively determine my activation milestone for a multiplayer B2B SaaS product?",
+    "category": "Metrics & Benchmarks",
+    "framework_id": "determine-activation-metric",
+    "verbatim": true,
+    "source": "newsletters/how-to-determine-your-activation-metric.md"
+  },
+  {
+    "question": "What is a good monthly churn for a SaaS business?",
+    "category": "Metrics & Benchmarks",
+    "framework_id": "saas-consumer-metric-benchmarks",
+    "verbatim": true,
+    "source": "newsletters/what-is-good-monthly-churn.md"
+  },
+  {
+    "question": "What do you consider good and great retention?",
+    "category": "Metrics & Benchmarks",
+    "framework_id": "saas-consumer-metric-benchmarks",
+    "verbatim": true,
+    "source": "newsletters/what-is-good-retention.md"
+  },
+  {
+    "question": "What is considered a good free-to-paid conversion rate?",
+    "category": "Metrics & Benchmarks",
+    "framework_id": "saas-consumer-metric-benchmarks",
+    "verbatim": true,
+    "source": "newsletters/what-is-good-free-to-paid-conversion.md"
+  },
+  {
+    "question": "What is a good waitlist conversion, and any advice for making the most of our waitlist?",
+    "category": "Metrics & Benchmarks",
+    "framework_id": "saas-consumer-metric-benchmarks",
+    "verbatim": true,
+    "source": "newsletters/what-is-good-waitlist-conversion.md"
+  },
+  {
+    "question": "What growth rates do investors expect at each stage of the business?",
+    "category": "Metrics & Benchmarks",
+    "framework_id": "saas-consumer-metric-benchmarks",
+    "verbatim": true,
+    "source": "newsletters/what-is-a-good-growth-rate.md"
+  },
+  {
+    "question": "You talk about retention a lot, but how do I actually measure cohort retention? I haven't found a good guide.",
+    "category": "Metrics & Benchmarks",
+    "framework_id": "measure-cohort-retention",
+    "verbatim": true,
+    "source": "newsletters/how-to-measure-cohort-retention.md"
+  },
+  {
+    "question": "You've mentioned regression analysis a few times. What exactly is a regression analysis and how do I run one?",
+    "category": "Metrics & Benchmarks",
+    "framework_id": "core-4-velocity",
+    "verbatim": true,
+    "source": "newsletters/how-to-do-linear-regression-and-correlation-analysis.md"
+  },
+  {
+    "question": "Our LTV:CAC is 2.4:1 and payback is 16 months. Is that healthy enough to pour more into paid acquisition?",
+    "category": "Metrics & Benchmarks",
+    "framework_id": "saas-consumer-metric-benchmarks",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "We send customers a monthly report card but execs keep saying the metrics aren't 'actionable.' How do I make a metrics report genuinely actionable?",
+    "category": "Metrics & Benchmarks",
+    "framework_id": "north-star-metric",
+    "verbatim": true,
+    "source": "newsletters/this-week-4-motivating-engineers-to-hit-deadlines-pm-career-ladders-and-aligning.md"
+  },
+  {
+    "question": "I'm a PM having a hard time getting buy-in for my ideas — teammates shoot me down or disregard my recommendations. Any advice?",
+    "category": "Communication & Influence",
+    "framework_id": "minto-pyramid-scr",
+    "verbatim": true,
+    "source": "newsletters/getting-buy-in.md"
+  },
+  {
+    "question": "I know that as a PM I need to lead through influence. How do I get better at influence?",
+    "category": "Communication & Influence",
+    "framework_id": "minto-pyramid-scr",
+    "verbatim": true,
+    "source": "newsletters/how-to-get-better-at-influence.md"
+  },
+  {
+    "question": "My manager recommended I learn the Pyramid Principle. I don't really understand it or how to apply it. What am I missing?",
+    "category": "Communication & Influence",
+    "framework_id": "minto-pyramid-scr",
+    "verbatim": true,
+    "source": "newsletters/the-minto-pyramid-principle-and-the-scr-framework.md"
+  },
+  {
+    "question": "I often have to say no to my manager. What's an effective technique for saying no while keeping their trust and not being seen as the 'no' person?",
+    "category": "Communication & Influence",
+    "framework_id": "executive-recommendation-communication",
+    "verbatim": true,
+    "source": "newsletters/saying-no.md"
+  },
+  {
+    "question": "Our MVP launched and is doing horribly. In an old-fashioned environment where sharing failure isn't common, how do I communicate this to execs?",
+    "category": "Communication & Influence",
+    "framework_id": "minto-pyramid-scr",
+    "verbatim": true,
+    "source": "newsletters/this-week-7-effectively-communicating-about-a-failure-to-execs-managing-founder.md"
+  },
+  {
+    "question": "When doing check-ins with senior leadership, are decks necessary? What content or structure works best for exec communication?",
+    "category": "Communication & Influence",
+    "framework_id": "minto-pyramid-scr",
+    "verbatim": true,
+    "source": "newsletters/this-week-3-finding-productmarket-fit-interviewing-for-a-director-of-pm-role-and.md"
+  },
+  {
+    "question": "You discuss leading via influence over authority. How do I get something shipped when trivial bugfixes get ping-ponged across the EM, VP, and CEO?",
+    "category": "Communication & Influence",
+    "framework_id": "minto-pyramid-scr",
+    "verbatim": true,
+    "source": "newsletters/this-week-9-breaking-into-growth-leading-with-influence-and-not-stepping-on-toes.md"
+  },
+  {
+    "question": "How do I get buy-in from leadership to empower product teams, when sales expects fully scoped projects and there's no design resourcing?",
+    "category": "Communication & Influence",
+    "framework_id": "summarization-to-build-alignment",
+    "verbatim": true,
+    "source": "newsletters/this-week-11-what-should-new-pms-over-index-on-and-empowering-product-in-a-sales.md"
+  },
+  {
+    "question": "I need to write a one-pager to get exec approval for a risky bet. How should I structure the argument so leadership says yes?",
+    "category": "Communication & Influence",
+    "framework_id": "minto-pyramid-scr",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "How did Airbnb balance outcome-thinking with design and technical requirements across teams?",
+    "category": "Team & Operating Model",
+    "framework_id": "program-vs-project-orientation",
+    "verbatim": true,
+    "source": "newsletters/this-week-13-balancing-outcome-thinking-with-design-and-technical-requirements.md"
+  },
+  {
+    "question": "I'm trying to decide if we should switch to a GM model. When and why do companies make this move, and any tips for the transition?",
+    "category": "Team & Operating Model",
+    "framework_id": "program-vs-project-orientation",
+    "verbatim": true,
+    "source": "newsletters/general-management-functional-and-hybrid-models-which-org-design-works-best-for.md"
+  },
+  {
+    "question": "My startup grew to four PMs and I feel us getting out of sync. Any advice on running a recurring PM team meeting?",
+    "category": "Team & Operating Model",
+    "framework_id": "three-questions-to-end-a-meeting",
+    "verbatim": true,
+    "source": "newsletters/leading-a-pm-team-meeting---issue-19.md"
+  },
+  {
+    "question": "I'm joining a team with a history of underperformance and execution issues. Any advice for a turnaround situation?",
+    "category": "Team & Operating Model",
+    "framework_id": "program-vs-project-orientation",
+    "verbatim": true,
+    "source": "newsletters/turning-around-an-underperforming-team---issue-17.md"
+  },
+  {
+    "question": "I constantly feel like my team is moving too slowly. How can I help my team move faster?",
+    "category": "Team & Operating Model",
+    "framework_id": "program-vs-project-orientation",
+    "verbatim": true,
+    "source": "newsletters/increasing-team-velocity.md"
+  },
+  {
+    "question": "My engineering team is dragging its feet on deadlines that aren't tied to anything specific. How do I motivate them to hit deadlines?",
+    "category": "Team & Operating Model",
+    "framework_id": "program-vs-project-orientation",
+    "verbatim": true,
+    "source": "newsletters/this-week-4-motivating-engineers-to-hit-deadlines-pm-career-ladders-and-aligning.md"
+  },
+  {
+    "question": "I find it difficult to keep designers and engineers excited about driving metrics. How do I align everyone around outcomes?",
+    "category": "Team & Operating Model",
+    "framework_id": "program-vs-project-orientation",
+    "verbatim": true,
+    "source": "newsletters/this-week-10-keeping-designers-and-engineers-excited-about-metrics--transitionin.md"
+  },
+  {
+    "question": "As a manager I'm worried about giving people months off. How do I structure a sabbatical program that works for the person and the company?",
+    "category": "Team & Operating Model",
+    "framework_id": "firing-with-grace",
+    "verbatim": true,
+    "source": "newsletters/three-myths-about-sabbatical-programs.md"
+  },
+  {
+    "question": "I'm a PM with a TPM whose work overlaps mine, and there's tension. How do I manage that relationship so we work together productively?",
+    "category": "Team & Operating Model",
+    "framework_id": "program-vs-project-orientation",
+    "verbatim": true,
+    "source": "newsletters/this-week-2-tackling-the-chicken-and-egg-problem-building-a-growth-team-from-scr.md"
+  },
+  {
+    "question": "I'm having a hard time working with the designer on my team. Any advice for working with designers?",
+    "category": "Team & Operating Model",
+    "framework_id": "program-vs-project-orientation",
+    "verbatim": true,
+    "source": "newsletters/the-pm--design-partnership.md"
+  },
+  {
+    "question": "What's one thing you've changed within your organization that made your team meaningfully more effective?",
+    "category": "Team & Operating Model",
+    "framework_id": "program-vs-project-orientation",
+    "verbatim": true,
+    "source": "newsletters/this-week-8-splitting-equity-with-late-joining-co-founders-favorite-roadmap-temp.md"
+  },
+  {
+    "question": "Our startup is growing quickly. When should we hire our first product manager?",
+    "category": "Hiring",
+    "framework_id": "when-to-hire-first-pm",
+    "verbatim": true,
+    "source": "newsletters/when-to-hire-your-first-product-manager.md"
+  },
+  {
+    "question": "When is the right time to hire my first full-time growth person, and what should I look for when hiring for growth?",
+    "category": "Hiring",
+    "framework_id": "six-rules-hiring-growth",
+    "verbatim": true,
+    "source": "newsletters/six-rules-of-hiring-for-growth.md"
+  },
+  {
+    "question": "How do I hire and build my first growth team?",
+    "category": "Hiring",
+    "framework_id": "hire-first-growth-team",
+    "verbatim": true,
+    "source": "newsletters/how-to-hire-your-first-growth-team.md"
+  },
+  {
+    "question": "I'm a founder of a small startup and I'm having a really hard time hiring. What works best for startups?",
+    "category": "Hiring",
+    "framework_id": "early-stage-hiring",
+    "verbatim": true,
+    "source": "newsletters/winning-at-early-stage-hiring.md"
+  },
+  {
+    "question": "How should I structure my PM interview process?",
+    "category": "Hiring",
+    "framework_id": "interview-product-managers",
+    "verbatim": true,
+    "source": "newsletters/how-to-interview-product-managers.md"
+  },
+  {
+    "question": "What are your favorite interview questions when interviewing senior product managers?",
+    "category": "Hiring",
+    "framework_id": "interview-product-managers",
+    "verbatim": true,
+    "source": "newsletters/my-favorite-pm-interview-questions.md"
+  },
+  {
+    "question": "What's the single best interview question to learn the most about a candidate?",
+    "category": "Hiring",
+    "framework_id": "interview-product-managers",
+    "verbatim": true,
+    "source": "newsletters/how-to-learn-the-most-about-a-candidate-from-a-single-interview-question.md"
+  },
+  {
+    "question": "Work trials keep coming up on your podcast. I'm sold — what advice do you have for setting up a successful work trial process?",
+    "category": "Hiring",
+    "framework_id": "work-trial-interview",
+    "verbatim": true,
+    "source": "newsletters/adding-a-work-trial-to-your-interview-process.md"
+  },
+  {
+    "question": "I have to write a job description for the first time and every one I read is boring. Have you seen any that stand out?",
+    "category": "Hiring",
+    "framework_id": "early-stage-hiring",
+    "verbatim": true,
+    "source": "newsletters/examples-of-great-job-postings.md"
+  },
+  {
+    "question": "What should interviewers look for when hiring a Director of Product?",
+    "category": "Hiring",
+    "framework_id": "who-a-method-hiring",
+    "verbatim": true,
+    "source": "newsletters/this-week-7-effectively-communicating-about-a-failure-to-execs-managing-founder.md"
+  },
+  {
+    "question": "I raised a small seed round and I'm now thinking about raising our next round. Any advice for navigating the process?",
+    "category": "Fundraising",
+    "framework_id": "fundraising-process-playbook",
+    "verbatim": true,
+    "source": "newsletters/a-playbook-for-fundraising.md"
+  },
+  {
+    "question": "We're a three-person SaaS startup onboarding a few customers a week. We've raised angel money — when is it right to raise more?",
+    "category": "Fundraising",
+    "framework_id": "when-to-raise-saas",
+    "verbatim": true,
+    "source": "newsletters/this-week-15-when-should-a-saas-startup-raise-money.md"
+  },
+  {
+    "question": "I'm raising money and keep getting asked 'Why now?' I don't have a great answer. How important is it to have a why-now?",
+    "category": "Fundraising",
+    "framework_id": "why-now-narrative",
+    "verbatim": true,
+    "source": "newsletters/why-now.md"
+  },
+  {
+    "question": "I want to get into angel investing. How does one get started, and what surprised you most about it?",
+    "category": "Fundraising",
+    "framework_id": "angel-investing-lessons",
+    "verbatim": true,
+    "source": "newsletters/lessons-from-140-angel-investments.md"
+  },
+  {
+    "question": "We're burning $80k/month with 9 months of runway and growing 15% MoM. Should we raise now or push for stronger metrics first?",
+    "category": "Fundraising",
+    "framework_id": "when-to-raise-saas",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "An investor asked what our milestones are for this round. How do I size a round and tie it to milestones we can credibly hit?",
+    "category": "Fundraising",
+    "framework_id": "seed-round-101",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "I have a self-serve bottom-up SaaS product and I'm trying to decide if, when, and how to hire my first full-time salesperson.",
+    "category": "GTM & Sales",
+    "framework_id": "data-led-growth-plg",
+    "verbatim": true,
+    "source": "newsletters/the-transition-layering-sales-onto-a-bottom-up-self-serve-product.md"
+  },
+  {
+    "question": "I'm building a B2B SaaS startup and trying to decide which market segment to target and whether to go product-led or sales-led. Any advice?",
+    "category": "GTM & Sales",
+    "framework_id": "positioning-five-components",
+    "verbatim": true,
+    "source": "newsletters/gtm-motions-of-30-b2b-saas-companies.md"
+  },
+  {
+    "question": "A lot is written about driving traffic but not converting it. What best practices had the most impact on conversion at Airbnb?",
+    "category": "GTM & Sales",
+    "framework_id": "killer-sales-pitch",
+    "verbatim": true,
+    "source": "newsletters/strategy-and-tactics-for-increasing-conversion.md"
+  },
+  {
+    "question": "I want to increase the conversion rate of our core flow. Beyond the usual advice, what else can I try?",
+    "category": "GTM & Sales",
+    "framework_id": "killer-sales-pitch",
+    "verbatim": true,
+    "source": "newsletters/how-behavioral-science-can-boost-your-conversion-rates.md"
+  },
+  {
+    "question": "What's the advice for introducing growth to a company that still thinks of it as just 'sales and marketing'?",
+    "category": "GTM & Sales",
+    "framework_id": "crossing-the-chasm",
+    "verbatim": true,
+    "source": "newsletters/this-week-5-overcoming-impostor-syndrome-introducing-growth-to-an-org-and-how-to.md"
+  },
+  {
+    "question": "We're a PLG product getting inbound from a few 500-person companies. How do I know it's time to add a sales motion and what's the first step?",
+    "category": "GTM & Sales",
+    "framework_id": "data-led-growth-plg",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "I'm building a SaaS product and don't know where to start with pricing. How should I approach my pricing strategy?",
+    "category": "Pricing",
+    "framework_id": "willingness-to-pay-study",
+    "verbatim": true,
+    "source": "newsletters/pricing-your-saas-product.md"
+  },
+  {
+    "question": "How do I figure out how to price my product?",
+    "category": "Pricing",
+    "framework_id": "willingness-to-pay-study",
+    "verbatim": true,
+    "source": "newsletters/the-ultimate-guide-to-willingness-to-pay.md"
+  },
+  {
+    "question": "I'm building a marketplace and struggling to pick my take rate. How do I decide what percentage to charge?",
+    "category": "Pricing",
+    "framework_id": "willingness-to-pay-study",
+    "verbatim": true,
+    "source": "newsletters/choosing-a-take-rate.md"
+  },
+  {
+    "question": "When does it make sense to make my product free, and how do I decide between a free trial and freemium?",
+    "category": "Pricing",
+    "framework_id": "willingness-to-pay-conversation",
+    "verbatim": true,
+    "source": "newsletters/freemium-vs-trial.md"
+  },
+  {
+    "question": "What trends are you seeing in how incumbents price AI features and products? Any innovation in how companies charge?",
+    "category": "Pricing",
+    "framework_id": "willingness-to-pay-conversation",
+    "verbatim": true,
+    "source": "newsletters/how-should-you-monetize-your-ai-features.md"
+  },
+  {
+    "question": "I'm building a consumer subscription app and want a durable B2C subscription business. What does it take?",
+    "category": "Pricing",
+    "framework_id": "subscription-value-loop",
+    "verbatim": true,
+    "source": "newsletters/how-to-win-in-consumer-subscription.md"
+  },
+  {
+    "question": "We charge $15/month flat but heavy users get far more value than light users. Should we move to usage-based or seat-based pricing?",
+    "category": "Pricing",
+    "framework_id": "willingness-to-pay-conversation",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "I have an idea for a startup. How do I run customer interviews to learn whether the problem is real before building anything?",
+    "category": "Research & Discovery",
+    "framework_id": "jobs-to-be-done",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "How do I develop product sense?",
+    "category": "Research & Discovery",
+    "framework_id": "jobs-to-be-done",
+    "verbatim": true,
+    "source": "newsletters/how-to-develop-product-sense.md"
+  },
+  {
+    "question": "I want to do continuous discovery but my team only talks to customers when a project kicks off. How do I build an ongoing discovery habit?",
+    "category": "Research & Discovery",
+    "framework_id": "opportunity-solution-tree",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "We get tons of feature requests in support tickets and sales calls. How do I synthesize that raw input into real product opportunities?",
+    "category": "Research & Discovery",
+    "framework_id": "opportunity-solution-tree",
+    "verbatim": false,
+    "source": null
+  },
+  {
+    "question": "I keep hearing I need to improve my product's positioning but I'm not sure what that means. Where do I start?",
+    "category": "Research & Discovery",
+    "framework_id": "positioning-five-components",
+    "verbatim": true,
+    "source": "newsletters/positioning.md"
+  },
+  {
+    "question": "I'm new to PM and worry I'm frustrating my team without knowing it. What annoying behaviors should I watch out for?",
+    "category": "Career & Self-management",
+    "framework_id": "first-90-days",
+    "verbatim": true,
+    "source": "newsletters/five-habits-of-highly-annoying-product-managers.md"
+  },
+  {
+    "question": "I'm just starting out as a PM. What habits should I be building early on to become great?",
+    "category": "Career & Self-management",
+    "framework_id": "first-90-days",
+    "verbatim": true,
+    "source": "newsletters/14-habits-of-highly-effective-product-managers.md"
+  },
+  {
+    "question": "I'm overwhelmed with work. Do you have productivity tips that help you stay above water?",
+    "category": "Career & Self-management",
+    "framework_id": "make-time-framework",
+    "verbatim": true,
+    "source": "newsletters/time-management-techniques-that-actually-work.md"
+  },
+  {
+    "question": "I've been stuck at the same level for a few years. What advice do you have for getting promoted?",
+    "category": "Career & Self-management",
+    "framework_id": "magic-loop",
+    "verbatim": true,
+    "source": "newsletters/how-to-get-promoted.md"
+  },
+  {
+    "question": "I recently transitioned into a PM role and never know if I'm doing a good job. Day to day, how can I tell?",
+    "category": "Career & Self-management",
+    "framework_id": "magic-loop",
+    "verbatim": true,
+    "source": "newsletters/how-to-know-if-youre-doing-a-good-job-as-a-product-manager.md"
+  },
+  {
+    "question": "I have a couple of years as a PM and don't know what skills to build for long-term success. What matters most?",
+    "category": "Career & Self-management",
+    "framework_id": "discover-your-superpowers",
+    "verbatim": true,
+    "source": "newsletters/skills-pms-need-to-build.md"
+  },
+  {
+    "question": "What does it take to become a senior product manager?",
+    "category": "Career & Self-management",
+    "framework_id": "magic-loop",
+    "verbatim": true,
+    "source": "newsletters/becoming-a-senior-product-manager.md"
+  },
+  {
+    "question": "I'm interviewing for a PM role. What should I do to prepare?",
+    "category": "Career & Self-management",
+    "framework_id": "pearl-interview-answers",
+    "verbatim": true,
+    "source": "newsletters/preparing-for-a-pm-interview.md"
+  },
+  {
+    "question": "I'm about to start interviewing and I'm bad at negotiating comp. How do I learn to negotiate without pissing anyone off?",
+    "category": "Career & Self-management",
+    "framework_id": "regret-minimization-framework",
+    "verbatim": true,
+    "source": "newsletters/the-10-commandments-of-salary-negotiation.md"
+  },
+  {
+    "question": "I fear layoffs are coming at my company. What can I do to prepare in case I get laid off?",
+    "category": "Career & Self-management",
+    "framework_id": "career-job-after-next",
+    "verbatim": true,
+    "source": "newsletters/how-to-be-prepared-for-layoffs.md"
+  },
+  {
+    "question": "I feel like I'm terrible at my job despite external signals like getting put up for promotion. Any thoughts on impostor syndrome in PM?",
+    "category": "Career & Self-management",
+    "framework_id": "seeking-truth-of-suffering",
+    "verbatim": true,
+    "source": "newsletters/this-week-5-overcoming-impostor-syndrome-introducing-growth-to-an-org-and-how-to.md"
+  },
+  {
+    "question": "I'm finding it tough to work with my manager. Do you have any advice for managing up?",
+    "category": "Career & Self-management",
+    "framework_id": "magic-loop",
+    "verbatim": true,
+    "source": "newsletters/managing-up.md"
+  },
+  {
+    "question": "How do I make the transition from a regular PM to a growth PM, especially without a technical background?",
+    "category": "Career & Self-management",
+    "framework_id": "magic-loop",
+    "verbatim": true,
+    "source": "newsletters/breaking-into-growth.md"
+  },
+  {
+    "question": "I just sold my company and I'm transitioning from startup founder to PM at a new company with no formal PM training. Any tips?",
+    "category": "Career & Self-management",
+    "framework_id": "first-90-days",
+    "verbatim": true,
+    "source": "newsletters/this-week-14-transitioning-from-startup-founder-to-product-manager.md"
+  },
+  {
+    "question": "We have 40 product ideas and only 6 engineers next quarter — how do I rank them so the team builds the highest-impact bets?",
+    "category": "Prioritization & Planning",
+    "framework_id": "drice",
+    "verbatim": false,
+    "source": "newsletters/introducing-drice-a-modern-prioritization-framework.md"
+  },
+  {
+    "question": "Our last quarter's roadmap shipped on time but barely moved the needle. How do I prioritize differently this time so the work actually drives impact?",
+    "category": "Prioritization & Planning",
+    "framework_id": "drice",
+    "verbatim": false,
+    "source": "newsletters/introducing-drice-a-modern-prioritization-framework.md"
+  },
+  {
+    "question": "I keep choosing between fast wins and big bets every planning cycle — what's a structured prioritization approach that uses actual dollar-impact estimates on the shortlist?",
+    "category": "Prioritization & Planning",
+    "framework_id": "drice",
+    "verbatim": false,
+    "source": "newsletters/introducing-drice-a-modern-prioritization-framework.md"
+  }
+]

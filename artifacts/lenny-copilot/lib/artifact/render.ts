@@ -1,10 +1,45 @@
 import type { FrameworkSpec, Step } from "../spec";
 import { rankScoreGrid, type SML } from "../engine";
+import type { SourceEntry, SourcesIndex } from "../sources";
 
 export interface RenderOptions {
   /** Steps that were completed (inputs key set). Used to skip branched-around
    *  steps so their templates render as empty. */
   completedStepIds: Set<string>;
+}
+
+/** Optional sources resolver. When passed to `renderSources` /
+ *  `renderArtifactMarkdown`, source filenames in the "## Sources" block are
+ *  emitted as markdown links to the original article. Either a plain
+ *  `SourcesIndex` map or a resolver function may be supplied. When omitted,
+ *  output is byte-identical to the filename-only form. */
+export type SourceResolver =
+  | SourcesIndex
+  | ((file: string) => SourceEntry | null | undefined);
+
+/** Resolve a single source file via either a map or a resolver function. */
+function resolveSourceEntry(
+  file: string,
+  resolver: SourceResolver | undefined,
+): SourceEntry | null {
+  if (!resolver) return null;
+  const entry =
+    typeof resolver === "function" ? resolver(file) : resolver[file];
+  return entry ?? null;
+}
+
+/** Render a source file as a markdown bullet label. With a resolver, emits a
+ *  `[title](post_url)` link when `post_url` exists, `[title]` when the file
+ *  resolves without a url, and the bare filename when it doesn't resolve (or
+ *  no resolver was given). */
+function formatSourceLabel(
+  file: string,
+  resolver: SourceResolver | undefined,
+): string {
+  const entry = resolveSourceEntry(file, resolver);
+  if (!entry) return file;
+  if (entry.post_url) return `[${entry.title}](${entry.post_url})`;
+  return `[${entry.title}]`;
 }
 
 type StepValue = Record<string, unknown>;
@@ -150,13 +185,14 @@ export function resolveArtifactBody(
 }
 
 /** Build a "## Sources" block. Lists every source file the spec cites
- *  (in spec order), and under each one the per-step character spans that
- *  were used to ground its guidance — so a reviewer can audit exactly which
- *  passages back the artifact. Only spans for steps the user completed are
- *  included. */
+ *  (in spec order), and under each one the per-step titles whose guidance
+ *  was grounded in that source. Only steps the user completed are included.
+ *  Raw character offsets from `source_span` are intentionally omitted —
+ *  they're spec-author / audit metadata, not reader-facing detail. */
 export function renderSources(
   spec: FrameworkSpec,
   opts: RenderOptions,
+  sources?: SourceResolver,
 ): string {
   const seen = new Set<string>();
   const ordered: string[] = [];
@@ -191,24 +227,70 @@ export function renderSources(
   if (ordered.length === 0) return "";
   const lines: string[] = ["## Sources", ""];
   for (const file of ordered) {
-    lines.push(`- ${file}`);
+    lines.push(`- ${formatSourceLabel(file, sources)}`);
     const spans = spansByFile.get(file) ?? [];
     for (const s of spans) {
-      lines.push(`  - ${s.stepTitle} — chars ${s.start}–${s.end}`);
+      lines.push(`  - ${s.stepTitle}`);
     }
   }
   return lines.join("\n");
 }
 
-/** Full markdown export: title + resolved body + sources. */
+/** Optional triangulation block appended to the markdown export. When absent,
+ *  the rendered output is byte-identical to the pre-triangulation form. */
+export interface TriangulationRenderBlock {
+  challengerName: string;
+  /** Optional source filename for the challenger's article — when provided
+   *  alongside a `SourceResolver`, the challenger name links to its article. */
+  challengerSourceFile?: string;
+  counterargument: string;
+  what_would_change_my_mind: string;
+}
+
+/** Render the appended Best-counterargument + What-would-change-my-mind blocks.
+ *  When `challengerSourceFile` is supplied and resolves to a `post_url` via the
+ *  `SourceResolver`, the challenger name is emitted as a markdown link to its
+ *  article; otherwise it's a plain name. */
+function renderTriangulationBlock(
+  t: TriangulationRenderBlock,
+  sources?: SourceResolver,
+): string {
+  let displayName = t.challengerName;
+  if (t.challengerSourceFile) {
+    const entry = resolveSourceEntry(t.challengerSourceFile, sources);
+    if (entry?.post_url) {
+      displayName = `[${t.challengerName}](${entry.post_url})`;
+    }
+  }
+  return [
+    "---",
+    "",
+    `## Best counterargument (via ${displayName})`,
+    "",
+    t.counterargument.trim(),
+    "",
+    "## What would change my mind",
+    "",
+    t.what_would_change_my_mind.trim(),
+  ].join("\n");
+}
+
+/** Full markdown export: title + resolved body + sources + optional
+ *  triangulation. When `sources` is provided, the "## Sources" block links
+ *  each file to its original article; when omitted, output is byte-identical
+ *  to the filename-only form. When `triangulation` is omitted, output is
+ *  byte-identical to the pre-triangulation form. */
 export function renderArtifactMarkdown(
   spec: FrameworkSpec,
   inputs: Record<string, unknown>,
   opts: RenderOptions,
+  sources?: SourceResolver,
+  triangulation?: TriangulationRenderBlock,
 ): string {
   const body = resolveArtifactBody(spec, inputs, opts);
-  const sources = renderSources(spec, opts);
+  const sourcesBlock = renderSources(spec, opts, sources);
   const parts = [body];
-  if (sources) parts.push(sources);
+  if (sourcesBlock) parts.push(sourcesBlock);
+  if (triangulation) parts.push(renderTriangulationBlock(triangulation, sources));
   return parts.join("\n\n") + "\n";
 }

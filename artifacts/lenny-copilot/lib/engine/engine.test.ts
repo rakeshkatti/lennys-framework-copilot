@@ -35,22 +35,26 @@ describe("Engine — basic advance", () => {
 });
 
 describe("Engine — input validation", () => {
-  it("rejects a list with fewer than min_items", () => {
+  it("advances a list below min_items without throwing (soft guideline only)", () => {
+    // Plan 5 change: min_items is a soft UI nudge, not a hard block. The
+    // ListInput UI shows the count badge in rose when below, but Continue
+    // is always enabled so the user can advance and return later.
     const spec = loadSpec("drice");
     const engine = new Engine(spec);
-    expect(() => engine.advance({ items: ["only one"] })).toThrow(
-      InputValidationError,
-    );
-    expect(engine.currentStep()?.id).toBe("collect-ideas");
+    expect(() => engine.advance({ items: ["only one"] })).not.toThrow();
+    expect(engine.currentStep()?.id).not.toBe("collect-ideas");
   });
 
-  it("rejects a list whose items are empty/whitespace-only strings", () => {
+  it("trims and drops empty/whitespace-only strings, advancing with whatever survives", () => {
+    // All-whitespace inputs collapse to an empty list after trim+filter.
+    // The engine no longer blocks on this; the artifact just shows an
+    // empty collection that the user can return to.
     const spec = loadSpec("drice");
     const engine = new Engine(spec);
     expect(() =>
       engine.advance({ items: ["", "   ", "", "", ""] }),
-    ).toThrow(InputValidationError);
-    expect(engine.currentStep()?.id).toBe("collect-ideas");
+    ).not.toThrow();
+    expect(engine.currentStep()?.id).not.toBe("collect-ideas");
   });
 
   it("trims and drops empty strings when storing a valid list", () => {
@@ -130,6 +134,85 @@ describe("Engine — benchmark branching", () => {
     const engine = new Engine(spec);
     engine.setBenchmarks({ winrate: 42 });
     expect(engine.benchmarks()).toEqual({ winrate: 42 });
+  });
+});
+
+describe("Engine — Strategy Blocks (sum scoring + sum_top preselect)", () => {
+  it("walks problem-dump → cluster → score-clusters and validates the 1/2/3 grid", () => {
+    const spec = loadSpec("strategy-blocks");
+    const engine = new Engine(spec);
+    expect(engine.currentStep()?.id).toBe("problem-dump");
+
+    const problems = ["p1", "p2", "p3", "p4", "p5"];
+    engine.advance({ items: problems });
+    expect(engine.currentStep()?.id).toBe("cluster");
+
+    const clusters = ["Discovery", "Relevance", "Trust", "Onboarding"];
+    engine.advance({ items: clusters });
+    expect(engine.currentStep()?.id).toBe("score-clusters");
+
+    const grid = {
+      Discovery: {
+        "Expected impact": "3",
+        "Certainty of impact": "3",
+        "Clarity of levers": "2",
+        "Uniqueness of levers": "3",
+      },
+      Relevance: {
+        "Expected impact": "2",
+        "Certainty of impact": "2",
+        "Clarity of levers": "2",
+        "Uniqueness of levers": "2",
+      },
+      Trust: {
+        "Expected impact": "1",
+        "Certainty of impact": "1",
+        "Clarity of levers": "1",
+        "Uniqueness of levers": "1",
+      },
+      Onboarding: {
+        "Expected impact": "3",
+        "Certainty of impact": "2",
+        "Clarity of levers": "3",
+        "Uniqueness of levers": "2",
+      },
+    };
+    engine.advance({ grid });
+    expect(engine.currentStep()?.id).toBe("pillars");
+
+    const stored = engine.inputs()["score-clusters"] as { grid: typeof grid };
+    expect(stored.grid.Discovery["Expected impact"]).toBe("3");
+  });
+
+  it("rejects a grid cell value that's not in the 1/2/3 scale", () => {
+    const spec = loadSpec("strategy-blocks");
+    const engine = new Engine(spec);
+    engine.advance({ items: ["a", "b", "c", "d", "e"] });
+    engine.advance({ items: ["X", "Y", "Z"] });
+    expect(() =>
+      engine.advance({
+        grid: {
+          X: {
+            "Expected impact": "L",
+            "Certainty of impact": "2",
+            "Clarity of levers": "2",
+            "Uniqueness of levers": "2",
+          },
+          Y: {
+            "Expected impact": "1",
+            "Certainty of impact": "1",
+            "Clarity of levers": "1",
+            "Uniqueness of levers": "1",
+          },
+          Z: {
+            "Expected impact": "1",
+            "Certainty of impact": "1",
+            "Clarity of levers": "1",
+            "Uniqueness of levers": "1",
+          },
+        },
+      }),
+    ).toThrow(InputValidationError);
   });
 });
 
