@@ -39,12 +39,12 @@ export default function RootLayout({
         <div className="flex-1">{children}</div>
         {/*
          * Site-wide footer for the archived contest project. Single line:
-         * status + credit + author link. Subtle styling so it never competes
+         * builder credit + author link. Subtle styling so it never competes
          * with page content; lives at the bottom of every route.
          */}
         <footer className="border-t border-border-warm bg-cream py-4 text-center">
           <p className="text-xs text-ink-subtle">
-            Not actively maintained · Built by{" "}
+            Built by{" "}
             <a
               href="https://rakeshkatti.com"
               target="_blank"
