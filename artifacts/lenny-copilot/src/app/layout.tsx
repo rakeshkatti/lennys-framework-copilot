@@ -35,8 +35,26 @@ export default function RootLayout({
       lang="en"
       className={`${GeistSans.variable} ${GeistMono.variable} ${caveat.variable}`}
     >
-      <body className="bg-cream font-sans text-ink-body antialiased">
-        {children}
+      <body className="flex min-h-screen flex-col bg-cream font-sans text-ink-body antialiased">
+        <div className="flex-1">{children}</div>
+        {/*
+         * Site-wide footer for the archived contest project. Single line:
+         * builder credit + author link. Subtle styling so it never competes
+         * with page content; lives at the bottom of every route.
+         */}
+        <footer className="border-t border-border-warm bg-cream py-4 text-center">
+          <p className="text-xs text-ink-subtle">
+            Built by{" "}
+            <a
+              href="https://rakeshkatti.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-ink-muted underline-offset-2 transition hover:text-ink-strong hover:underline"
+            >
+              Rakesh Katti
+            </a>
+          </p>
+        </footer>
       </body>
     </html>
   );

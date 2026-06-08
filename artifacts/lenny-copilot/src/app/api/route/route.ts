@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { routeDecision } from "@lib/route/router";
+import { consume, extractIp } from "@lib/ratelimit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -10,6 +11,27 @@ const bodySchema = z.object({
 });
 
 export async function POST(req: Request) {
+  // Daily rate limit (per-IP + global cap) — see lib/ratelimit.ts.
+  // Checked BEFORE body parsing so a flood of malformed requests can't
+  // bypass the cap by failing validation early. Each accepted call
+  // consumes one slot.
+  const ip = extractIp(req);
+  const rl = consume(ip);
+  if (!rl.allowed) {
+    return NextResponse.json(
+      {
+        error: "rate_limit",
+        reason: rl.reason,
+        resetAt: rl.resetAt,
+        message:
+          rl.reason === "global"
+            ? "Daily total reached across all users. Resets at midnight UTC."
+            : "You've hit today's limit of 5 framework runs. Resets at midnight UTC.",
+      },
+      { status: 429, headers: { "Retry-After": rl.resetAt } },
+    );
+  }
+
   let json: unknown;
   try {
     json = await req.json();

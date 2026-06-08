@@ -67,6 +67,20 @@ export function AppShell({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),
       });
+      // Daily rate limit (per-IP or global cap) — server returns 429 with a
+      // human-readable message in the body. Surface it verbatim instead of
+      // the generic "couldn't route" copy so the user knows it's a quota
+      // limit, not a network failure.
+      if (res.status === 429) {
+        const body = (await res.json().catch(() => ({}))) as {
+          message?: string;
+        };
+        setError(
+          body.message ??
+            "Daily limit reached. Come back tomorrow — resets at midnight UTC.",
+        );
+        return;
+      }
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const result = (await res.json()) as RouteResult;
       setRouteResult(result);
