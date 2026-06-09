@@ -42,7 +42,7 @@ export default function RootLayout({
          * builder credit + author link. Subtle styling so it never competes
          * with page content; lives at the bottom of every route.
          */}
-        <footer className="bg-cream py-4 text-center">
+        <footer className="bg-transparent py-4 text-center">
           <p className="text-xs text-ink-subtle">
             Built by{" "}
             <a
