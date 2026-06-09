@@ -36,27 +36,30 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable} ${caveat.variable}`}
     >
       <body className="flex min-h-screen flex-col bg-cream font-sans text-ink-body antialiased">
-        <div className="flex-1">{children}</div>
-        {/*
-         * Site-wide footer for the archived contest project. Transparent
-         * background and no top border so it blends into whatever the page
-         * itself paints (cream body, cream-to-peach gradient on most
-         * routes). Just the credit line floating at the bottom — most
-         * subtle treatment possible while staying discoverable.
-         */}
-        <footer className="bg-transparent py-4 text-center">
-          <p className="text-xs text-ink-subtle">
-            Built by{" "}
-            <a
-              href="https://rakeshkatti.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-ink-muted underline-offset-2 transition hover:text-ink-strong hover:underline"
-            >
-              Rakesh Katti
-            </a>
-          </p>
-        </footer>
+        <div className="flex-1">
+          {children}
+          {/*
+           * Site-wide footer for the archived contest project. Lives INSIDE
+           * the flex-1 wrapper so it sits at the end of the page's own
+           * content (inheriting that page's background — gradient or
+           * otherwise) rather than below the viewport-tall page on a
+           * separate body-level strip. Transparent + borderless so it
+           * blends into whatever the page itself paints.
+           */}
+          <footer className="bg-transparent py-4 text-center">
+            <p className="text-xs text-ink-subtle">
+              Built by{" "}
+              <a
+                href="https://rakeshkatti.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-ink-muted underline-offset-2 transition hover:text-ink-strong hover:underline"
+              >
+                Rakesh Katti
+              </a>
+            </p>
+          </footer>
+        </div>
       </body>
     </html>
   );
