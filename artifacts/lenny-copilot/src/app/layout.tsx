@@ -38,11 +38,13 @@ export default function RootLayout({
       <body className="flex min-h-screen flex-col bg-cream font-sans text-ink-body antialiased">
         <div className="flex-1">{children}</div>
         {/*
-         * Site-wide footer for the archived contest project. Single line:
-         * builder credit + author link. Subtle styling so it never competes
-         * with page content; lives at the bottom of every route.
+         * Site-wide footer for the archived contest project. Transparent
+         * background and no top border so it blends into whatever the page
+         * itself paints (cream body, cream-to-peach gradient on most
+         * routes). Just the credit line floating at the bottom — most
+         * subtle treatment possible while staying discoverable.
          */}
-        <footer className="border-t border-border-warm bg-cream py-4 text-center">
+        <footer className="bg-transparent py-4 text-center">
           <p className="text-xs text-ink-subtle">
             Built by{" "}
             <a
